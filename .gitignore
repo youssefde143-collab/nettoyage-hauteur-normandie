@@ -1,0 +1,10 @@
+# Sorties de génération (docs/ est la copie publiée, volontairement versionnée)
+dist/
+dist-partage/
+
+# Demandes de devis reçues en local — données, jamais versionnées
+demandes/
+
+# Divers
+.DS_Store
+node_modules/
