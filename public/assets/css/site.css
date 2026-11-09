@@ -621,6 +621,8 @@ body.is-locked{overflow:hidden}
 
 /* ---------- Bandeau cookies ---------- */
 .cookies{
+  /* Ancré à droite sur grand écran : le contenu du hero est aligné à
+     gauche, le bandeau ne doit jamais masquer les appels à l'action. */
   position:fixed;left:var(--gut);right:var(--gut);bottom:1rem;z-index:120;max-width:620px;
   background:rgba(9,24,43,.96);backdrop-filter:blur(18px);border:1px solid var(--line-dark-2);
   border-radius:var(--r);padding:1.3rem;color:#B9CBDD;font-size:var(--t-small);line-height:1.6;
@@ -631,6 +633,10 @@ body.is-locked{overflow:hidden}
 .cookies b{display:block;color:#fff;font-family:var(--f-display);font-weight:600;margin-bottom:.35rem;font-size:1rem;letter-spacing:-.02em}
 .cookies__act{display:flex;flex-wrap:wrap;gap:.6rem}
 .cookies a{color:var(--blue-light);text-decoration:underline;text-underline-offset:2px}
+
+@media(min-width:900px){
+  .cookies{left:auto;right:var(--gut);bottom:1.4rem;max-width:400px}
+}
 
 /* ---------- Barre d'action mobile ---------- */
 .mbar{
