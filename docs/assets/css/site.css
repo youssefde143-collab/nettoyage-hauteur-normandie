@@ -972,3 +972,15 @@ body.is-locked{overflow:hidden}
 /* ---------- Mesures de lisibilité ---------- */
 .lead{max-width:46ch}
 .shead .lead{max-width:40ch}
+
+/* ---------- Bandeau cookies : compact sur petit écran ----------
+   Sur mobile, le bandeau pleine largeur et la barre d'action occupaient
+   près de la moitié de l'écran à la première visite. */
+@media(max-width:620px){
+  .cookies{padding:1rem 1.05rem;font-size:var(--t-small);line-height:1.5}
+  .cookies b{font-size:.95rem;margin-bottom:.25rem}
+  .cookies.is-on{gap:.8rem}
+  .cookies__act{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+  .cookies__act .btn{width:auto;justify-content:center;padding:.74rem .5rem;font-size:.78rem;text-align:center}
+  .cookies__act .btn svg{display:none}
+}
