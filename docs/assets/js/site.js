@@ -55,7 +55,7 @@
        1. IntersectionObserver pour l'animation normale ;
        2. un balayage de repli sur défilement et redimensionnement ;
        3. une révélation inconditionnelle après 4 s.                          */
-  const targets = $$(".rv, .rv-l, .rv-line, .reveal-img, .proc li");
+  const targets = $$(".rv, .rv-l, .rv-line, .reveal-img, .proc li, .steps li");
   const reveal = (el) => el.classList.add("in");
 
   if (reduced || !("IntersectionObserver" in window)) {
@@ -94,6 +94,46 @@
     setTimeout(() => targets.forEach(reveal), 4000);
   }
 
+  /* ---------- Hero : léger déplacement de l'image suivant le pointeur ----------
+     Bureau et pointeur fin uniquement, amplitude volontairement minime,
+     uniquement en `transform` pour rester hors du fil de mise en page. */
+  const heroMedia = $("[data-hero-media]");
+  if (heroMedia && !reduced && matchMedia("(hover:hover) and (pointer:fine)").matches) {
+    const hero = heroMedia.closest(".hero");
+    let raf = 0, tx = 0, ty = 0;
+    const apply = () => {
+      raf = 0;
+      heroMedia.style.setProperty("--px", tx.toFixed(2) + "%");
+      heroMedia.style.setProperty("--py", ty.toFixed(2) + "%");
+    };
+    hero.addEventListener("pointermove", (e) => {
+      const r = hero.getBoundingClientRect();
+      tx = ((e.clientX - r.left) / r.width - 0.5) * -1.6;   // ±0,8 %
+      ty = ((e.clientY - r.top) / r.height - 0.5) * -1.2;
+      if (!raf) raf = requestAnimationFrame(apply);
+    });
+    hero.addEventListener("pointerleave", () => { tx = ty = 0; if (!raf) raf = requestAnimationFrame(apply); });
+  }
+
+  /* ---------- Sélecteur de méthodes : l'image de fond suit l'élément visé ----------
+     Au survol et au focus clavier sur bureau ; au toucher, la liste reste
+     une simple liste de liens, sans dépendre du survol. */
+  const pick = $("[data-pick]");
+  if (pick) {
+    const stages = $$(".pick__stage");
+    let current = 0;
+    const activate = (i) => {
+      if (i === current) return;
+      current = i;
+      stages.forEach((s, k) => s.classList.toggle("is-on", k === i));
+    };
+    $$("[data-pick-i]", pick).forEach(a => {
+      const i = Number(a.dataset.pickI);
+      a.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") activate(i); });
+      a.addEventListener("focus", () => activate(i));
+    });
+  }
+
   /* ---------- Parallaxe discrète (transform uniquement) ---------- */
   const plx = $$(".plx");
   if (plx.length && !reduced) {
@@ -115,36 +155,57 @@
     tick();
   }
 
-  /* ---------- FAQ : accordéon avec hauteur animée ---------- */
-  $$(".faq details").forEach(d => {
-    const panel = $(".faq__a", d);
-    if (!panel || reduced) return;
-    const summary = $("summary", d);
-    summary.addEventListener("click", (e) => {
-      e.preventDefault();
-      if (d.open) {
-        panel.style.height = panel.scrollHeight + "px";
-        requestAnimationFrame(() => {
-          panel.style.transition = "height .4s cubic-bezier(.16,1,.3,1)";
-          panel.style.height = "0px";
-        });
-        panel.addEventListener("transitionend", function end() {
-          d.open = false; panel.style.transition = panel.style.height = "";
-          panel.removeEventListener("transitionend", end);
-        }, { once: true });
-      } else {
-        d.open = true;
-        const h = panel.scrollHeight;
-        panel.style.height = "0px";
-        requestAnimationFrame(() => {
-          panel.style.transition = "height .45s cubic-bezier(.16,1,.3,1)";
-          panel.style.height = h + "px";
-        });
-        panel.addEventListener("transitionend", function end() {
-          panel.style.transition = panel.style.height = "";
-          panel.removeEventListener("transitionend", end);
-        }, { once: true });
-      }
+  /* ---------- FAQ : accordéon, une réponse ouverte à la fois ----------
+     L'état ouvert/fermé est piloté par une minuterie, jamais par
+     `transitionend` : cet événement ne se déclenche pas toujours
+     (valeurs identiques, onglet en arrière-plan), ce qui laisserait
+     des panneaux bloqués en position ouverte. */
+  const PANEL_MS = 240;
+  $$(".faq").forEach(faq => {
+    const items = $$("details", faq);
+    const timers = new WeakMap();
+
+    const clear = (d) => { const t = timers.get(d); if (t) { clearTimeout(t); timers.delete(d); } };
+
+    const close = (d) => {
+      if (!d.open) return;
+      const panel = $(".faq__a", d);
+      clear(d);
+      if (reduced || !panel) { d.open = false; return; }
+      panel.style.height = panel.scrollHeight + "px";
+      void panel.offsetHeight;                               // force le calcul
+      panel.style.transition = `height ${PANEL_MS}ms var(--e-inout)`;
+      panel.style.height = "0px";
+      timers.set(d, setTimeout(() => {
+        d.open = false;
+        panel.style.transition = panel.style.height = "";
+        timers.delete(d);
+      }, PANEL_MS));
+    };
+
+    const open = (d) => {
+      const panel = $(".faq__a", d);
+      clear(d);
+      d.open = true;
+      if (reduced || !panel) return;
+      const h = panel.scrollHeight;
+      panel.style.height = "0px";
+      void panel.offsetHeight;
+      panel.style.transition = `height ${PANEL_MS}ms var(--e-inout)`;
+      panel.style.height = h + "px";
+      timers.set(d, setTimeout(() => {
+        panel.style.transition = panel.style.height = "";   // rend la hauteur automatique
+        timers.delete(d);
+      }, PANEL_MS));
+    };
+
+    items.forEach(d => {
+      $("summary", d).addEventListener("click", (e) => {
+        e.preventDefault();
+        if (d.open) { close(d); return; }
+        items.forEach(o => { if (o !== d) close(o); });
+        open(d);
+      });
     });
   });
 

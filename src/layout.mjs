@@ -59,7 +59,7 @@ const navLinks = (cur) => nav.map(l =>
   `<a href="${l.href}"${l.href === cur ? ' aria-current="page"' : ""}>${esc(l.label)}</a>`).join("");
 
 const mobLinks = (cur) => navMobile.map((l, i) =>
-  `<a href="${l.href}" style="--i:${i}"${l.href === cur ? ' aria-current="page"' : ""}><i>${String(i + 1).padStart(2, "0")}</i>${esc(l.label)}</a>`).join("");
+  `<a href="${l.href}" class="${l.sub ? "mob__sub" : ""}" style="--i:${i}"${l.href === cur ? ' aria-current="page"' : ""}>${esc(l.label)}</a>`).join("");
 
 const footerCols = () => {
   const c = contact;

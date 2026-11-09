@@ -171,12 +171,9 @@ export function blocZones({ full = false } = {}) {
     <div class="shead rv">
       <div>
         <p class="eyebrow">Zones d'intervention</p>
-        <h2 id="zones-t">Toute la Normandie. Et, selon les projets, toute la France.</h2>
+        <h2 id="zones-t">Basés en Normandie.<br>Mobiles dans toute la France selon les projets.</h2>
       </div>
-      <div class="shead__aside">
-        <p class="lead" style="font-size:var(--t-body)">La Normandie est notre territoire d'intervention principal : nous y couvrons les cinq départements. Pour des projets le justifiant, nous nous déplaçons également ailleurs en France.</p>
-        ${full ? "" : tlink("Voir le détail des zones", "/zones-intervention/")}
-      </div>
+      ${full ? "" : `<div class="shead__aside">${tlink("Voir le détail des zones", "/zones-intervention/")}</div>`}
     </div>
     <div class="zones">
       <div class="rv-line">${normandieMap}</div>
@@ -191,9 +188,10 @@ export function blocZones({ full = false } = {}) {
             </button>
           </li>`).join("")}
         </ul>
-        <p class="note" style="margin-top:1.8rem">Nous n'avons pas d'agence permanente dans chacune de ces villes : elles indiquent les principaux pôles que nous desservons depuis la Normandie.</p>
+        <p class="note" style="margin-top:var(--s-6)">Ces villes sont les pôles que nous desservons, non des agences permanentes.</p>
       </div>
     </div>
   </div>
 </section>`;
 }
+

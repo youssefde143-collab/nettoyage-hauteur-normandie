@@ -93,20 +93,27 @@ export const methodes = [
   { slug: "nettoyage-avec-nacelle", nom: "Nettoyage avec nacelle", court: "Nacelle" },
 ];
 
+/* Navigation principale — volontairement courte : cinq entrées.
+   Les trois méthodes vivent sous « Nos méthodes » plutôt que d'occuper
+   trois places dans la barre. */
 export const nav = [
-  { href: "/", label: "Accueil" },
-  { href: "/services/", label: "Nos services" },
-  { href: "/nettoyage-par-drone/", label: "Nettoyage par drone" },
-  { href: "/travaux-sur-cordes/", label: "Travaux sur cordes" },
-  { href: "/realisations/", label: "Nos réalisations" },
-  { href: "/zones-intervention/", label: "Zones d'intervention" },
-  { href: "/contact/", label: "Contact" },
+  { href: "/services/", label: "Nos méthodes" },
+  { href: "/secteurs-dactivite/", label: "Secteurs" },
+  { href: "/realisations/", label: "Réalisations" },
+  { href: "/zones-intervention/", label: "Zones" },
+  { href: "/a-propos/", label: "À propos" },
 ];
 
+/* Menu mobile — arborescence complète, groupée. */
 export const navMobile = [
-  ...nav.slice(0, 4),
-  { href: "/nettoyage-avec-nacelle/", label: "Nettoyage avec nacelle" },
+  { href: "/", label: "Accueil" },
+  { href: "/services/", label: "Nos méthodes" },
+  { href: "/nettoyage-par-drone/", label: "Nettoyage par drone", sub: true },
+  { href: "/travaux-sur-cordes/", label: "Travaux sur cordes", sub: true },
+  { href: "/nettoyage-avec-nacelle/", label: "Nettoyage avec nacelle", sub: true },
   { href: "/secteurs-dactivite/", label: "Secteurs d'activité" },
-  ...nav.slice(4),
+  { href: "/realisations/", label: "Réalisations" },
+  { href: "/zones-intervention/", label: "Zones d'intervention" },
   { href: "/a-propos/", label: "À propos" },
+  { href: "/contact/", label: "Contact" },
 ];
