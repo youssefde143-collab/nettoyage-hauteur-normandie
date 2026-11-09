@@ -1,4 +1,5 @@
 import { brand, contact, site, nav, navMobile, methodesPages, prestations, legalEntity } from "./config.mjs";
+import { squeegee } from "./squeegee.mjs";
 
 export const esc = (s) => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 
@@ -53,6 +54,7 @@ const rev = (f) => createHash("sha1")
   .digest("hex").slice(0, 8);
 const CSS_V = rev("/assets/css/site.css") + rev("/assets/css/fonts.css");
 const JS_V = rev("/assets/js/site.js");
+const INTRO_V = rev("/assets/js/intro.js");
 
 /* Image responsive : WebP local, dimensions intrinsèques exactes,
    chargement différé par défaut. Le recadrage éventuel est assuré par le CSS
@@ -225,12 +227,25 @@ export function layout(page) {
 <link rel="preload" href="/assets/fonts/sora-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <script>document.documentElement.className+=" js"</script>
+${page.intro ? `<script>(function(){try{
+if(sessionStorage.getItem("cvs-vitre"))return;
+if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+if(innerWidth<280||innerHeight<320)return;
+sessionStorage.setItem("cvs-vitre","1");
+document.documentElement.className+=" vt-on"}catch(e){}})()</script>` : ""}
 <link rel="stylesheet" href="/assets/css/site.css?v=${CSS_V}">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <script type="application/ld+json">${jsonLd(page)}</script>
 </head>
 <body${page.bodyClass ? ` class="${page.bodyClass}"` : ""}>
 <a class="skip" href="#principal">Aller au contenu principal</a>
+${page.intro ? `
+<div class="vt" id="intro-vitre" aria-hidden="true">
+  <div class="vt__blur"></div>
+  <canvas class="vt__glass"></canvas>
+  <canvas class="vt__fx"></canvas>
+  <div class="vt__tool">${squeegee()}</div>
+</div>` : ""}
 
 <header class="nav${darkHeader ? "" : " is-solid"}" id="entete" data-dark="${darkHeader}">
   <div class="nav__in">
@@ -300,6 +315,7 @@ ${page.body}
 </aside>
 
 <script src="/assets/js/site.js?v=${JS_V}" defer></script>
+${page.intro ? `<script src="/assets/js/intro.js?v=${INTRO_V}" defer></script>` : ""}
 </body>
 </html>`;
 }

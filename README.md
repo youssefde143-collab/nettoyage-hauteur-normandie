@@ -100,6 +100,47 @@ est un défaut plus grave qu'une animation manquée.
 
 ---
 
+## Intro « nettoyage de vitre » (accueil)
+
+À la première visite d'une session, la page d'accueil s'ouvre derrière une
+vitre humide qu'une raclette de vitrier nettoie en quatre passes horizontales,
+de droite à gauche, du haut vers le bas. Environ 2,4 s sur ordinateur, 1,8 s
+sur téléphone.
+
+Ce n'est ni une vidéo ni un fondu : la page réelle est chargée et rendue dès
+le départ, et c'est elle que l'on découvre derrière la lame.
+
+| Fichier | Rôle |
+| --- | --- |
+| `src/squeegee.mjs` | dessin vectoriel de la raclette (lame, rail inox, manche) |
+| `public/assets/js/intro.js` | moteur d'animation |
+| `public/assets/css/site.css` | bloc `.vt` en fin de feuille |
+| `src/layout.mjs` | calque + script de décision, posés si `page.intro === true` |
+
+Trois couches superposées, pilotées par la même géométrie :
+
+1. `.vt__blur` — `backdrop-filter` sur la page réelle, dont le `clip-path`
+   ne conserve que la zone non nettoyée ;
+2. `canvas.vt__glass` — voile, auréoles et gouttelettes, effacés par la lame
+   en `destination-out` ;
+3. `canvas.vt__fx` — bourrelet d'eau devant la lame, film résiduel derrière,
+   éclaboussures.
+
+**Trois garde-fous**, parce qu'une page invisible est un défaut bien plus grave
+qu'une animation manquée :
+
+- le calque reste en `display:none` tant que le script en tête de document n'a
+  pas posé `html.vt-on` — donc jamais sans JavaScript, jamais en mouvement
+  réduit, jamais deux fois dans la même session (`sessionStorage`) ;
+- une animation CSS l'escamote après 4,2 s même si `intro.js` ne se charge pas ;
+- molette, touche, clic, défilement ou redimensionnement l'interrompent aussitôt.
+
+Le calque est en `pointer-events:none` : la navigation et les boutons de devis
+restent cliquables pendant toute l'animation. Le bandeau cookies attend la fin.
+
+**Pour la désactiver** : retirer `intro: true` de `src/pages/accueil.mjs`.
+**Pour l'ajouter ailleurs** : poser `intro: true` sur la page voulue.
+
 ## Accessibilité
 
 Niveau visé : **WCAG 2.1 AA**. Audit Lighthouse : **100/100 sur les 11 pages**.

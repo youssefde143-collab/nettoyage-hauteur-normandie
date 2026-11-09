@@ -1111,3 +1111,32 @@ body.is-locked{overflow:hidden}
 @media(min-width:620px){.facts div{grid-template-columns:14rem 1fr;gap:1.5rem;align-items:baseline}}
 .facts dt{font-family:var(--f-display);font-size:var(--t-micro);letter-spacing:.14em;text-transform:uppercase;color:var(--c-label);font-weight:600}
 .facts dd{margin:0;font-family:var(--f-display);font-weight:500;letter-spacing:-.018em;color:var(--text)}
+
+/* ---------- Intro « nettoyage de vitre » (accueil) ----------
+   Le calque reste masqué tant que le script en tête de document n'a pas
+   posé `html.vt-on` — session neuve, mouvement non réduit, JavaScript
+   actif. Une animation de secours l'escamote après 4,2 s : si intro.js
+   ne se charge pas, la page redevient normale d'elle-même.             */
+.vt{display:none}
+.vt-on .vt{
+  display:block;position:fixed;inset:0;z-index:400;
+  pointer-events:none;overflow:hidden;contain:layout paint;
+  animation:vt-secours 360ms linear 4.2s forwards;
+}
+@keyframes vt-secours{to{opacity:0;visibility:hidden}}
+
+/* Vue troublée de la page réelle, derrière la vitre. */
+.vt__blur{
+  position:absolute;inset:0;will-change:clip-path;
+  backdrop-filter:blur(11px) saturate(.82) brightness(.88);
+  -webkit-backdrop-filter:blur(11px) saturate(.82) brightness(.88);
+  background:linear-gradient(135deg,rgba(13,33,55,.3),rgba(7,16,29,.14) 46%,rgba(21,47,76,.32));
+}
+.vt__glass,.vt__fx{position:absolute;inset:0;width:100%;height:100%}
+.vt__tool{position:absolute;top:0;left:0;will-change:transform,opacity;transform-origin:50% 50%}
+.vt__tool svg{display:block}
+
+.vt--out{opacity:0;transition:opacity 280ms var(--e-out)}
+.vt--cut{transition-duration:160ms}
+
+@media(prefers-reduced-motion:reduce){.vt{display:none!important}}

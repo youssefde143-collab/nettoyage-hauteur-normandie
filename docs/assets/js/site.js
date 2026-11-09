@@ -253,7 +253,17 @@
   if (ck) {
     let stored = null;
     try { stored = localStorage.getItem("choix-cookies"); } catch (_) {}
-    if (!stored) { ck.removeAttribute("hidden"); requestAnimationFrame(() => ck.classList.add("is-on")); }
+    /* Le bandeau attend la fin de l'intro « vitre » : il n'a aucune raison
+       de s'inviter par-dessus la raclette. */
+    const showCk = () => { ck.removeAttribute("hidden"); requestAnimationFrame(() => ck.classList.add("is-on")); };
+    if (!stored) {
+      if (document.documentElement.classList.contains("vt-on")) {
+        let done = false;
+        const once = () => { if (!done) { done = true; showCk(); } };
+        document.addEventListener("vitre:fin", once, { once: true });
+        setTimeout(once, 4800);
+      } else showCk();
+    }
     ck.addEventListener("click", (e) => {
       const b = e.target.closest("[data-cookie]"); if (!b) return;
       try { localStorage.setItem("choix-cookies", b.dataset.cookie); } catch (_) {}

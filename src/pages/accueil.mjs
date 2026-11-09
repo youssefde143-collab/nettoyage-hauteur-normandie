@@ -214,5 +214,6 @@ export default {
   ogTitle: "CleanVitreService — La hauteur change. Pas nos exigences.",
   ogImage: "hero-facade-verre-band",
   faq,
+  intro: true,
   body,
 };
