@@ -14,7 +14,7 @@ const faq = [
   { q: "L'intervention est-elle bruyante ou gênante pour les occupants ?",
     a: ["Un drone de cette catégorie produit un bruit perceptible pendant ses passages, comparable à celui d'un équipement de chantier léger. Il reste généralement plus court et plus localisé qu'un chantier d'échafaudage.",
         "L'avantage principal pour les occupants est l'absence d'installation lourde : pas d'échafaudage à monter, emprise au sol réduite, durée de présence limitée sur le site. Les fenêtres doivent en revanche rester fermées pendant les passes, ce qui est signalé en amont."] },
-  { q: "Le drone remplace-t-il les travaux sur cordes et la nacelle ?",
+  { q: "Le drone remplace-t-il les autres méthodes ?",
     a: ["Non. C'est une méthode supplémentaire, pas une méthode de remplacement. Elle élargit le champ de ce que nous pouvons traiter et, dans les configurations qui s'y prêtent, simplifie l'organisation du chantier.",
         "Un grand nombre de bâtiments continuent à relever des travaux sur cordes ou de la nacelle, soit parce que l'environnement ne permet pas le vol, soit parce que le travail au contact est nécessaire pour obtenir le résultat attendu."] },
   { q: "Peut-on nettoyer par drone un bâtiment en centre-ville ?",
@@ -115,7 +115,7 @@ const body = `
     </div>
     <div class="cards cards--2" style="margin-top:1.4rem">
       <div class="card rv" style="background:var(--paper)">${icons.shield}<h3>Sécurité et préparation</h3><p>Chaque intervention par drone fait l'objet d'une préparation : repérage du site, définition de la zone de travail au sol, identification des points sensibles, information des occupants lorsque c'est nécessaire.</p><p>Un périmètre est matérialisé au sol pendant les phases de vol. L'opérateur conserve le contrôle visuel de l'appareil tout au long de l'intervention.</p></div>
-      <div class="card rv" style="--i:1;background:var(--paper)">${icons.gear}<h3>Et si le drone n'est pas la solution ?</h3><p>Nous le disons, et nous proposons autre chose. C'est l'intérêt de disposer de trois méthodes : l'étude peut conclure aux travaux sur cordes, à la nacelle, ou à une combinaison de méthodes selon les zones du bâtiment.</p><div style="margin-top:.4rem;display:flex;gap:1.4rem;flex-wrap:wrap">${tlink("Travaux sur cordes", "/travaux-sur-cordes/")}${tlink("Nettoyage avec nacelle", "/nettoyage-avec-nacelle/")}</div></div>
+      <div class="card rv" style="--i:1;background:var(--paper)">${icons.gear}<h3>Et si le drone n'est pas la solution ?</h3><p>Nous le disons, et nous proposons autre chose. C'est l'intérêt de disposer de cinq moyens d'accès : l'étude peut conclure au nettoyage conventionnel, à la perche, à la nacelle, aux travaux sur cordes, ou à une combinaison selon les zones.</p><div style="margin-top:.4rem;display:flex;gap:1.4rem;flex-wrap:wrap">${tlink("Travaux sur cordes", "/travaux-sur-cordes/")}${tlink("Nettoyage avec nacelle", "/nettoyage-avec-nacelle/")}</div></div>
     </div>
   </div>
 </section>
@@ -127,7 +127,7 @@ ${finalCta({ titre: "Votre bâtiment est-il éligible au nettoyage par drone ?",
 
 export default {
   path: "/nettoyage-par-drone/",
-  title: "Nettoyage de façades par drone | [NOM DE L'ENTREPRISE]",
+  title: "Nettoyage de façades par drone | CleanVitreService",
   description: "Nettoyage par drone de façades vitrées et de surfaces difficiles d'accès : principe, applications, avantages et conditions de faisabilité. Normandie et France entière.",
   ogImage: "drone-detail-band",
   faq,

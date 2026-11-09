@@ -68,7 +68,7 @@ const body = `
 
 export default {
   path: "/gestion-des-cookies/",
-  title: "Gestion des cookies | [NOM DE L'ENTREPRISE]",
+  title: "Gestion des cookies | CleanVitreService",
   description: "Ce site ne dépose aucun cookie et n'utilise aucun traceur tiers. Détail de l'unique entrée de stockage local utilisée et modalités de suppression.",
   darkHeader: false,
   body,

@@ -1,22 +1,34 @@
-import { brand, contact, site, nav, navMobile, methodes } from "./config.mjs";
+import { brand, contact, site, nav, navMobile, methodesPages, prestations, legalEntity } from "./config.mjs";
 
 export const esc = (s) => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 
-/* Monogramme vectoriel de substitution — remplacé automatiquement
-   si `brand.logoSrc` est renseigné dans src/config.mjs. */
-export const mark = (cls = "nav__mark") => brand.logoSrc
-  ? `<img src="${brand.logoSrc}" alt="" class="${cls}" width="30" height="30">`
-  : `<svg class="${cls}" viewBox="0 0 32 32" aria-hidden="true" fill="none">
-      <rect x="1" y="1" width="30" height="30" rx="3" stroke="currentColor" stroke-opacity=".32"/>
-      <path d="M8 23V9l16 14V9" stroke="currentColor" stroke-width="1.7" stroke-linecap="square"/>
-      <circle cx="24" cy="23" r="2.4" fill="#1A74F0"/>
+/* Mot-signe typographique.
+   Aucun logo graphique n'existe : la marque repose sur la composition du
+   nom lui-même — « Clean » en graisse légère, « Vitre » en graisse forte,
+   « Service » en capitales espacées. Renseigner `brand.logoSrc` dans
+   src/config.mjs remplace l'ensemble par l'image fournie. */
+export const mark = (cls = "wm__mark") => brand.logoSrc
+  ? `<img src="${brand.logoSrc}" alt="" class="${cls}" width="34" height="34">`
+  : `<svg class="${cls}" viewBox="0 0 34 34" aria-hidden="true" fill="none">
+      <rect x="1" y="1" width="32" height="32" rx="3" stroke="currentColor" stroke-opacity=".3"/>
+      <path d="M10.5 12.5h13M10.5 17h13M10.5 21.5h13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M23 9.5 11 24.5" stroke="#3E8BF5" stroke-width="1.6" stroke-linecap="round"/>
     </svg>`;
 
-export const logo = (tag = "a", href = "/") => `
-  <${tag} class="nav__logo" ${tag === "a" ? `href="${href}"` : ""}>
+/* Le mot-signe complet : marque + nom composé + ligne de métier. */
+export const wordmark = (tag = "a", href = "/") => {
+  const [a, b, c] = brand.wordmark;
+  return `
+  <${tag} class="wm" ${tag === "a" ? `href="${href}"` : ""}>
     ${mark()}
-    <span class="nav__word"><b>${esc(brand.name)}</b><span>${esc(brand.baseline)}</span></span>
+    <span class="wm__txt">
+      <span class="wm__name"><span class="wm__a">${esc(a)}</span><span class="wm__b">${esc(b)}</span><span class="wm__c">${esc(c)}</span></span>
+      <span class="wm__base">${esc(brand.baseline)}</span>
+    </span>
   </${tag}>`;
+};
+
+export const logo = (tag = "a", href = "/") => wordmark(tag, href);
 
 export const ar = () => `<svg class="btn__ar" width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 11 11 2M11 2H4.2M11 2v6.8" stroke="currentColor" stroke-width="1.5"/></svg>`;
 export const arS = () => `<svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M1 6h9.5M7 2.5 10.5 6 7 9.5" stroke="currentColor" stroke-width="1.4"/></svg>`;
@@ -66,11 +78,10 @@ const footerCols = () => {
   const line = (label, href) => href ? `<a href="${href}">${esc(label)}</a>` : `<span class="ph">${esc(label)}</span>`;
   return `
   <div>
-    <h3>Nos solutions</h3>
+    <h3>Prestations</h3>
     <ul>
-      ${methodes.map(m => `<li><a href="/${m.slug}/">${esc(m.nom)}</a></li>`).join("")}
-      <li><a href="/services/">Toutes nos prestations</a></li>
-      <li><a href="/secteurs-dactivite/">Secteurs d'activité</a></li>
+      ${prestations.map(p => `<li><a href="/services/#${p.slug}">${esc(p.titre)}</a></li>`).join("")}
+      ${methodesPages.map(m => `<li><a href="/${m.slug}/">${esc(m.nom)}</a></li>`).join("")}
     </ul>
   </div>
   <div>
@@ -98,16 +109,41 @@ const footerCols = () => {
    Aucun avis, note, prix, effectif ni certification n'est déclaré.
    Le type LocalBusiness est volontairement écarté tant que la raison
    sociale et l'adresse réelles ne sont pas connues (voir INTEGRATION.md). */
+/* Données structurées : uniquement des faits vérifiables.
+   Désormais que la raison sociale, l'adresse et le téléphone sont connus,
+   le type LocalBusiness est renseigné. Aucun avis, aucune note, aucun prix
+   ni aucune certification n'y figure. */
 function jsonLd(page) {
   const org = {
-    "@type": "Organization",
+    "@type": ["Organization", "LocalBusiness"],
     "@id": site.origin + "/#organisation",
     name: brand.name,
     url: site.origin + "/",
-    description: "Entreprise de nettoyage de vitres et de façades en hauteur : intervention par drone, travaux sur cordes et nacelle, en Normandie et dans toute la France.",
+    description: "Nettoyage de vitres, de façades et de surfaces difficiles d'accès. Matériel conventionnel, perches télescopiques, nacelle, travaux sur cordes et drone. Bolbec, Normandie.",
+    founder: { "@type": "Person", name: legalEntity.dirigeant },
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "4 ruelle de l'Hôtel de Ville",
+      postalCode: "76210",
+      addressLocality: "Bolbec",
+      addressRegion: "Normandie",
+      addressCountry: "FR",
+    },
+    telephone: "+33641019643",
+    email: contact.emailHref,
+    identifier: [
+      { "@type": "PropertyValue", name: "SIREN", value: legalEntity.siren.replace(/\s/g, "") },
+      { "@type": "PropertyValue", name: "SIRET", value: legalEntity.siret.replace(/\s/g, "") },
+    ],
     areaServed: [
       { "@type": "AdministrativeArea", name: "Normandie" },
+      { "@type": "City", name: "Bolbec" },
       { "@type": "Country", name: "France" },
+    ],
+    knowsAbout: [
+      "Nettoyage de vitres", "Nettoyage de façades", "Nettoyage de vérandas et verrières",
+      "Nettoyage de panneaux solaires", "Travaux sur cordes", "Nacelle élévatrice",
+      "Nettoyage par drone",
     ],
   };
   const graph = [org, {
@@ -225,7 +261,7 @@ ${page.body}
 <footer class="foot">
   <div class="foot__top">
     <div class="foot__brand">
-      <div class="foot__logo">${mark()}<span class="nav__word"><b>${esc(brand.name)}</b><span>${esc(brand.baseline)}</span></span></div>
+      <div class="foot__logo">${wordmark("div")}</div>
       <p>Nettoyage de vitres et de façades en hauteur par drone, travaux sur cordes et nacelle. Une méthode choisie en fonction de chaque bâtiment, en Normandie et dans toute la France.</p>
       <p style="font-size:var(--t-micro);letter-spacing:.12em;text-transform:uppercase;color:#7F91A8;font-weight:600">Calvados · Eure · Manche · Orne · Seine-Maritime</p>
     </div>

@@ -9,70 +9,67 @@
    ============================================================ */
 
 export const brand = {
-  // Nom commercial — espace réservé jusqu'à la décision finale.
-  name: "[NOM DE L'ENTREPRISE]",
-  // Version courte utilisée dans la signature du logo.
-  short: "[NOM]",
-  tagline: "Nettoyage technique en hauteur",
-  baseline: "Drone · Cordes · Nacelle",
-  // Laisser `null` tant que le logo définitif n'est pas fourni :
-  // le site affiche alors le monogramme vectoriel de substitution.
+  name: "CleanVitreService",
+  // Découpage du mot-signe : la typographie différencie les trois segments.
+  wordmark: ["Clean", "Vitre", "Service"],
+  short: "CVS",
+  tagline: "Nettoyage de vitres, façades et surfaces difficiles d'accès",
+  baseline: "Vitres · Façades · Accès difficiles",
+  // Aucun logo graphique n'existe à ce jour : le site compose un mot-signe
+  // typographique. Renseigner `logoSrc` le remplacera partout.
   logoSrc: null,
-  monogram: "N",
 };
 
 export const contact = {
-  // TODO — à remplacer par les coordonnées réelles.
-  phoneLabel: "[TÉLÉPHONE]",
-  phoneHref: null,            // ex. "+33200000000"
-  emailLabel: "[EMAIL]",
-  emailHref: null,            // ex. "contact@exemple.fr"
-  addressLines: ["[ADRESSE]", "[CODE POSTAL] [VILLE]", "Normandie, France"],
-  hoursLabel: "[HORAIRES D'OUVERTURE]",
+  phoneLabel: "06 41 01 96 43",
+  phoneHref: "+33641019643",
+  emailLabel: "cleanvitreservice@gmail.com",
+  emailHref: "cleanvitreservice@gmail.com",
+  addressLines: ["4 ruelle de l'Hôtel de Ville", "76210 Bolbec", "Seine-Maritime, Normandie"],
+  ville: "Bolbec",
+  // Engagements communiqués par l'entreprise, repris tels quels.
+  devisGratuit: "Devis gratuit",
+  delaiReponse: "Réponse à votre demande sous 30 minutes, selon disponibilité.",
+  astreintes: "Astreintes possibles sur demande.",
   // Réseaux sociaux : ajouter { label, href } quand les comptes existent.
   social: [],
 };
 
 export const legalEntity = {
-  // TODO — informations légales à compléter (aucune valeur inventée).
-  formeJuridique: "[FORME JURIDIQUE]",
-  capital: "[CAPITAL SOCIAL]",
-  siege: "[ADRESSE DU SIÈGE SOCIAL]",
-  siren: "[N° SIREN]",
-  siret: "[N° SIRET]",
-  rcs: "[VILLE ET N° RCS]",
-  tva: "[N° TVA INTRACOMMUNAUTAIRE]",
-  responsable: "[NOM DU RESPONSABLE DE LA PUBLICATION]",
-  hebergeur: "[NOM, ADRESSE ET TÉLÉPHONE DE L'HÉBERGEUR]",
-  assurance: "[ASSUREUR ET N° DE POLICE RESPONSABILITÉ CIVILE]",
+  denomination: "CleanVitreService",
+  dirigeant: "Noah Lefebvre",
+  formeJuridique: "Entreprise individuelle (micro-entreprise)",
+  siege: "4 ruelle de l'Hôtel de Ville, 76210 Bolbec",
+  siren: "101 837 474",
+  siret: "101 837 474 00010",
+  responsable: "Noah Lefebvre",
+  // À compléter lorsque l'entreprise aura transmis les pièces.
+  // Rien n'est inventé : ces mentions restent des espaces réservés visibles.
+  tva: "[N° TVA INTRACOMMUNAUTAIRE OU MENTION DE FRANCHISE EN BASE]",
+  hebergeur: "GitHub Pages — GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis",
+  assurance: "[ASSUREUR ET N° DE POLICE RESPONSABILITÉ CIVILE PROFESSIONNELLE]",
   mediateur: "[MÉDIATEUR DE LA CONSOMMATION]",
-  dpo: "[CONTACT DÉLÉGUÉ À LA PROTECTION DES DONNÉES]",
+  dpo: "Noah Lefebvre — cleanvitreservice@gmail.com",
 };
 
-/* Point de terminaison du formulaire de devis.
-   Tant que la valeur est `null`, le formulaire reste entièrement
-   fonctionnel côté client (validation, états d'erreur, accessibilité)
-   mais n'effectue aucun envoi réseau : il l'indique explicitement à
-   l'utilisateur plutôt que de simuler un faux succès.
-   Voir INTEGRATION.md pour la configuration.
-
-   En local, le serveur de prévisualisation expose un vrai point de
-   réception (`POST /api/devis`) qui valide la demande et l'enregistre
-   dans `demandes/`. Il sert à éprouver la chaîne complète ; en
-   production, remplacer par l'URL du service retenu. */
-export const formEndpoint = "/api/devis";
+/* Point de réception du formulaire de devis.
+   `null` tant qu'aucun service d'acheminement n'est raccordé : le
+   formulaire bascule alors sur un envoi par le logiciel de messagerie
+   du visiteur (pré-rempli, destinataire réel). Aucun faux succès n'est
+   jamais affiché. Voir INTEGRATION.md. */
+export const formEndpoint = null;
 
 export const site = {
-  // TODO — remplacer par le domaine définitif avant mise en ligne.
-  origin: "https://www.exemple-nettoyage-normandie.fr",
+  // Domaine actuel. À remplacer le jour où un nom de domaine propre est acquis.
+  origin: "https://youssefde143-collab.github.io/nettoyage-hauteur-normandie",
   locale: "fr_FR",
   lang: "fr",
 };
 
 export const zones = [
   { slug: "seine-maritime", code: "76", nom: "Seine-Maritime",
-    villes: ["Rouen", "Le Havre", "Dieppe", "Yvetot", "Elbeuf"],
-    resume: "Le département le plus urbanisé de Normandie, avec deux pôles tertiaires et portuaires majeurs." },
+    villes: ["Bolbec", "Le Havre", "Rouen", "Yvetot", "Lillebonne", "Fécamp", "Dieppe"],
+    resume: "Le département du siège. Bolbec se situe entre Le Havre et Rouen, au cœur du pays de Caux." },
   { slug: "calvados", code: "14", nom: "Calvados",
     villes: ["Caen", "Lisieux", "Bayeux", "Hérouville-Saint-Clair", "Vire"],
     resume: "Une activité partagée entre centres administratifs, zones d'activités et littoral touristique." },
@@ -87,15 +84,74 @@ export const zones = [
     resume: "Un département rural structuré autour de pôles industriels et d'équipements publics." },
 ];
 
-export const methodes = [
-  { slug: "nettoyage-par-drone", nom: "Nettoyage par drone", court: "Drone" },
-  { slug: "travaux-sur-cordes", nom: "Travaux sur cordes", court: "Cordes" },
-  { slug: "nettoyage-avec-nacelle", nom: "Nettoyage avec nacelle", court: "Nacelle" },
+/* ---------- Prestations : ce que nous nettoyons ---------- */
+export const prestations = [
+  {
+    slug: "vitrerie", titre: "Vitrerie", court: "Vitres et surfaces vitrées",
+    resume: "Vitres, baies, vérandas, verrières et vitrines, à l'intérieur comme à l'extérieur.",
+    items: ["Vitres intérieures et extérieures", "Baies vitrées", "Vérandas", "Verrières et puits de lumière",
+            "Velux et fenêtres de toit", "Vitrines commerciales"],
+    im: "vitre-nettoyage", alt: "Intervenants nettoyant les vitrages d'un bâtiment moderne en verre",
+  },
+  {
+    slug: "exterieur", titre: "Extérieur du bâtiment", court: "Façades et surfaces extérieures",
+    resume: "Façades, bardages et éléments extérieurs dont l'état du support permet le nettoyage.",
+    items: ["Façades de bâtiment", "Bardages", "Surfaces extérieures adaptées",
+            "Panneaux publicitaires", "Volets roulants"],
+    im: "facade-detail-3", alt: "Gratte-ciel contemporain à façade de verre en gradins",
+  },
+  {
+    slug: "specialise", titre: "Nettoyage spécialisé", court: "Panneaux solaires, accès difficiles",
+    resume: "Panneaux solaires et photovoltaïques, et toutes les surfaces que l'on n'atteint pas simplement.",
+    items: ["Panneaux solaires et photovoltaïques", "Surfaces difficiles d'accès"],
+    im: "real-04", alt: "Intervenant suspendu par cordes sur le flanc d'un bâtiment",
+  },
 ];
 
-/* Navigation principale — volontairement courte : cinq entrées.
-   Les trois méthodes vivent sous « Nos méthodes » plutôt que d'occuper
-   trois places dans la barre. */
+/* ---------- Méthodes d'accès : comment nous y accédons ----------
+   Cinq méthodes. Les trois dernières disposent d'une page dédiée ;
+   les deux premières relèvent de l'intervention courante. */
+export const methodes = [
+  { n: "01", slug: null, nom: "Nettoyage conventionnel", court: "Matériel professionnel au sol",
+    phrase: "Matériel professionnel de laveur de vitres pour les surfaces accessibles depuis le sol.",
+    im: "vitre-nettoyage", alt: "Nettoyage de vitrages au matériel professionnel", ico: "gear" },
+  { n: "02", slug: null, nom: "Perches télescopiques", court: "Jusqu'aux étages bas",
+    phrase: "Eau purifiée et perches pour atteindre les niveaux hauts sans installation lourde.",
+    im: "verre-gouttes", alt: "Surface vitrée après passage de l'eau", ico: "layers" },
+  { n: "03", slug: "nettoyage-avec-nacelle", nom: "Nacelle élévatrice", court: "Plateforme depuis le sol",
+    phrase: "Quand le sol est porteur et les abords dégagés, la plateforme est la voie la plus directe.",
+    im: "methode-nacelle", alt: "Plateformes élévatrices mobiles de personnel déployées en hauteur", ico: "nacelle" },
+  { n: "04", slug: "travaux-sur-cordes", nom: "Travaux sur cordes", court: "Accès technique au contact",
+    phrase: "La corde suit la façade là où aucun engin ne passe : décrochés, surplombs, centres urbains.",
+    im: "methode-cordes", alt: "Techniciens cordistes suspendus le long d'un immeuble", ico: "cordes" },
+  { n: "05", slug: "nettoyage-par-drone", nom: "Nettoyage par drone", court: "Sans contact, depuis le sol",
+    phrase: "Pour certaines façades difficiles d'accès, l'appareil travaille et les équipes restent au sol.",
+    im: "methode-drone", alt: "Drone professionnel en vol utilisé pour le nettoyage de surfaces vitrées", ico: "drone" },
+];
+
+/* Les trois méthodes disposant d'une page dédiée. */
+export const methodesPages = methodes.filter(m => m.slug);
+
+/* ---------- Clientèles ---------- */
+export const clienteles = [
+  { slug: "particuliers", nom: "Particuliers",
+    resume: "Maisons, vérandas, verrières et baies vitrées, y compris aux étages.",
+    items: ["Vitres et baies vitrées", "Vérandas et verrières", "Velux et fenêtres de toit", "Panneaux solaires"],
+    im: "secteur-particuliers", alt: "Maison contemporaine dotée de grandes baies vitrées et d'une véranda" },
+  { slug: "commercants", nom: "Commerçants et professionnels",
+    resume: "Vitrines, enseignes et devantures, nettoyées en dehors des heures d'affluence.",
+    items: ["Vitrines commerciales", "Devantures et enseignes", "Panneaux publicitaires", "Entretien régulier"],
+    im: "secteur-commerce", alt: "Entrée vitrée d'un bâtiment commercial contemporain" },
+  { slug: "entreprises", nom: "Entreprises, industries et immobilier",
+    resume: "Bureaux, sites de production, entrepôts et patrimoines gérés.",
+    items: ["Façades et murs-rideaux", "Bardages industriels", "Verrières et lanterneaux", "Copropriétés et gestion locative"],
+    im: "secteur-industrie", alt: "Bâtiment industriel de grande emprise sous un ciel dégagé" },
+  { slug: "collectivites", nom: "Collectivités et établissements publics",
+    resume: "Mairies, écoles, équipements sportifs et bâtiments administratifs.",
+    items: ["Bâtiments administratifs", "Établissements scolaires", "Équipements sportifs", "Patrimoines multi-sites"],
+    im: "secteur-collectivites", alt: "Bâtiment administratif public de plusieurs niveaux" },
+];
+
 export const nav = [
   { href: "/services/", label: "Nos méthodes" },
   { href: "/secteurs-dactivite/", label: "Secteurs" },

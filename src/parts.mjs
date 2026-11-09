@@ -171,9 +171,12 @@ export function blocZones({ full = false } = {}) {
     <div class="shead rv">
       <div>
         <p class="eyebrow">Zones d'intervention</p>
-        <h2 id="zones-t">Basés en Normandie.<br>Mobiles dans toute la France selon les projets.</h2>
+        <h2 id="zones-t">Basés à Bolbec.<br>Mobiles dans toute la Normandie.</h2>
       </div>
-      ${full ? "" : `<div class="shead__aside">${tlink("Voir le détail des zones", "/zones-intervention/")}</div>`}
+      <div class="shead__aside">
+        <p class="lead">Un rayon de 50 km autour du siège, l'ensemble de la Normandie, et le reste de la France selon la nature et l'importance du chantier.</p>
+        ${full ? "" : tlink("Voir le détail des zones", "/zones-intervention/")}
+      </div>
     </div>
     <div class="zones">
       <div class="rv-line">${normandieMap}</div>
@@ -188,10 +191,11 @@ export function blocZones({ full = false } = {}) {
             </button>
           </li>`).join("")}
         </ul>
-        <p class="note" style="margin-top:var(--s-6)">Ces villes sont les pôles que nous desservons, non des agences permanentes.</p>
+        <p class="note" style="margin-top:var(--s-6)">Le siège est à Bolbec (76210). Les villes citées sont les pôles desservis, non des agences.</p>
       </div>
     </div>
   </div>
 </section>`;
 }
+
 

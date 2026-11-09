@@ -3,15 +3,13 @@ import { icons, faqBlock, finalCta, processus } from "../parts.mjs";
 import { brand } from "../config.mjs";
 
 const faq = [
-  { q: "Depuis quand l'entreprise existe-t-elle ?",
-    a: ["Cette information n'est pas encore renseignée sur le site. Elle le sera dès que les éléments définitifs de présentation de l'entreprise seront arrêtés.",
-        "Nous préférons laisser cette page volontairement factuelle plutôt que d'y inscrire une ancienneté, un effectif ou un historique qui ne correspondraient pas à la réalité."] },
-  { q: "Quelles sont vos certifications ?",
-    a: ["Aucune certification n'est affichée sur ce site, et c'est délibéré : nous ne publions que ce que nous pouvons documenter. Les qualifications de nos intervenants au travail en hauteur, les attestations d'assurance et les éléments administratifs sont communiqués sur demande, dans le cadre d'une consultation ou d'un appel d'offres.",
-        "Si vous avez besoin d'un dossier administratif complet pour instruire une candidature, demandez-le : il vous sera transmis tel qu'il est."] },
-  { q: "Combien de personnes composent vos équipes ?",
-    a: ["Cette information n'est pas publiée pour le moment. La taille des équipes mobilisées dépend de chaque chantier : nature de la méthode, surface à traiter, contraintes de planning.",
-        "Le dimensionnement de l'équipe pour votre intervention figure dans la proposition que nous vous remettons."] },
+  { q: "Qui est derrière CleanVitreService ?",
+    a: ["L'entreprise est dirigée par Noah Lefebvre. Elle est établie à Bolbec, en Seine-Maritime, et exerce sous le statut de micro-entreprise."] },
+  { q: "Quelles sont vos assurances et qualifications ?",
+    a: ["L'entreprise dispose d'une assurance de responsabilité civile professionnelle, et les interventions par drone comme les travaux en hauteur relèvent d'autorisations et de qualifications spécifiques.",
+        "Leurs intitulés exacts et leurs références ne sont pas publiés ici tant qu'ils n'ont pas été formellement vérifiés. Ils sont communiqués sur demande, notamment dans le cadre d'une consultation."] },
+  { q: "Combien de personnes composent l'équipe ?",
+    a: ["Cette information n'est pas publiée. Le dimensionnement de l'équipe mobilisée pour votre intervention figure dans le devis."] },
 ];
 
 const body = `
@@ -20,8 +18,8 @@ const body = `
   <div class="phero__in">
     <nav class="crumbs" aria-label="Fil d'Ariane"><a href="/">Accueil</a><span>/</span>À propos</nav>
     <p class="eyebrow">L'entreprise</p>
-    <h1>Un prestataire technique du nettoyage en hauteur.</h1>
-    <p class="phero__sub">Trois méthodes d'accès, une étude préalable systématique et le refus d'annoncer ce que nous ne pouvons pas tenir. C'est à peu près tout ce qu'il y a à savoir — et c'est déjà beaucoup.</p>
+    <h1>Une entreprise normande du nettoyage en hauteur.</h1>
+    <p class="phero__sub">CleanVitreService, établie à Bolbec, nettoie les vitres, les façades et les surfaces que l'on n'atteint pas simplement.</p>
   </div>
 </section>
 
@@ -34,10 +32,10 @@ const body = `
         <div class="prose" style="margin-top:1.8rem;max-width:58ch">
           <p class="lead">Nettoyer une vitre est un geste simple. Atteindre cette vitre lorsqu'elle se trouve au vingtième niveau d'un mur-rideau, au-dessus d'une verrière ou en surplomb d'une rue circulée est un problème technique à part entière.</p>
           <p>C'est ce problème que nous traitons. Notre activité consiste à déterminer comment accéder à une surface en hauteur — proprement, en sécurité, sans immobiliser le bâtiment et sans endommager le support — puis à réaliser l'intervention.</p>
-          <p>Pour cela, nous disposons de <strong>trois méthodes complémentaires</strong> : le nettoyage par drone, les travaux sur cordes et le nettoyage avec nacelle élévatrice. Aucune n'est supérieure aux autres. Chacune répond à une famille de configurations, et c'est le bâtiment qui tranche.</p>
+          <p>Pour cela, nous disposons de <strong>cinq moyens d'accès complémentaires</strong> : le nettoyage par drone, les travaux sur cordes et le nettoyage avec nacelle élévatrice. Aucune n'est supérieure aux autres. Chacune répond à une famille de configurations, et c'est le bâtiment qui tranche.</p>
           <p>Cette polyvalence est notre choix de départ. Un prestataire qui ne maîtrise qu'un seul moyen d'accès doit nécessairement convaincre que ce moyen convient à votre bâtiment. Nous n'avons pas ce biais.</p>
         </div>
-        <div class="btn-row" style="margin-top:2.2rem">${btn("Nos trois méthodes", "/services/")}${btn("Demander un devis", "/contact/", "btn--ghost")}</div>
+        <div class="btn-row" style="margin-top:2.2rem">${btn("Nos prestations", "/services/")}${btn("Demander un devis", "/contact/", "btn--ghost")}</div>
       </div>
       <div class="rv" style="--i:1">
         <figure class="edit__fig reveal-img">${img("equipe-casques", "Équipements de protection individuelle portés sur un chantier", { sizes: "(max-width:899px) 100vw, 40vw" })}<figcaption>Travail en hauteur — équipements et procédures</figcaption></figure>
@@ -93,27 +91,29 @@ const body = `
 
 <section class="sec" aria-labelledby="a4">
   <div class="wrap wrap--tight">
-    <div class="rv" style="text-align:left">
-      <p class="eyebrow">Informations en attente</p>
-      <h2 id="a4" style="max-width:24ch">Cette page sera complétée.</h2>
-      <div class="prose" style="margin-top:1.6rem;max-width:68ch">
-        <p class="lead">Plusieurs éléments de présentation de l'entreprise ne sont pas encore arrêtés. Nous avons choisi de laisser cette page incomplète plutôt que de la remplir de contenu inventé.</p>
-        <p>Les éléments suivants seront ajoutés dès qu'ils seront définitifs : la dénomination commerciale, l'identité visuelle, la date de création, la présentation des dirigeants, la composition des équipes, le détail des qualifications et habilitations, les attestations d'assurance et les premières références clients documentées.</p>
+    <div class="rv">
+      <p class="eyebrow">L'entreprise en clair</p>
+      <h2 id="a4" style="max-width:22ch">Les faits, et rien de plus.</h2>
+      <div class="prose" style="margin-top:var(--s-5)">
+        <p class="lead">Nous préférons une page courte et exacte à une page longue et flatteuse.</p>
       </div>
-      <ul class="srv__list" style="margin-top:1.8rem;max-width:68ch">
-        <li>Dénomination commerciale et identité visuelle — actuellement affichées sous la forme <span class="ph" style="color:var(--text)">${esc(brand.name)}</span></li>
-        <li>Date de création et historique de l'entreprise</li>
-        <li>Présentation des dirigeants et de l'organisation</li>
-        <li>Composition et effectif des équipes</li>
-        <li>Détail des qualifications au travail en hauteur et des habilitations</li>
-        <li>Attestations d'assurance et pièces administratives</li>
-        <li>Premières références clients, publiées avec l'accord des maîtres d'ouvrage</li>
-      </ul>
+      <dl class="facts">
+        <div><dt>Dénomination</dt><dd>CleanVitreService</dd></div>
+        <div><dt>Dirigeant</dt><dd>Noah Lefebvre</dd></div>
+        <div><dt>Statut</dt><dd>Entreprise individuelle — micro-entreprise</dd></div>
+        <div><dt>Siège</dt><dd>4 ruelle de l'Hôtel de Ville, 76210 Bolbec</dd></div>
+        <div><dt>SIREN</dt><dd>101 837 474</dd></div>
+        <div><dt>SIRET</dt><dd>101 837 474 00010</dd></div>
+        <div><dt>Zone</dt><dd>50 km autour de Bolbec, Normandie, France selon projet</dd></div>
+      </dl>
       <div class="note" style="max-width:68ch">
-        Si vous avez besoin de l'un de ces éléments pour instruire une consultation ou un appel d'offres, demandez-le
-        directement : il vous sera transmis dans l'état où il se trouve, sans embellissement.
+        L'entreprise dispose d'une assurance de responsabilité civile professionnelle, et les interventions
+        par drone comme les travaux en hauteur relèvent d'autorisations et de qualifications spécifiques.
+        Leurs intitulés exacts ne sont pas publiés ici tant qu'ils n'ont pas été vérifiés : ils sont
+        communiqués sur demande. Nous ne publions ni ancienneté, ni effectif, ni référence client que nous
+        ne pourrions documenter.
       </div>
-      <div class="btn-row" style="margin-top:2rem">${btn("Nous contacter", "/contact/")}${btn("Voir nos zones d'intervention", "/zones-intervention/", "btn--ghost")}</div>
+      <div class="btn-row" style="margin-top:var(--s-6)">${btn("Nous contacter", "/contact/")}${btn("Zones d'intervention", "/zones-intervention/", "btn--ghost")}</div>
     </div>
   </div>
 </section>
@@ -125,7 +125,7 @@ ${finalCta({ titre: "Parlons de votre bâtiment, pas de nous.", texte: "La meill
 
 export default {
   path: "/a-propos/",
-  title: "À propos de notre entreprise | [NOM DE L'ENTREPRISE]",
+  title: "À propos de notre entreprise | CleanVitreService",
   description: "Prestataire technique du nettoyage de vitres et de façades en hauteur : drone, travaux sur cordes et nacelle. Nos moyens, notre méthode et nos principes.",
   ogImage: "apropos-1-band",
   faq,

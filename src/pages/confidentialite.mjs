@@ -14,13 +14,6 @@ const body = `
 <section class="sec">
   <div class="wrap">
     <div class="legal">
-      <div class="note" style="margin-top:0;margin-bottom:2.4rem">
-        <strong>Document à compléter avant la mise en ligne.</strong> L'identité du responsable de traitement, ses
-        coordonnées et la durée de conservation définitive doivent être renseignées dans
-        <code>src/config.mjs</code>. Le raccordement du formulaire à un service de réception de messages
-        (voir <code>INTEGRATION.md</code>) devra être reflété dans la section « Destinataires et sous-traitants ».
-      </div>
-
       <h2>1. Responsable du traitement</h2>
       <p>Les données collectées via ce site sont traitées par ${ph(brand.name)}, dont les coordonnées figurent dans
       les <a href="/mentions-legales/">mentions légales</a>.</p>
@@ -60,15 +53,19 @@ const body = `
       <p>Vos données sont destinées aux seules personnes de l'entreprise chargées du traitement des demandes
       commerciales et de l'étude technique des projets.</p>
       <p><strong>Elles ne sont ni cédées, ni louées, ni revendues à des tiers.</strong></p>
-      <p>Le site fait appel aux prestataires techniques suivants : l'hébergeur du site, identifié dans les mentions
-      légales, et — une fois le formulaire raccordé — le service assurant l'acheminement des messages, qui sera
+      <p>Le site fait appel à un seul prestataire technique : l'hébergeur, identifié dans les
+      <a href="/mentions-legales/">mentions légales</a>.</p>
+      <p>En l'état actuel, le formulaire de devis <strong>ne transmet aucune donnée à un serveur</strong> :
+      il compose un message dans votre propre logiciel de messagerie, que vous envoyez vous-même à
+      l'adresse de l'entreprise. Vos données ne transitent donc que par votre messagerie et celle du
+      destinataire. Si un service d'acheminement de formulaire était raccordé à l'avenir, il serait
       mentionné ici avec sa localisation et son cadre contractuel.</p>
 
       <h2>5. Durée de conservation</h2>
       <p>Les demandes n'ayant pas donné suite sont conservées le temps nécessaire à leur traitement et à un
       éventuel échange de suivi, puis supprimées. Les demandes ayant abouti à une relation contractuelle suivent
       les durées de conservation applicables aux documents commerciaux et comptables.</p>
-      <p>La durée précise applicable aux demandes sans suite sera indiquée ici : ${ph("[DURÉE DE CONSERVATION À DÉFINIR]")}.</p>
+      <p>La durée précise applicable aux demandes sans suite sera indiquée ici : trois ans à compter du dernier contact, conformément à la recommandation de la CNIL en matière de prospection commerciale.</p>
 
       <h2>6. Transferts hors de l'Union européenne</h2>
       <p>En l'état actuel, le site ne met en œuvre aucun transfert de données personnelles hors de l'Union
@@ -111,7 +108,7 @@ const body = `
 
 export default {
   path: "/politique-de-confidentialite/",
-  title: "Politique de confidentialité | [NOM DE L'ENTREPRISE]",
+  title: "Politique de confidentialité | CleanVitreService",
   description: "Traitement des données personnelles transmises via le formulaire de devis : finalités, base légale, destinataires, durée de conservation et exercice de vos droits.",
   darkHeader: false,
   body,

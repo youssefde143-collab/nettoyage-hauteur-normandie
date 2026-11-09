@@ -37,7 +37,7 @@ const detail = {
 
 const faq = [
   { q: "Avez-vous une agence dans ma ville ?",
-    a: ["Non, et nous préférons l'écrire clairement. Les villes citées sur cette page sont les principaux pôles que nous desservons depuis la Normandie, pas des implantations permanentes.",
+    a: ["Non. Le siège est à Bolbec, en Seine-Maritime, et c'est la seule implantation de l'entreprise. Les villes citées sur cette page sont les pôles que nous desservons depuis Bolbec, pas des agences.",
         "Cela ne change rien à notre capacité d'intervention : l'organisation d'un chantier de nettoyage en hauteur se prépare à l'avance, et la distance est intégrée au planning comme au devis."] },
   { q: "Les déplacements sont-ils facturés ?",
     a: ["En Normandie, les déplacements sont intégrés à la proposition et n'apparaissent pas comme une ligne séparée dans la très grande majorité des cas.",
@@ -56,8 +56,8 @@ const body = `
   <div class="phero__in">
     <nav class="crumbs" aria-label="Fil d'Ariane"><a href="/">Accueil</a><span>/</span>Zones d'intervention</nav>
     <p class="eyebrow">Normandie · France entière</p>
-    <h1>La Normandie en territoire principal, la France selon les projets.</h1>
-    <p class="phero__sub">Les cinq départements normands — Calvados, Eure, Manche, Orne et Seine-Maritime — constituent notre zone d'intervention courante. Ailleurs en France, nous nous déplaçons lorsque le projet le justifie.</p>
+    <h1>Basés à Bolbec. Mobiles dans toute la Normandie.</h1>
+    <p class="phero__sub">Basée à Bolbec, en Seine-Maritime, CleanVitreService intervient dans un rayon de 50 km autour de son siège et dans toute la Normandie. Des déplacements dans le reste de la France sont également possibles selon la nature et l'importance des chantiers.</p>
     <div class="btn-row" style="margin-top:2.2rem">${btn("Demander un devis", "/contact/", "", true)}</div>
   </div>
 </section>
@@ -88,7 +88,7 @@ ${blocZones({ full: true })}
     <div class="edit edit--7-5">
       <div class="rv">
         <p class="eyebrow">Au-delà de la Normandie</p>
-        <h2 id="fr-t" style="max-width:22ch">Des interventions dans toute la France, quand elles ont du sens.</h2>
+        <h2 id="fr-t" style="max-width:22ch">Au-delà de la Normandie, selon le chantier.</h2>
         <div class="prose" style="margin-top:1.8rem;max-width:58ch">
           <p class="lead">Nos méthodes d'accès ne sont pas liées à un territoire. Ce qui l'est, c'est la logistique : déplacer une équipe, du matériel et, selon la méthode, un engin, suppose que le projet le justifie.</p>
           <p>Nous intervenons donc ailleurs en France pour les projets dont l'ampleur, la récurrence ou la technicité le rendent pertinent : bâtiments de grande surface, patrimoines multi-sites, configurations nécessitant spécifiquement l'une de nos méthodes, besoins d'entretien périodique organisés à l'année.</p>
@@ -112,7 +112,7 @@ ${finalCta({ titre: "Où se trouve votre bâtiment ?", texte: "Indiquez-nous sa 
 
 export default {
   path: "/zones-intervention/",
-  title: "Zones d'intervention : Normandie et France | [NOM DE L'ENTREPRISE]",
+  title: "Zones d'intervention : Normandie et France | CleanVitreService",
   description: "Nettoyage de vitres et de façades en hauteur dans les cinq départements normands — Calvados, Eure, Manche, Orne, Seine-Maritime — et dans toute la France selon les projets.",
   ogImage: "normandie-aerien-band",
   faq,

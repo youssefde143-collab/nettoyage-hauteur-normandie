@@ -1,17 +1,17 @@
 import { esc, tlink } from "../layout.mjs";
-import { zones, methodes } from "../config.mjs";
+import { zones, methodesPages } from "../config.mjs";
 
 const groups = [
   ["Pages principales", [
     ["/", "Accueil", "Présentation générale, méthodes d'intervention et territoires"],
-    ["/services/", "Nos services", "Vue d'ensemble des trois méthodes et aide au choix"],
+    ["/services/", "Nos services", "Prestations détaillées et cinq moyens d'accès"],
     ["/secteurs-dactivite/", "Secteurs d'activité", "Industrie, bureaux, hôtellerie, copropriétés, collectivités, particuliers"],
     ["/realisations/", "Nos réalisations", "Galerie illustrant nos capacités d'intervention"],
     ["/zones-intervention/", "Zones d'intervention", "Les cinq départements normands et la France entière"],
     ["/a-propos/", "À propos", "Notre métier, nos moyens et notre méthode de travail"],
     ["/contact/", "Contact et devis", "Formulaire détaillé de demande de devis"],
   ]],
-  ["Méthodes d'intervention", methodes.map(m => [`/${m.slug}/`, m.nom, {
+  ["Méthodes d'accès", methodesPages.map(m => [`/${m.slug}/`, m.nom, {
     "nettoyage-par-drone": "Principe, applications, avantages et conditions de faisabilité",
     "travaux-sur-cordes": "Technique d'accès, applications, sécurité et qualifications",
     "nettoyage-avec-nacelle": "Configurations adaptées, avantages et limites de la méthode",
@@ -56,7 +56,7 @@ const body = `
 
 export default {
   path: "/plan-du-site/",
-  title: "Plan du site | [NOM DE L'ENTREPRISE]",
+  title: "Plan du site | CleanVitreService",
   description: "Toutes les pages du site : services, méthodes d'intervention, secteurs d'activité, zones d'intervention en Normandie et informations légales.",
   darkHeader: false,
   body,

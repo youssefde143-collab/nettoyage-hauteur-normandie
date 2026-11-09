@@ -117,7 +117,7 @@ ${finalCta({ titre: "Site industriel, logistique ou commercial ?", texte: "Ce so
 
 export default {
   path: "/nettoyage-avec-nacelle/",
-  title: "Nettoyage de vitres avec nacelle | [NOM DE L'ENTREPRISE]",
+  title: "Nettoyage de vitres avec nacelle | CleanVitreService",
   description: "Nettoyage de vitres et de façades avec nacelle élévatrice : configurations adaptées, bâtiments industriels et commerciaux, avantages et limites de la méthode.",
   ogImage: "nacelle-hero-band",
   faq,

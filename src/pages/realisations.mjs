@@ -31,6 +31,8 @@ const shots = [
   ["verre-gouttes", "vitres", "Vitres", "Détail — surface vitrée après passage de l'eau", "Gouttelettes d'eau sur une surface vitrée", false],
   ["real-08", "cordes hauteur", "Travaux en hauteur", "Descente sur structure de grande dimension", "Intervenant descendant en rappel une grande structure claire", false],
   ["real-15", "facades batiments", "Façades", "Détail de mur-rideau vitré", "Vue rapprochée de la façade vitrée d'un gratte-ciel", false],
+  ["secteur-copropriete", "batiments facades", "Bâtiments professionnels", "Copropriété à balcons vitrés", "Immeuble d'habitation récent avec balcons vitrés reflétant le ciel", false],
+  ["secteur-hotellerie", "batiments", "Bâtiments professionnels", "Établissement hôtelier", "Façade d'un établissement hôtelier comportant de nombreuses fenêtres", false],
 ];
 
 const cats = [
@@ -107,7 +109,7 @@ ${finalCta({ titre: "Et votre bâtiment, à quoi ressemble-t-il ?", cta: "Envoye
 
 export default {
   path: "/realisations/",
-  title: "Nos réalisations | [NOM DE L'ENTREPRISE]",
+  title: "Nos réalisations | CleanVitreService",
   description: "Galerie illustrant nos capacités d'intervention en nettoyage de vitres et de façades : drone, travaux sur cordes, nacelle, bâtiments professionnels et surfaces vitrées.",
   ogImage: "vitre-grattoir-band",
   body,

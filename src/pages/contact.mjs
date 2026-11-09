@@ -1,142 +1,187 @@
 import { btn, tlink, img, esc, ar } from "../layout.mjs";
-import { icons, faqBlock, finalCta } from "../parts.mjs";
+import { icons, faqBlock } from "../parts.mjs";
 import { contact, formEndpoint, zones } from "../config.mjs";
 
 const faq = [
-  { q: "Quels éléments faut-il réunir avant de demander un devis ?",
-    a: ["L'adresse du bâtiment, sa hauteur ou son nombre de niveaux, le type de surfaces concernées (vitrages, façade, bardage, verrière), une estimation des surfaces et la fréquence souhaitée.",
-        "Quelques photographies extérieures prises depuis plusieurs angles font gagner beaucoup de temps : elles permettent d'apprécier les accès, les abords, la géométrie de la façade et l'état des surfaces. Le formulaire permet de les joindre directement."] },
-  { q: "Une visite sur site est-elle nécessaire ?",
-    a: ["Pas systématiquement. Pour de nombreux bâtiments, la description et les photographies suffisent à établir une proposition fiable.",
-        "Une visite devient nécessaire lorsque la configuration est complexe, lorsque les points d'ancrage doivent être vérifiés, lorsque la portance du sol est en question, ou lorsque le périmètre à traiter doit être précisément délimité. Nous vous le dirons après examen de votre demande."] },
   { q: "Le devis est-il payant ?",
-    a: ["Non. L'étude de votre demande et la remise d'une proposition n'entraînent aucun frais.",
-        "Si une visite sur site approfondie, un relevé ou une expertise spécifique s'avéraient nécessaires au-delà de l'étude courante, cela vous serait indiqué et validé avec vous au préalable."] },
-  { q: "Dans quel délai recevrai-je une réponse ?",
-    a: ["Nous ne publions pas d'engagement de délai chiffré sur ce site, pour ne pas annoncer ce que nous ne pourrions pas garantir en toute circonstance.",
-        "Concrètement, nous accusons réception de votre demande et revenons vers vous pour les précisions techniques manquantes, puis nous vous indiquons le délai dans lequel la proposition vous parviendra."] },
+    a: ["Non. L'étude de votre demande et la remise d'une proposition sont gratuites et sans engagement."] },
+  { q: "Sous quel délai aurai-je une réponse ?",
+    a: ["Nous visons une réponse sous 30 minutes, selon disponibilité. Si votre demande appelle une visite sur site, nous vous le disons dès ce premier échange."] },
+  { q: "Quels éléments faut-il réunir ?",
+    a: ["L'adresse du chantier, la hauteur ou le nombre de niveaux, le type de surfaces et une estimation des quantités. Deux ou trois photographies prises depuis des angles différents valent mieux qu'une longue description."] },
+  { q: "Intervenez-vous en urgence ?",
+    a: ["Des astreintes sont possibles sur demande. Précisez-le dans le formulaire ou appelez directement : c'est le moyen le plus rapide."] },
 ];
 
-const field = (id, label, input, { hint = "", req = false } = {}) => `
-<div class="field">
+/* ---------- Petits assistants de champ ---------- */
+const field = (id, label, input, { hint = "", req = false, half = false } = {}) => `
+<div class="field${half ? " field--half" : ""}">
   <label for="${id}">${esc(label)}${req ? ' <span class="req" aria-hidden="true">*</span>' : ' <span class="opt">(facultatif)</span>'}</label>
   ${input}
-  ${hint ? `<p class="field__hint" id="${id}-hint">${hint}</p>` : ""}
+  ${hint ? `<p class="field__hint">${hint}</p>` : ""}
   <p class="field__err" id="${id}-err" aria-live="polite"></p>
 </div>`;
+
+const text = (id, name, ph = "", type = "text", req = false, auto = "") =>
+  `<input id="${id}" name="${name}" type="${type}" ${auto ? `autocomplete="${auto}"` : ""} ${req ? "required" : ""} aria-describedby="${id}-err" placeholder="${esc(ph)}">`;
+
+const select = (id, name, options, req = false) =>
+  `<select id="${id}" name="${name}" ${req ? "required" : ""} aria-describedby="${id}-err">
+    <option value="">Sélectionnez…</option>
+    ${options.map(o => `<option>${esc(o)}</option>`).join("")}
+  </select>`;
+
+const checks = (name, options) => `
+<div class="chips">
+  ${options.map((o, i) => `
+  <label class="chip">
+    <input type="checkbox" name="${name}" value="${esc(o)}" id="${name}-${i}">
+    <span>${esc(o)}</span>
+  </label>`).join("")}
+</div>`;
+
+const radios = (name, options, req = false) => `
+<div class="chips" role="radiogroup" aria-labelledby="${name}-lg">
+  ${options.map((o, i) => `
+  <label class="chip">
+    <input type="radio" name="${name}" value="${esc(o)}" id="${name}-${i}" ${req && i === 0 ? "" : ""}>
+    <span>${esc(o)}</span>
+  </label>`).join("")}
+</div>`;
+
+/* ---------- Les six étapes ---------- */
+const steps = [
+  {
+    t: "Vous", s: "Pour vous recontacter",
+    html: `
+      <div class="form__grid form__grid--2">
+        ${field("nom", "Nom et prénom, ou raison sociale", text("nom", "nom", "Noah Lefebvre, ou Durand SAS", "text", true, "name"), { req: true })}
+        ${field("telephone", "Téléphone", text("telephone", "telephone", "06 00 00 00 00", "tel", true, "tel"), { req: true })}
+      </div>
+      <div class="form__grid form__grid--2">
+        ${field("email", "Adresse e-mail", text("email", "email", "vous@exemple.fr", "email", true, "email"), { req: true })}
+        ${field("typeClient", "Vous êtes", select("typeClient", "type_client", ["Particulier", "Commerçant ou professionnel", "Entreprise, industrie ou immobilier", "Collectivité ou établissement public"], true), { req: true })}
+      </div>`,
+  },
+  {
+    t: "Prestation", s: "Ce qu'il y a à nettoyer",
+    html: `
+      <div class="field">
+        <label id="prestations-lg">Surfaces concernées <span class="req" aria-hidden="true">*</span></label>
+        <p class="field__hint">Plusieurs choix possibles.</p>
+        ${checks("prestations", ["Vitres et baies vitrées", "Vérandas et verrières", "Façades et bardages", "Panneaux solaires", "Vitrines commerciales", "Volets roulants", "Panneaux publicitaires", "Autre"])}
+        <p class="field__err" id="prestations-err" aria-live="polite"></p>
+      </div>`,
+  },
+  {
+    t: "Le site", s: "Où et dans quel état",
+    html: `
+      ${field("adresse", "Adresse complète du chantier", text("adresse", "adresse", "Rue, code postal, commune", "text", true, "street-address"), { req: true })}
+      <div class="form__grid form__grid--2">
+        ${field("departement", "Département", select("departement", "departement", [...zones.map(z => `${z.nom} (${z.code})`), "Autre département en France"]))}
+        ${field("quantite", "Nombre de vitres ou surface approximative", text("quantite", "quantite", "Ex. 25 fenêtres, ou 180 m²"))}
+      </div>
+      <div class="form__grid form__grid--2">
+        ${field("hauteur", "Hauteur du bâtiment", text("hauteur", "hauteur", "Ex. environ 12 m"))}
+        ${field("niveaux", "Nombre de niveaux", text("niveaux", "niveaux", "Ex. 4"))}
+      </div>
+      ${field("acces", "Accessibilité du site", select("acces", "acces", ["Abords dégagés, accès facile", "Accès partiellement contraint", "Accès difficile", "Je ne sais pas"]))}
+      ${field("obstacles", "Obstacles éventuels", text("obstacles", "obstacles", "Verrière, auvent, végétation, ligne électrique…"))}
+      ${field("etat", "État général des surfaces", select("etat", "etat", ["Entretien courant", "Salissures marquées", "Encrassement ancien ou incrusté", "Après travaux", "Je ne sais pas"]))}`,
+  },
+  {
+    t: "Accès", s: "Comment atteindre la surface",
+    html: `
+      <div class="field">
+        <label id="methode-lg">Méthode envisagée</label>
+        <p class="field__hint">Si vous hésitez, choisissez « Conseil souhaité » : c'est notre travail de trancher.</p>
+        ${radios("methode", ["Nettoyage conventionnel", "Nacelle élévatrice", "Travaux sur cordes", "Drone", "Conseil souhaité"])}
+        <p class="field__err" id="methode-err" aria-live="polite"></p>
+      </div>`,
+  },
+  {
+    t: "Planning", s: "Quand et à quelle fréquence",
+    html: `
+      <div class="form__grid form__grid--2">
+        ${field("date", "Date d'intervention souhaitée", `<input id="date" name="date" type="date" aria-describedby="date-err">`)}
+        ${field("urgence", "Degré d'urgence", select("urgence", "urgence", ["Pas d'urgence particulière", "Dans le mois", "Dans la semaine", "Urgent — astreinte"]))}
+      </div>
+      <div class="field">
+        <label id="frequence-lg">Type d'intervention</label>
+        ${radios("frequence", ["Intervention ponctuelle", "Entretien récurrent"])}
+      </div>`,
+  },
+  {
+    t: "Précisions", s: "Tout ce qui nous fera gagner du temps",
+    html: `
+      ${field("description", "Description du projet", `<textarea id="description" name="description" required maxlength="1200" aria-describedby="description-err" placeholder="Décrivez le bâtiment, les surfaces et ce que vous attendez de l'intervention."></textarea>`, { req: true })}
+      <div class="field">
+        <label for="photos">Photographies ou documents</label>
+        <label class="file" for="photos">
+          <input id="photos" name="photos[]" type="file" accept="image/*,video/*,.pdf" multiple aria-describedby="photos-hint photos-err">
+          <span><b>Déposer vos fichiers ici</b>Photos, vidéos, plans ou cahier des charges</span>
+        </label>
+        <p class="field__hint" id="photos-hint">Jusqu'à 5 fichiers, 8 Mo maximum chacun.</p>
+        <p class="field__err" id="photos-err" aria-live="polite"></p>
+      </div>
+      <div class="form__grid form__grid--2">
+        ${field("eauElec", "Eau et électricité disponibles sur place", select("eauElec", "eau_electricite", ["Oui, les deux", "Eau uniquement", "Électricité uniquement", "Ni l'un ni l'autre", "Je ne sais pas"]))}
+        ${field("stationnement", "Stationnement et restrictions d'accès", text("stationnement", "stationnement", "Parking privé, voirie, horaires imposés…"))}
+      </div>
+      <div>
+        <label class="check" for="consentement">
+          <input id="consentement" name="consentement" type="checkbox" required aria-describedby="consentement-err">
+          <span>J'accepte que ces informations soient utilisées pour traiter ma demande et me recontacter. <a href="/politique-de-confidentialite/">Politique de confidentialité</a>. <span class="req" aria-hidden="true">*</span></span>
+        </label>
+        <p class="field__err" id="consentement-err" aria-live="polite"></p>
+      </div>`,
+  },
+];
 
 const body = `
 <section class="phero phero--flat">
   <div class="phero__media">${img("contact-visuel-band", "Immeuble de grande hauteur à trame vitrée régulière", { sizes: "100vw", eager: true })}</div>
   <div class="phero__in">
-    <nav class="crumbs" aria-label="Fil d'Ariane"><a href="/">Accueil</a><span>/</span>Contact et devis</nav>
+    <nav class="crumbs" aria-label="Fil d'Ariane"><a href="/">Accueil</a><span>/</span>Devis gratuit</nav>
     <p class="eyebrow">Parlons de votre projet</p>
     <h1>Décrivez-nous votre bâtiment.</h1>
-    <p class="phero__sub">Plus votre description est précise, plus notre réponse sera utile. Hauteur, type de surfaces, abords, contraintes d'exploitation : chaque élément compte dans le choix de la méthode.</p>
+    <p class="phero__sub">Devis gratuit. Réponse sous 30 minutes, selon disponibilité.</p>
+    <div class="btn-row" style="margin-top:var(--s-7)">
+      <a class="btn btn--lg" href="tel:${contact.phoneHref}">Appeler le ${esc(contact.phoneLabel)}${ar()}</a>
+      <a class="btn btn--on-dark btn--lg" href="mailto:${contact.emailHref}">Écrire un e-mail${ar()}</a>
+    </div>
   </div>
 </section>
 
-<section class="sec sec--dark" id="formulaire" aria-labelledby="f-t" style="padding-top:clamp(3rem,6vw,5rem)">
+<section class="sec sec--dark" id="formulaire" aria-labelledby="f-t" style="padding-top:var(--s-9)">
   <div class="wrap">
     <div class="edit edit--7-5 edit--aside" style="align-items:start">
-
       <div class="rv">
-        <h2 id="f-t" style="font-size:var(--t-h3)">Formulaire de demande de devis</h2>
-        <p class="lead" style="font-size:var(--t-body);margin-top:1rem;max-width:56ch">Les champs marqués d'un astérisque sont obligatoires. Vous pouvez joindre des photographies : c'est l'information la plus utile pour nous.</p>
+        <h2 id="f-t" style="font-size:var(--t-h3)">Demande de devis</h2>
+        <p class="lead" style="font-size:var(--t-body);margin-top:var(--s-4)">Six étapes courtes. Plus votre description est précise, plus notre réponse sera utile.</p>
 
-        <form class="form" id="form-devis" style="margin-top:2.4rem" novalidate
+        <form class="form form--steps" id="form-devis" style="margin-top:var(--s-7)" novalidate
               ${formEndpoint ? `action="${formEndpoint}" data-endpoint="${formEndpoint}"` : 'data-endpoint=""'}
-              method="post" enctype="multipart/form-data">
+              data-mailto="${contact.emailHref}" data-tel="${contact.phoneLabel}" method="post" enctype="multipart/form-data">
 
           <p id="form-status" class="form__status" aria-live="polite"></p>
 
-          <fieldset style="border:0;padding:0;margin:0;display:grid;gap:inherit">
-            <legend class="eyebrow" style="margin-bottom:1.2rem">01 — Vous</legend>
-            <div class="form__grid form__grid--2">
-              ${field("nom", "Nom et prénom", `<input id="nom" name="nom" type="text" autocomplete="name" required aria-describedby="nom-err" placeholder="Camille Durand">`, { req: true })}
-              ${field("entreprise", "Entreprise ou organisation", `<input id="entreprise" name="entreprise" type="text" autocomplete="organization" aria-describedby="entreprise-err" placeholder="Raison sociale">`)}
-            </div>
-            <div class="form__grid form__grid--2">
-              ${field("email", "Adresse e-mail", `<input id="email" name="email" type="email" autocomplete="email" required aria-describedby="email-err" placeholder="camille.durand@exemple.fr">`, { req: true })}
-              ${field("telephone", "Téléphone", `<input id="telephone" name="telephone" type="tel" autocomplete="tel" required aria-describedby="telephone-err" placeholder="06 00 00 00 00">`, { req: true })}
-            </div>
-            ${field("typeClient", "Vous êtes", `
-              <select id="typeClient" name="type_client" required aria-describedby="typeClient-err">
-                <option value="">Sélectionnez…</option>
-                <option>Entreprise</option>
-                <option>Site industriel</option>
-                <option>Immeuble de bureaux</option>
-                <option>Propriétaire ou investisseur immobilier</option>
-                <option>Syndic ou gestionnaire de copropriété</option>
-                <option>Hôtellerie ou hébergement</option>
-                <option>Collectivité ou administration</option>
-                <option>Bailleur social</option>
-                <option>Particulier</option>
-                <option>Autre</option>
-              </select>`, { req: true })}
-          </fieldset>
+          <ol class="stepper" data-stepper aria-label="Progression" hidden>
+            ${steps.map((s, i) => `<li${i === 0 ? ' aria-current="step"' : ""}><span>${i + 1}</span><em>${esc(s.t)}</em></li>`).join("")}
+          </ol>
 
-          <fieldset style="border:0;padding:0;margin:1.4rem 0 0;display:grid;gap:var(--gut-f,1.2rem)">
-            <legend class="eyebrow" style="margin-bottom:1.2rem">02 — Le bâtiment</legend>
-            ${field("prestation", "Type de prestation souhaitée", `
-              <select id="prestation" name="prestation" required aria-describedby="prestation-err">
-                <option value="">Sélectionnez…</option>
-                <option>Nettoyage par drone</option>
-                <option>Travaux sur cordes</option>
-                <option>Nettoyage avec nacelle</option>
-                <option>Je ne sais pas quelle solution choisir</option>
-                <option>Autre</option>
-              </select>`, { hint: "Si vous hésitez, choisissez « Je ne sais pas » : c'est précisément notre travail de trancher.", req: true })}
-            <div class="form__grid form__grid--2">
-              ${field("localisation", "Localisation du bâtiment", `<input id="localisation" name="localisation" type="text" required aria-describedby="localisation-err" placeholder="Ville et code postal">`, { req: true })}
-              ${field("departement", "Département", `
-                <select id="departement" name="departement" aria-describedby="departement-err">
-                  <option value="">Sélectionnez…</option>
-                  ${zones.map(z => `<option>${z.nom} (${z.code})</option>`).join("")}
-                  <option>Autre département en France</option>
-                </select>`)}
-            </div>
-            <div class="form__grid form__grid--2">
-              ${field("typeBatiment", "Type de bâtiment", `
-                <select id="typeBatiment" name="type_batiment" required aria-describedby="typeBatiment-err">
-                  <option value="">Sélectionnez…</option>
-                  <option>Immeuble de bureaux</option>
-                  <option>Bâtiment industriel ou atelier</option>
-                  <option>Entrepôt ou plateforme logistique</option>
-                  <option>Bâtiment commercial ou centre commercial</option>
-                  <option>Hôtel ou résidence</option>
-                  <option>Copropriété ou immeuble d'habitation</option>
-                  <option>Bâtiment public ou équipement</option>
-                  <option>Établissement scolaire ou sportif</option>
-                  <option>Maison individuelle ou véranda</option>
-                  <option>Autre</option>
-                </select>`, { req: true })}
-              ${field("hauteur", "Hauteur ou nombre de niveaux", `<input id="hauteur" name="hauteur" type="text" aria-describedby="hauteur-err" placeholder="Ex. 6 niveaux, environ 20 m">`)}
-            </div>
-            ${field("description", "Description de votre projet", `<textarea id="description" name="description" required aria-describedby="description-err" placeholder="Surfaces à traiter (vitrages, façade, bardage, verrière), surface approximative, état des surfaces, abords du bâtiment, contraintes d'accès ou d'exploitation, fréquence souhaitée…"></textarea>`, { req: true })}
-            <div class="field">
-              <label for="photos">Photographies du bâtiment <span class="opt">(facultatif)</span></label>
-              <label class="file" for="photos">
-                <input id="photos" name="photos[]" type="file" accept="image/*,.pdf" multiple aria-describedby="photos-hint photos-err">
-                <span><b>Déposer vos photographies ici</b>Ou cliquez pour parcourir vos fichiers</span>
-              </label>
-              <p class="field__hint" id="photos-hint">Jusqu'à 5 fichiers, 8 Mo maximum par fichier. Formats image ou PDF. Des vues prises depuis plusieurs angles sont idéales.</p>
-              <p class="field__err" id="photos-err" aria-live="polite"></p>
-            </div>
-          </fieldset>
+          ${steps.map((s, i) => `
+          <fieldset class="step" data-step="${i}">
+            <legend><span class="step__n">Étape ${i + 1} sur ${steps.length}</span><span class="step__t">${esc(s.t)}</span><span class="step__s">${esc(s.s)}</span></legend>
+            ${s.html}
+          </fieldset>`).join("")}
 
-          <fieldset style="border:0;padding:0;margin:1.4rem 0 0;display:grid;gap:1.2rem">
-            <legend class="eyebrow" style="margin-bottom:1.2rem">03 — Consentement</legend>
-            <div>
-              <label class="check" for="consentement">
-                <input id="consentement" name="consentement" type="checkbox" required aria-describedby="consentement-err">
-                <span>J'accepte que les informations transmises soient utilisées pour traiter ma demande et me recontacter. Elles ne sont ni cédées ni revendues à des tiers. <a href="/politique-de-confidentialite/">Politique de confidentialité</a>. <span class="req" aria-hidden="true">*</span></span>
-              </label>
-              <p class="field__err" id="consentement-err" aria-live="polite"></p>
-            </div>
-            <button class="btn btn--lg" type="submit" style="justify-content:space-between">Envoyer ma demande${ar()}</button>
-            <p class="field__hint">Aucune information n'est transmise avant la validation du formulaire.</p>
-          </fieldset>
+          <div class="step__nav">
+            <button type="button" class="btn btn--on-dark" data-prev hidden>Précédent</button>
+            <button type="button" class="btn" data-next hidden>Continuer${ar()}</button>
+            <button type="submit" class="btn btn--lg" data-send>Envoyer ma demande${ar()}</button>
+          </div>
+          <p class="field__hint">Aucune information n'est transmise avant la dernière étape.</p>
         </form>
       </div>
 
@@ -145,59 +190,36 @@ const body = `
           <div class="card">
             <h3 style="font-size:var(--t-h4)">Nous joindre directement</h3>
             <dl style="display:grid;gap:1rem;margin:.4rem 0 0">
-              <div><dt class="lbl">Téléphone</dt>
-                <dd style="margin:.25rem 0 0">${contact.phoneHref ? `<a href="tel:${contact.phoneHref}">${esc(contact.phoneLabel)}</a>` : `<span class="ph">${esc(contact.phoneLabel)}</span>`}</dd></div>
-              <div><dt class="lbl">E-mail</dt>
-                <dd style="margin:.25rem 0 0">${contact.emailHref ? `<a href="mailto:${contact.emailHref}">${esc(contact.emailLabel)}</a>` : `<span class="ph">${esc(contact.emailLabel)}</span>`}</dd></div>
-              <div><dt class="lbl">Adresse</dt>
-                <dd style="margin:.25rem 0 0"><span class="ph">${contact.addressLines.map(esc).join("<br>")}</span></dd></div>
-              <div><dt class="lbl">Horaires</dt>
-                <dd style="margin:.25rem 0 0"><span class="ph">${esc(contact.hoursLabel)}</span></dd></div>
-              <div><dt class="lbl">Zone d'intervention</dt>
-                <dd style="margin:.25rem 0 0">Normandie · France entière</dd></div>
+              <div><dt class="lbl">Téléphone</dt><dd style="margin:.25rem 0 0"><a href="tel:${contact.phoneHref}">${esc(contact.phoneLabel)}</a></dd></div>
+              <div><dt class="lbl">E-mail</dt><dd style="margin:.25rem 0 0"><a href="mailto:${contact.emailHref}">${esc(contact.emailLabel)}</a></dd></div>
+              <div><dt class="lbl">Adresse</dt><dd style="margin:.25rem 0 0">${contact.addressLines.map(esc).join("<br>")}</dd></div>
+              <div><dt class="lbl">Zone</dt><dd style="margin:.25rem 0 0">50 km autour de Bolbec · Normandie · France selon projet</dd></div>
             </dl>
           </div>
-          <div class="card">${icons.study}<h3 style="font-size:var(--t-h4)">Ce qui se passe ensuite</h3>
+          <div class="card">${icons.clock}<h3 style="font-size:var(--t-h4)">Nos engagements</h3>
             <ul>
-              <li>Nous accusons réception de votre demande</li>
-              <li>Nous revenons vers vous sur les points techniques manquants</li>
-              <li>Nous étudions la faisabilité des différentes méthodes</li>
-              <li>Une visite est organisée si la configuration l'exige</li>
-              <li>Vous recevez une proposition détaillée</li>
+              <li>Devis gratuit et sans engagement</li>
+              <li>Réponse sous 30 minutes, selon disponibilité</li>
+              <li>Astreintes possibles sur demande</li>
             </ul>
           </div>
           <div class="card">${icons.shield}<h3 style="font-size:var(--t-h4)">Vos données</h3>
-            <p>Les informations transmises servent uniquement à traiter votre demande. Elles ne sont ni cédées, ni revendues, ni utilisées à des fins publicitaires.</p>
+            <p>Les informations transmises servent uniquement à traiter votre demande. Elles ne sont ni cédées, ni revendues.</p>
             <div style="margin-top:.5rem">${tlink("Politique de confidentialité", "/politique-de-confidentialite/")}</div>
           </div>
         </div>
       </aside>
-
     </div>
   </div>
 </section>
 
-<section class="sec" aria-labelledby="h-t">
-  <div class="wrap">
-    <div class="shead rv">
-      <div><p class="eyebrow">Avant de nous écrire</p><h2 id="h-t">Trois informations qui changent tout.</h2></div>
-      <div class="shead__aside"><p class="lead" style="font-size:var(--t-body)">Si vous ne devez nous transmettre que trois choses, ce sont celles-ci.</p></div>
-    </div>
-    <div class="cards cards--3">
-      <div class="card rv"><h3>La hauteur</h3><p>Le nombre de niveaux ou une hauteur approximative. C'est le premier critère qui écarte ou retient chacune des trois méthodes.</p></div>
-      <div class="card rv" style="--i:1"><h3>Les abords</h3><p>Ce qu'il y a au pied du bâtiment : parking, voirie, trottoir, verrière, plantations, dénivelé. Cela détermine la faisabilité de la nacelle et du drone.</p></div>
-      <div class="card rv" style="--i:2"><h3>Des photographies</h3><p>Deux ou trois vues extérieures prises depuis des angles différents valent mieux qu'une longue description. Elles montrent la géométrie, l'état des surfaces et les accès.</p></div>
-    </div>
-  </div>
-</section>
-
-${faqBlock(faq, { title: "Questions sur la demande de devis", eyebrow: "FAQ · Devis" })}
+${faqBlock(faq, { title: "Questions sur le devis", eyebrow: "FAQ · Devis" })}
 `;
 
 export default {
   path: "/contact/",
-  title: "Contact et demande de devis | [NOM DE L'ENTREPRISE]",
-  description: "Demandez un devis pour le nettoyage de vos vitres ou façades en hauteur : drone, cordes ou nacelle. Formulaire détaillé et dépôt de photographies.",
+  title: "Devis gratuit — vitres et façades | CleanVitreService",
+  description: "Demandez un devis gratuit pour le nettoyage de vos vitres, façades ou panneaux solaires. Réponse sous 30 minutes selon disponibilité. Bolbec et Normandie.",
   ogImage: "contact-visuel-band",
   faq,
   body,

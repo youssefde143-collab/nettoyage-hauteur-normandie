@@ -261,47 +261,109 @@
     });
   }
 
-  /* ---------- Formulaire de devis ---------- */
+  /* ---------- Formulaire de devis, en six étapes ---------- */
   const form = $("#form-devis");
   if (form) {
     const status = $("#form-status");
+    const steps = $$(".step", form);
+    const stepper = $$("[data-stepper] li");
+    const bPrev = $("[data-prev]", form), bNext = $("[data-next]", form), bSend = $("[data-send]", form);
+    let cur = 0;
+
     const msg = {
       required: "Ce champ est obligatoire.",
       email: "Veuillez saisir une adresse e-mail valide.",
       tel: "Veuillez saisir un numéro de téléphone valide (10 chiffres minimum).",
       consent: "Merci de confirmer votre accord pour que nous puissions traiter votre demande.",
+      group: "Veuillez sélectionner au moins une surface.",
       tooBig: "Chaque fichier doit peser moins de 8 Mo.",
       tooMany: "Vous pouvez joindre 5 fichiers au maximum.",
     };
-    const setErr = (field, text) => {
-      const wrap = field.closest(".field") || field.closest(".check")?.parentElement;
-      if (!wrap) return;
-      wrap.classList.toggle("has-err", Boolean(text));
-      const slot = $(".field__err", wrap);
+
+    const setErr = (el, slotId, text) => {
+      const slot = document.getElementById(slotId);
+      const wrap = el.closest(".field") || el.closest(".field, div");
+      if (wrap) wrap.classList.toggle("has-err", Boolean(text));
       if (slot) slot.textContent = text || "";
-      field.setAttribute("aria-invalid", text ? "true" : "false");
+      el.setAttribute("aria-invalid", text ? "true" : "false");
     };
-    const check = (f) => {
+
+    const checkField = (f) => {
       let e = "";
       const v = (f.value || "").trim();
-      if (f.required && (f.type === "checkbox" ? !f.checked : !v)) e = f.type === "checkbox" ? msg.consent : msg.required;
+      if (f.type === "checkbox" && f.required) e = f.checked ? "" : msg.consent;
+      else if (f.required && !v) e = msg.required;
       else if (v && f.type === "email" && !/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(v)) e = msg.email;
-      else if (v && f.type === "tel" && (v.replace(/\D/g, "").length < 10)) e = msg.tel;
+      else if (v && f.type === "tel" && v.replace(/\D/g, "").length < 10) e = msg.tel;
       else if (f.type === "file" && f.files.length) {
         if (f.files.length > 5) e = msg.tooMany;
         else if ([...f.files].some(x => x.size > 8 * 1024 * 1024)) e = msg.tooBig;
       }
-      setErr(f, e);
+      setErr(f, f.id + "-err", e);
       return !e;
     };
-    const fields = $$("input, select, textarea", form).filter(f => f.type !== "hidden");
-    fields.forEach(f => {
-      f.addEventListener("blur", () => check(f));
-      f.addEventListener("input", () => { if ((f.closest(".field") || {}).classList?.contains("has-err")) check(f); });
-      f.addEventListener("change", () => check(f));
+
+    // L'étape 2 n'a pas de champ requis au sens HTML : au moins une case suffit.
+    const checkGroup = (step) => {
+      const boxes = $$('input[name="prestations"]', step);
+      if (!boxes.length) return true;
+      const ok = boxes.some(b => b.checked);
+      const slot = $("#prestations-err");
+      if (slot) slot.textContent = ok ? "" : msg.group;
+      step.querySelector(".chips")?.classList.toggle("has-err", !ok);
+      return ok;
+    };
+
+    const validateStep = (i) => {
+      const step = steps[i];
+      const fields = $$("input, select, textarea", step).filter(f => f.type !== "hidden" && f.type !== "radio" && f.name !== "prestations");
+      const bad = fields.filter(f => !checkField(f));
+      const groupOk = checkGroup(step);
+      if (bad.length) bad[0].focus();
+      else if (!groupOk) $('input[name="prestations"]', step)?.focus();
+      return !bad.length && groupOk;
+    };
+
+    const show = (i) => {
+      cur = i;
+      steps.forEach((s, k) => (s.hidden = k !== i));
+      stepper.forEach((li, k) => {
+        li.classList.toggle("is-done", k < i);
+        if (k === i) li.setAttribute("aria-current", "step");
+        else li.removeAttribute("aria-current");
+      });
+      bPrev.hidden = i === 0;
+      bNext.hidden = i === steps.length - 1;
+      bSend.hidden = i !== steps.length - 1;
+      const top = form.getBoundingClientRect().top + scrollY - 110;
+      if (scrollY > top) window.scrollTo({ top, behavior: reduced ? "auto" : "smooth" });
+      steps[i].querySelector("input, select, textarea")?.focus({ preventScroll: true });
+    };
+
+    // Le balisage livre les six étapes dépliées (repli sans JavaScript) :
+    // le script reprend la main et active la navigation pas à pas.
+    $("[data-stepper]", form)?.removeAttribute("hidden");
+    bNext.hidden = false;
+    show(0);
+
+    bNext.addEventListener("click", () => { if (validateStep(cur)) show(cur + 1); });
+    bPrev.addEventListener("click", () => show(cur - 1));
+
+    // Entrée passe à l'étape suivante plutôt que d'envoyer prématurément.
+    form.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && e.target.tagName !== "TEXTAREA" && cur < steps.length - 1) {
+        e.preventDefault(); bNext.click();
+      }
     });
 
-    // Retour visuel du dépôt de fichiers
+    $$("input, select, textarea", form).forEach(f => {
+      f.addEventListener("blur", () => { if (f.type !== "checkbox" && f.type !== "radio") checkField(f); });
+      f.addEventListener("change", () => {
+        if (f.name === "prestations") checkGroup(f.closest(".step"));
+        else if (f.type !== "radio") checkField(f);
+      });
+    });
+
     const file = $('input[type=file]', form), fileLbl = $(".file b", form);
     if (file && fileLbl) {
       const base = fileLbl.textContent;
@@ -315,40 +377,82 @@
       ["dragleave", "drop"].forEach(t => box.addEventListener(t, () => box.classList.remove("is-over")));
     }
 
-    const show = (kind, title, text) => {
+    const report = (kind, title, text) => {
       status.className = `form__status is-on form__status--${kind}`;
       status.innerHTML = `<b>${title}</b>${text}`;
       status.setAttribute("role", "status");
       status.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
     };
 
+    /* Récapitulatif lisible, réutilisé pour le corps de l'e-mail. */
+    const resume = () => {
+      const d = new FormData(form);
+      const L = [];
+      const put = (label, key) => {
+        const vals = d.getAll(key).filter(v => typeof v === "string" && v.trim());
+        if (vals.length) L.push(`${label} : ${vals.join(", ")}`);
+      };
+      L.push("DEMANDE DE DEVIS", "");
+      put("Nom", "nom"); put("Téléphone", "telephone"); put("E-mail", "email"); put("Profil", "type_client");
+      L.push("");
+      put("Surfaces", "prestations");
+      L.push("");
+      put("Adresse du chantier", "adresse"); put("Département", "departement");
+      put("Quantité / surface", "quantite"); put("Hauteur", "hauteur"); put("Niveaux", "niveaux");
+      put("Accessibilité", "acces"); put("Obstacles", "obstacles"); put("État des surfaces", "etat");
+      L.push("");
+      put("Méthode envisagée", "methode");
+      put("Date souhaitée", "date"); put("Urgence", "urgence"); put("Type", "frequence");
+      L.push("");
+      put("Description", "description");
+      put("Eau / électricité", "eau_electricite"); put("Stationnement", "stationnement");
+      const nf = file && file.files.length;
+      if (nf) L.push("", `${nf} fichier(s) à joindre manuellement à cet e-mail.`);
+      return L.join("\n");
+    };
+
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const bad = fields.filter(f => !check(f));
-      if (bad.length) {
-        show("ko", "Votre demande n'a pas pu être envoyée",
-          `${bad.length} champ${bad.length > 1 ? "s" : ""} ${bad.length > 1 ? "sont" : "est"} à corriger. Les champs concernés sont signalés ci-dessus.`);
-        bad[0].focus();
-        return;
+      // Toutes les étapes sont revalidées : on ne peut pas envoyer un formulaire partiel.
+      for (let i = 0; i < steps.length; i++) {
+        if (!validateStep(i)) {
+          show(i);
+          report("ko", "Votre demande n'est pas complète", `Une information manque à l'étape ${i + 1}. Le champ concerné est signalé.`);
+          return;
+        }
       }
-      // Lu au moment de l'envoi : le point de terminaison peut être injecté à l'exécution.
+
       const endpoint = form.dataset.endpoint || "";
-      // Maquette de présentation : on annonce clairement la démonstration.
-      if (form.dataset.demo === "1") {
-        show("ok", "Formulaire validé — maquette de démonstration",
-          "Tous les champs sont corrects. Sur cette maquette, la demande n'est pas transmise : " +
-          "le site en ligne l'enverra directement à l'entreprise.");
-        return;
-      }
-      // Aucun point de terminaison configuré : on le dit, sans simuler un succès.
+
+      /* Sans service d'acheminement raccordé, on ouvre le logiciel de
+         messagerie du visiteur, pré-rempli vers l'adresse réelle de
+         l'entreprise. L'envoi reste à sa main : on ne prétend jamais
+         que le message est parti. */
       if (!endpoint) {
-        show("ko", "Envoi non configuré",
-          "Le formulaire est validé mais aucun service de réception n'est encore raccordé. " +
-          "La configuration requise est décrite dans le fichier INTEGRATION.md livré avec le site " +
-          "(point de terminaison, destinataire et protection anti-spam).");
+        const to = form.dataset.mailto;
+        const sujet = encodeURIComponent("Demande de devis — " + (form.nom.value || "site web"));
+        /* Certains clients de messagerie tronquent les liens mailto au-delà
+           d'environ 2 000 caractères : on borne le corps et on le signale,
+           plutôt que de laisser disparaître la fin de la demande. */
+        const LIMITE = 1800;
+        let texte = resume();
+        let lien = `mailto:${to}?subject=${sujet}&body=${encodeURIComponent(texte)}`;
+        let tronque = false;
+        while (lien.length > LIMITE && texte.length > 200) {
+          texte = texte.slice(0, Math.max(200, texte.length - 150));
+          tronque = true;
+          lien = `mailto:${to}?subject=${sujet}&body=${encodeURIComponent(texte + "\n\n[…] Demande abrégée : précisions à ajouter dans l'e-mail.")}`;
+        }
+        report("ok", "Votre message est prêt",
+          "Votre logiciel de messagerie s'ouvre avec la demande pré-remplie. " +
+          "Il ne reste qu'à l'envoyer — et à y joindre vos photographies si vous en avez. " +
+          (tronque ? "Votre description étant longue, elle a été abrégée dans l'e-mail : complétez-la avant l'envoi. " : "") +
+          `Si rien ne s'ouvre, écrivez directement à <a href="mailto:${to}">${to}</a> ou appelez le ${form.dataset.tel || ""}.`);
+        window.location.href = lien;
         return;
       }
-      const submit = $('button[type=submit]', form);
+
+      const submit = bSend;
       submit.setAttribute("aria-busy", "true");
       const label = submit.textContent;
       submit.textContent = "Envoi en cours…";
@@ -356,12 +460,13 @@
         const res = await fetch(endpoint, { method: "POST", body: new FormData(form), headers: { Accept: "application/json" } });
         if (!res.ok) throw new Error("HTTP " + res.status);
         form.reset();
-        if (fileLbl) fileLbl.textContent = "Déposer vos photographies ici";
-        show("ok", "Votre demande a bien été envoyée",
-          "Nous revenons vers vous pour étudier la configuration de votre bâtiment et la méthode d'intervention la plus adaptée.");
+        if (fileLbl) fileLbl.textContent = "Déposer vos fichiers ici";
+        show(0);
+        report("ok", "Votre demande a bien été envoyée",
+          "Nous revenons vers vous sous 30 minutes, selon disponibilité.");
       } catch (err) {
-        show("ko", "L'envoi a échoué",
-          "Une erreur technique est survenue. Vous pouvez réessayer dans un instant ou nous contacter directement par téléphone ou par e-mail.");
+        report("ko", "L'envoi a échoué",
+          "Une erreur technique est survenue. Réessayez dans un instant, ou appelez-nous directement.");
       } finally {
         submit.removeAttribute("aria-busy");
         submit.textContent = label;

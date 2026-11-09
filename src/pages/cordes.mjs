@@ -111,7 +111,7 @@ ${finalCta({ titre: "Une façade que personne ne veut nettoyer ?", texte: "Décr
 
 export default {
   path: "/travaux-sur-cordes/",
-  title: "Travaux sur cordes : vitres et façades | [NOM DE L'ENTREPRISE]",
+  title: "Travaux sur cordes : vitres et façades | CleanVitreService",
   description: "Nettoyage de vitres et de façades par travaux sur cordes : technique d'accès, applications, sécurité et qualifications. Intervention en Normandie et dans toute la France.",
   ogImage: "cordes-duo-band",
   faq,

@@ -1,156 +1,108 @@
-# Raccordement et mise en ligne
+# Raccordement et éléments restants — CleanVitreService
 
-Ce document liste **tout ce qui doit être renseigné avant la mise en ligne**.
-Rien de ce qui suit n'a été inventé : chaque valeur manquante apparaît sur le
-site sous la forme d'un espace réservé visible (`[NOM DE L'ENTREPRISE]`,
-`[TÉLÉPHONE]`, `[EMAIL]`…), volontairement repérable.
-
----
-
-## 1. Informations à fournir
+Les informations d'entreprise sont désormais intégrées. Ce document liste
+ce qui reste à fournir et comment raccorder le formulaire de devis.
 
 Tout se configure dans un seul fichier : **`src/config.mjs`**.
 
-### 1.1 Identité (`brand`)
+---
 
-| Champ | Valeur actuelle | À fournir |
-|---|---|---|
-| `name` | `[NOM DE L'ENTREPRISE]` | Dénomination commerciale définitive |
-| `short` | `[NOM]` | Version courte (signature, favicon) |
-| `logoSrc` | `null` | Chemin du logo, ex. `/assets/img/logo.svg`. Tant que la valeur est `null`, le monogramme vectoriel de substitution est affiché. |
-| `baseline` | `Drone · Cordes · Nacelle` | Modifiable librement |
+## 1. Informations intégrées
 
-### 1.2 Contact (`contact`)
-
-| Champ | À fournir |
+| Donnée | Valeur en ligne |
 |---|---|
-| `phoneLabel` / `phoneHref` | Numéro affiché et sa version technique (`+33…`). Renseigner `phoneHref` active le bouton « Appeler » de la barre mobile. |
-| `emailLabel` / `emailHref` | Adresse affichée et lien `mailto:` |
-| `addressLines` | Adresse postale, ligne par ligne |
-| `hoursLabel` | Horaires d'ouverture |
-| `social` | Tableau `{ label, href }` — laisser vide tant qu'aucun compte n'existe |
+| Dénomination | CleanVitreService |
+| Dirigeant | Noah Lefebvre |
+| Statut | Entreprise individuelle (micro-entreprise) |
+| Siège | 4 ruelle de l'Hôtel de Ville, 76210 Bolbec |
+| SIREN | 101 837 474 |
+| SIRET | 101 837 474 00010 |
+| Téléphone | 06 41 01 96 43 (liens `tel:` actifs) |
+| E-mail | cleanvitreservice@gmail.com (liens `mailto:` actifs) |
+| Zone | 50 km autour de Bolbec · Normandie · France selon projet |
+| Engagements | Devis gratuit · réponse sous 30 min selon disponibilité · astreintes sur demande |
 
-### 1.3 Informations légales (`legalEntity`)
-
-Obligatoires au titre des articles 6-III et 19 de la loi n° 2004-575 du
-21 juin 2004 : forme juridique, capital, siège, SIREN, SIRET, RCS, TVA
-intracommunautaire, responsable de la publication, hébergeur, assurance
-responsabilité civile professionnelle, médiateur de la consommation, contact
-protection des données.
-
-### 1.4 Domaine (`site.origin`)
-
-Remplacer `https://www.exemple-nettoyage-normandie.fr` par le domaine réel.
-Cette valeur alimente les URL canoniques, les aperçus sociaux, le `sitemap.xml`
-et le `robots.txt`.
+Ces valeurs alimentent l'en-tête, le pied de page, la page contact, les
+mentions légales et les données structurées `LocalBusiness`.
 
 ---
 
-## 2. Formulaire de demande de devis
+## 2. Ce qui reste à fournir
 
-### État actuel
-
-Le formulaire est **entièrement fonctionnel côté client** : validation par champ,
-messages d'erreur en français, états `aria-invalid`, annonce vocale des erreurs,
-dépôt de fichiers avec contrôle du nombre et du poids.
-
-Il a trois comportements, selon le contexte :
-
-| Contexte | `formEndpoint` | Comportement |
+| Élément | Où | Pourquoi il n'est pas publié |
 |---|---|---|
-| **Local** (`node server.mjs`) | `/api/devis` | Envoi réel. Le serveur valide, enregistre la demande dans `demandes/<référence>.json` et répond 200. |
-| **Maquette partagée** (artefact) | vide + `data-demo="1"` | Validation complète, puis message « maquette de démonstration » indiquant que la demande n'est pas transmise. |
-| **Production, non raccordé** | `null` | Message « Envoi non configuré ». Aucun faux succès n'est jamais affiché. |
+| **TVA** | `legalEntity.tva` | Numéro intracommunautaire, ou mention « TVA non applicable, art. 293 B du CGI » si franchise en base. |
+| **Assurance RC pro** | `legalEntity.assurance` | L'existence de l'assurance est mentionnée ; l'assureur et le numéro de police restent à transmettre. |
+| **Médiateur de la consommation** | `legalEntity.mediateur` | Obligatoire pour une activité auprès de particuliers (art. L. 612-1 du code de la consommation). Adhésion à souscrire. |
+| **Autorisations drone et qualifications hauteur** | non publié | Intitulés exacts non vérifiés. La page « À propos » et les mentions légales indiquent qu'ils sont communiqués sur demande. |
+| **Logo** | `brand.logoSrc` | Un mot-signe typographique est composé en attendant. Renseigner le chemin d'une image le remplace partout. |
+| **Photographies de chantiers** | `scripts/images.txt` | La galerie est explicitement présentée comme illustrative. |
+| **Nom de domaine** | `site.origin` | Actuellement l'adresse GitHub Pages. |
 
-Le point de terminaison local `/api/devis` (dans `server.mjs`) sert à éprouver
-la chaîne complète : il applique les mêmes règles qu'un service de production
-(champs obligatoires, format d'adresse, limite de taille) et renvoie 422 ou 200.
-**Il n'est pas destiné à la production** — il écrit des fichiers en clair et ne
-comporte aucune protection anti-spam.
+---
 
-### Raccordement
+## 3. Formulaire de devis — état réel
+
+Le formulaire comporte six étapes, valide chaque étape avant de passer à
+la suivante, et fonctionne au clavier comme au toucher.
+
+### Comportement actuel : envoi par le logiciel de messagerie
+
+`formEndpoint` vaut `null`. À la validation finale, le site compose un
+e-mail **pré-rempli vers cleanvitreservice@gmail.com** contenant toutes les
+réponses, et l'ouvre dans le logiciel de messagerie du visiteur.
+
+C'est un envoi réel, mais **le visiteur doit cliquer sur « Envoyer »** dans
+sa messagerie. Le site le dit explicitement et n'affiche jamais « message
+envoyé ». Limites assumées :
+
+- les pièces jointes ne peuvent pas être transportées : le message invite à les ajouter ;
+- une description très longue est abrégée, ce qui est signalé au visiteur ;
+- un visiteur sans logiciel de messagerie configuré doit copier l'adresse (affichée dans le message).
+
+### Passage à un envoi automatique
+
+Une seule ligne à changer, une fois le service choisi :
 
 ```js
 // src/config.mjs
-export const formEndpoint = "https://…"; // point de terminaison POST du service retenu
+export const formEndpoint = "https://…";
 ```
 
-C'est l'unique ligne à changer : la validation, les états d'erreur et le
-message de succès fonctionnent déjà et ont été éprouvés contre un vrai
-point de réception.
+Le formulaire enverra alors un `POST` en `multipart/form-data` (en-tête
+`Accept: application/json`), attendra une réponse `2xx`, réinitialisera le
+formulaire et affichera une confirmation. En cas d'échec, il le dira.
 
-Le formulaire envoie un `POST` en `multipart/form-data` avec l'en-tête
-`Accept: application/json`, et attend une réponse `2xx`. Champs transmis :
+**Ce qu'il faut obtenir :** un compte chez un service de réception de
+formulaires (Formspree, Tally, Basin, Formsubmit…) ou une fonction
+serverless, configuré pour livrer à cleanvitreservice@gmail.com. Je ne peux
+pas créer ce compte à votre place.
 
-`nom`, `entreprise`, `email`, `telephone`, `type_client`, `prestation`,
-`localisation`, `departement`, `type_batiment`, `hauteur`, `description`,
-`photos[]`, `consentement`.
+**À prévoir en plus :**
 
-### Options possibles
+- une protection anti-spam (champ piège, horodatage ou vérification) — aucune n'est active ;
+- une limite de taille côté serveur : le client accepte 5 fichiers de 8 Mo ;
+- la mise à jour de la section « Destinataires » de la politique de confidentialité, qui indique aujourd'hui qu'aucune donnée ne transite par un serveur.
 
-| Solution | Pièces jointes | À prévoir |
-|---|---|---|
-| Service de formulaire hébergé (type Formspree, Tally, Basin) | selon l'offre | création du compte, URL du point de terminaison, destinataire |
-| Fonction serverless (Netlify, Vercel, Cloudflare) | oui | clé d'API d'un service d'envoi d'e-mails, adresse expéditrice vérifiée sur le domaine |
-| Script PHP sur hébergement mutualisé | oui | `mail()` ou SMTP authentifié, contrôle du type et du poids des fichiers |
-
-### À prévoir dans tous les cas
-
-- **Adresse de réception** des demandes.
-- **Protection anti-spam** : champ piège (honeypot), horodatage, ou service de
-  vérification. Aucune protection n'est active aujourd'hui.
-- **Limite de taille** côté serveur : le client accepte 5 fichiers de 8 Mo
-  maximum ; la même limite doit être appliquée côté serveur.
-- **Mise à jour de la politique de confidentialité** : la section
-  « Destinataires et sous-traitants » doit nommer le service retenu, sa
-  localisation et le cadre contractuel applicable.
-- **Durée de conservation** des demandes sans suite, à inscrire dans la
-  politique de confidentialité.
+Champs transmis : `nom`, `telephone`, `email`, `type_client`,
+`prestations[]`, `adresse`, `departement`, `quantite`, `hauteur`,
+`niveaux`, `acces`, `obstacles`, `etat`, `methode`, `date`, `urgence`,
+`frequence`, `description`, `photos[]`, `eau_electricite`,
+`stationnement`, `consentement`.
 
 ---
 
-## 3. Données structurées
+## 4. Publication
 
-Le site publie aujourd'hui des données `Organization`, `WebSite`,
-`BreadcrumbList`, `Service` et `FAQPage` — **uniquement des éléments
-vérifiables**.
+Le site est statique. Après modification :
 
-Le type `LocalBusiness` n'est volontairement pas déclaré : il exige une raison
-sociale et une adresse réelles. Une fois `legalEntity` et `contact` renseignés,
-il peut être ajouté dans `jsonLd()` (`src/layout.mjs`), avec `address`,
-`telephone`, `openingHours` et `geo`. Ne jamais y déclarer d'avis ou de note
-qui n'existeraient pas réellement.
+```bash
+node build.mjs && node scripts/build-artifact.mjs && rm -rf docs && cp -R dist-partage docs && git add -A && git commit -m "Mise à jour" && git push
+```
 
----
+GitHub Pages republie en une à deux minutes.
 
-## 4. Hébergement
-
-Le site est **entièrement statique** : le dossier `dist/` peut être déposé tel
-quel chez n'importe quel hébergeur ou CDN.
-
-Configuration recommandée côté serveur :
-
-- **Compression** `gzip` ou `brotli` sur `.html`, `.css`, `.js`, `.svg`, `.xml`.
-  Sans elle, la feuille de style passe de 11 Ko à 47 Ko.
-- **Cache** : `Cache-Control: public, max-age=31536000, immutable` pour
-  `/assets/img/`, `/assets/fonts/` ; `no-cache` pour les pages HTML.
-  Les feuilles de style et scripts portent déjà une empreinte de contenu
-  (`?v=…`) régénérée à chaque modification.
-- **HTTPS** obligatoire, avec redirection depuis HTTP.
-- **URL sans extension** : servir `/<page>/index.html` pour `/<page>/`.
-- **Page 404** : prévoir une page d'erreur reprenant la charte.
-
----
-
-## 5. Avant d'ouvrir le site au public
-
-- [ ] `src/config.mjs` entièrement renseigné (identité, contact, mentions légales, domaine)
-- [ ] Logo définitif fourni et `brand.logoSrc` renseigné
-- [ ] `formEndpoint` raccordé et testé de bout en bout
-- [ ] Protection anti-spam en place
-- [ ] Politique de confidentialité complétée (destinataires, durées)
-- [ ] Mentions légales complétées (immatriculation, hébergeur, assurance, médiateur)
-- [ ] Photographies de chantiers réelles substituées à la galerie d'illustration,
-      avec accord écrit des maîtres d'ouvrage
-- [ ] `sitemap.xml` soumis à la Search Console
-- [ ] Vérification d'un envoi de formulaire en conditions réelles
+> La version publiée est actuellement en `noindex` (maquette). Pour
+> l'ouvrir aux moteurs de recherche, retirer la règle correspondante dans
+> `scripts/build-artifact.mjs` et rétablir un `robots.txt` autorisant
+> l'exploration.

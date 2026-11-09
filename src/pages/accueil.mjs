@@ -1,126 +1,131 @@
 import { btn, tlink, img, esc, arS } from "../layout.mjs";
 import { icons, faqBlock, blocZones } from "../parts.mjs";
-import { contact } from "../config.mjs";
+import { contact, prestations, methodes, clienteles } from "../config.mjs";
 
-/* FAQ volontairement réduite à quatre questions.
-   Les autres ont été déplacées vers les pages qui les traitent en détail
-   (drone, cordes, nacelle, zones, contact) plutôt que dupliquées ici. */
 const faq = [
-  { q: "Quels bâtiments pouvez-vous traiter ?",
-    a: ["Bureaux, sites industriels, commerces, hôtels, copropriétés, bâtiments publics et maisons à grandes surfaces vitrées. Ce qui décide n'est pas la catégorie du bâtiment mais sa configuration : hauteur, surfaces, accès et environnement."] },
-  { q: "Drone ou travaux sur cordes : quelle différence ?",
-    a: ["Le drone traite la façade à distance, piloté depuis le sol, sans que personne ne se trouve sur le bâtiment. Les cordes permettent un travail au contact, plus précis sur les salissures incrustées et les géométries complexes.",
-        "Les deux sont complémentaires. Sur certains chantiers, nous les combinons."] },
-  { q: "Faut-il interrompre l'activité du bâtiment ?",
-    a: ["Dans la grande majorité des cas, non. Certaines phases demandent de neutraliser une zone au sol ou de garder les fenêtres fermées ; c'est planifié avec vous, au besoin en dehors des heures d'ouverture."] },
+  { q: "Quelles surfaces nettoyez-vous ?",
+    a: ["Vitres et baies, vérandas, verrières et Velux, vitrines commerciales, façades et bardages, volets roulants, panneaux publicitaires, panneaux solaires et photovoltaïques."] },
+  { q: "Comment choisissez-vous la méthode d'accès ?",
+    a: ["Selon le bâtiment, les surfaces, les conditions d'accès et la faisabilité technique. Du matériel conventionnel à la perche télescopique, de la nacelle aux travaux sur cordes, jusqu'au drone quand la configuration s'y prête."] },
   { q: "Le drone convient-il à tous les bâtiments ?",
-    a: ["Non. L'environnement, la nature du support, l'espace disponible, la météo du jour et la réglementation du survol conditionnent sa mise en œuvre. Quand ce n'est pas la bonne méthode, nous le disons et proposons les cordes ou la nacelle."] },
-];
-
-/* Les trois méthodes : une donnée, trois usages (sélecteur, trio, FAQ). */
-const methodes = [
-  { n: "01", slug: "nettoyage-par-drone", nom: "Nettoyage par drone",
-    court: "Sans contact, depuis le sol",
-    phrase: "Une solution innovante pour les surfaces vitrées et les façades difficiles d'accès.",
-    im: "methode-drone", alt: "Drone professionnel en vol utilisé pour le nettoyage de surfaces vitrées en hauteur",
-    stage: "facade-detail-2-band", ico: "drone" },
-  { n: "02", slug: "travaux-sur-cordes", nom: "Travaux sur cordes",
-    court: "Accès technique au contact",
-    phrase: "Des interventions réalisées par des professionnels formés au travail en hauteur.",
-    im: "methode-cordes", alt: "Techniciens cordistes suspendus le long d'un immeuble pour le nettoyage de la façade",
-    stage: "cordes-duo-band", ico: "cordes" },
-  { n: "03", slug: "nettoyage-avec-nacelle", nom: "Nettoyage avec nacelle",
-    court: "Plateforme depuis le sol",
-    phrase: "Adapté aux configurations permettant l'accès par plateforme élévatrice.",
-    im: "methode-nacelle", alt: "Plateformes élévatrices mobiles de personnel déployées en hauteur",
-    stage: "nacelle-hero-band", ico: "nacelle" },
-];
-
-const secteurs = [
-  ["Industrie et logistique", "secteur-industrie", "Bâtiment industriel de grande emprise sous un ciel dégagé"],
-  ["Bureaux", "secteur-bureaux", "Immeuble de bureaux contemporain à façade entièrement vitrée"],
-  ["Centres commerciaux", "secteur-commerce", "Entrée vitrée d'un bâtiment commercial contemporain"],
-  ["Hôtellerie", "secteur-hotellerie", "Façade d'un établissement hôtelier comportant de nombreuses fenêtres"],
-  ["Copropriétés", "secteur-copropriete", "Immeuble d'habitation récent avec balcons vitrés"],
-  ["Bâtiments publics", "secteur-collectivites", "Bâtiment administratif public de plusieurs niveaux"],
-  ["Plateformes logistiques", "secteur-logistique", "Quais de chargement d'une plateforme logistique"],
-  ["Particuliers", "secteur-particuliers", "Maison contemporaine dotée de grandes baies vitrées et d'une véranda"],
+    a: ["Non. L'environnement, la nature du support, l'espace disponible, la météo et la réglementation du survol conditionnent sa mise en œuvre. Quand ce n'est pas la bonne méthode, nous le disons et proposons une autre voie d'accès."] },
+  { q: "Intervenez-vous loin de Bolbec ?",
+    a: ["Dans un rayon d'environ 50 km autour du siège et dans toute la Normandie. Des déplacements ailleurs en France restent possibles selon la nature et l'importance du chantier."] },
+  { q: "Le devis est-il payant ?",
+    a: ["Non, le devis est gratuit. Nous répondons à votre demande sous 30 minutes, selon disponibilité. Des astreintes sont possibles sur demande."] },
 ];
 
 const body = `
-<!-- A · Hero ----------------------------------------------------------- -->
+<!-- Hero ---------------------------------------------------------------- -->
 <section class="hero hero--v2" id="hero">
   <div class="hero__media" data-hero-media>
     ${img("hero-facade-verre", "Façade entièrement vitrée d'un immeuble de grande hauteur dans la lumière du matin", { sizes: "100vw", eager: true })}
   </div>
   <div class="hero__grid" aria-hidden="true"></div>
   <div class="hero__in">
-    <p class="hero__label">Nettoyage en hauteur · Normandie &amp; France</p>
+    <p class="hero__label">Nettoyage en hauteur · Bolbec &amp; Normandie</p>
     <h1>La hauteur change.<em>Pas nos exigences.</em></h1>
-    <p class="hero__sub">Drone, cordes ou nacelle. La bonne méthode pour chaque façade.</p>
+    <p class="hero__sub">Vitres, façades et surfaces difficiles d'accès. La bonne méthode pour chaque bâtiment.</p>
     <div class="hero__act">
-      ${btn("Étudier mon projet", "/contact/", "", true)}
-      ${btn("Découvrir nos méthodes", "#methodes", "btn--on-dark", true)}
+      ${btn("Demander un devis gratuit", "/contact/", "", true)}
+      <a class="btn btn--on-dark btn--lg" href="tel:${contact.phoneHref}">${esc(contact.phoneLabel)}</a>
     </div>
   </div>
   <p class="hero__cue"><i aria-hidden="true"></i>Faire défiler</p>
 </section>
 
-<!-- B · Sélecteur de méthodes ------------------------------------------ -->
-<section class="pick" id="methodes" aria-labelledby="pick-t">
-  ${methodes.map((m, i) => `<div class="pick__stage${i === 0 ? " is-on" : ""}" data-stage="${i}" aria-hidden="true">${img(m.stage, "", { sizes: "100vw" })}</div>`).join("")}
-  <div class="pick__in">
-    <h2 id="pick-t" class="vh">Nos trois méthodes d'intervention</h2>
-    <p class="eyebrow rv">Trois méthodes, une seule logique</p>
-    <ul class="pick__list rv" data-pick>
-      ${methodes.map((m, i) => `
-      <li class="pick__it">
-        <a href="/${m.slug}/" data-pick-i="${i}">
-          <span class="pick__n">${m.n}</span>
-          <span><span class="pick__t">${esc(m.nom)}</span></span>
-          <span class="pick__m">${esc(m.court)}</span>
-          <span class="pick__go">${arS()}</span>
-        </a>
-      </li>`).join("")}
+<!-- Engagements ---------------------------------------------------------- -->
+<div class="promis">
+  <div class="wrap">
+    <ul>
+      <li><b>Devis gratuit</b><span>Sans engagement</span></li>
+      <li><b>Réponse sous 30 minutes</b><span>Selon disponibilité</span></li>
+      <li><b>Astreintes possibles</b><span>Sur demande</span></li>
     </ul>
   </div>
-</section>
+</div>
 
-<!-- C · Le bon moyen d'accès ------------------------------------------- -->
-<section class="sec" aria-labelledby="trio-t">
+<!-- Prestations ---------------------------------------------------------- -->
+<section class="sec" aria-labelledby="pres-t">
   <div class="wrap">
     <div class="shead rv">
       <div>
-        <p class="eyebrow">Choisir l'accès</p>
-        <h2 id="trio-t">Chaque bâtiment a ses contraintes.</h2>
+        <p class="eyebrow">Nos prestations</p>
+        <h2 id="pres-t">Ce que nous nettoyons.</h2>
       </div>
       <div class="shead__aside">
-        <p class="lead">Nous choisissons le moyen d'accès selon la façade, l'environnement et les conditions d'intervention.</p>
+        <p class="lead">Du vitrage domestique à la façade industrielle, avec le moyen d'accès adapté à chaque configuration.</p>
       </div>
     </div>
     <div class="trio rv">
-      ${methodes.map((m, i) => `
-      <article class="trio__it trio__${"abc"[i]}">
-        ${img(m.im, m.alt, { sizes: i === 0 ? "(max-width:959px) 100vw, 56vw" : "(max-width:959px) 100vw, 42vw" })}
+      ${prestations.map((p, i) => `
+      <article class="trio__it trio__${"abc"[i]}" id="${p.slug}">
+        ${img(p.im, p.alt, { sizes: i === 0 ? "(max-width:959px) 100vw, 56vw" : "(max-width:959px) 100vw, 42vw" })}
         <div class="trio__b">
-          <span class="idx">${m.n}</span>
-          <h3>${esc(m.nom)}</h3>
-          <p>${esc(m.phrase)}</p>
-          ${tlink("En savoir plus", `/${m.slug}/`)}
+          <span class="idx">${String(i + 1).padStart(2, "0")}</span>
+          <h3>${esc(p.titre)}</h3>
+          <p>${esc(p.resume)}</p>
+          ${tlink("Voir le détail", "/services/#" + p.slug)}
         </div>
       </article>`).join("")}
     </div>
   </div>
 </section>
 
-<!-- D · Moment drone ---------------------------------------------------- -->
+<!-- Méthodes d'accès ------------------------------------------------------ -->
+<section class="pick" id="methodes" aria-labelledby="pick-t">
+  ${methodes.map((m, i) => `<div class="pick__stage${i === 0 ? " is-on" : ""}" data-stage="${i}" aria-hidden="true">${img(m.im, "", { sizes: "100vw" })}</div>`).join("")}
+  <div class="pick__in">
+    <p class="eyebrow rv">Cinq moyens d'accès</p>
+    <h2 id="pick-t" class="rv" style="max-width:17ch;margin-bottom:var(--s-7)">Chaque bâtiment a ses contraintes.</h2>
+    <ul class="pick__list rv" data-pick>
+      ${methodes.map((m, i) => {
+        const inner = `
+          <span class="pick__n">${m.n}</span>
+          <span><span class="pick__t">${esc(m.nom)}</span></span>
+          <span class="pick__m">${esc(m.court)}</span>
+          ${m.slug ? `<span class="pick__go">${arS()}</span>` : `<span class="pick__go pick__go--off" aria-hidden="true"></span>`}`;
+        return `<li class="pick__it">${m.slug
+          ? `<a href="/${m.slug}/" data-pick-i="${i}">${inner}</a>`
+          : `<div class="pick__static" data-pick-i="${i}" tabindex="0">${inner}</div>`}</li>`;
+      }).join("")}
+    </ul>
+    <p class="note rv" style="max-width:62ch">Le drone ne convient pas à tous les bâtiments. La méthode dépend du support, de l'environnement, de l'accès et de la faisabilité technique.</p>
+  </div>
+</section>
+
+<!-- Clientèles ------------------------------------------------------------ -->
+<section class="sec sec--paper" aria-labelledby="cli-t">
+  <div class="wrap">
+    <div class="shead rv">
+      <div>
+        <p class="eyebrow">Pour qui</p>
+        <h2 id="cli-t">Quatre profils, un même interlocuteur.</h2>
+      </div>
+      <div class="shead__aside">${tlink("Détail par clientèle", "/secteurs-dactivite/")}</div>
+    </div>
+    <ul class="quad rv">
+      ${clienteles.map((c, i) => `
+      <li>
+        ${img(c.im, c.alt, { sizes: "(max-width:759px) 100vw, 25vw" })}
+        <a href="/secteurs-dactivite/#${c.slug}">
+          <span class="quad__n">0${i + 1}</span>
+          <h3>${esc(c.nom)}</h3>
+          <p>${esc(c.resume)}</p>
+        </a>
+      </li>`).join("")}
+    </ul>
+  </div>
+</section>
+
+<!-- Moment drone ---------------------------------------------------------- -->
 <section class="show" aria-labelledby="show-t">
   <div class="show__bg">${img("facade-detail-1-band", "", { sizes: "100vw", cls: "plx" })}</div>
   <div class="show__in">
     <div class="show__head rv">
       <p class="eyebrow">Technologie drone</p>
       <h2 id="show-t">Le bon accès.<em>Au bon endroit.</em></h2>
-      <p class="lead" style="margin-top:var(--s-5)">L'appareil travaille sur la façade. Les équipes restent au sol.</p>
+      <p class="lead" style="margin-top:var(--s-5)">Sur les façades qui s'y prêtent, l'appareil travaille et les équipes restent au sol.</p>
     </div>
     <div class="show__body">
       <div class="rv">
@@ -143,57 +148,7 @@ const body = `
   </div>
 </section>
 
-<!-- E · Cordes et nacelle ----------------------------------------------- -->
-<section class="sec" aria-labelledby="duo-t">
-  <div class="wrap">
-    <div class="shead rv">
-      <div>
-        <p class="eyebrow">Au contact, ou depuis le sol</p>
-        <h2 id="duo-t">Là où le drone s'arrête, d'autres méthodes prennent le relais.</h2>
-      </div>
-    </div>
-    <div class="edit edit--7-5">
-      <div class="rv">
-        <figure class="edit__fig reveal-img">
-          ${img("cordes-duo", "Deux techniciens cordistes descendant en rappel la façade vitrée d'une tour", { sizes: "(max-width:899px) 100vw, 56vw" })}
-        </figure>
-        <h3 style="margin-top:var(--s-5);font-size:var(--t-h3)">Travaux sur cordes</h3>
-        <p class="prose" style="margin-top:.6rem;color:var(--c-prose)">La corde suit la façade là où un bras de nacelle est limité : décrochés, surplombs, centres urbains saturés.</p>
-        <div style="margin-top:var(--s-4)">${tlink("Travaux sur cordes", "/travaux-sur-cordes/")}</div>
-      </div>
-      <div class="rv" style="--i:1">
-        <figure class="edit__fig reveal-img">
-          ${img("nacelle-operateur", "Panier de nacelle élévatrice déployé contre le ciel", { sizes: "(max-width:899px) 100vw, 40vw" })}
-        </figure>
-        <h3 style="margin-top:var(--s-5);font-size:var(--t-h3)">Nacelle élévatrice</h3>
-        <p class="prose" style="margin-top:.6rem;color:var(--c-prose)">La plus directe quand le sol est porteur et les abords dégagés : sites industriels, logistiques et commerciaux.</p>
-        <div style="margin-top:var(--s-4)">${tlink("Nettoyage avec nacelle", "/nettoyage-avec-nacelle/")}</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- F · Secteurs --------------------------------------------------------- -->
-<section class="sec sec--paper" aria-labelledby="sect-t">
-  <div class="wrap">
-    <div class="shead rv">
-      <div>
-        <p class="eyebrow">Secteurs</p>
-        <h2 id="sect-t">Pour qui nous intervenons.</h2>
-      </div>
-      <div class="shead__aside">${tlink("Détail par secteur", "/secteurs-dactivite/")}</div>
-    </div>
-    <ul class="tiles rv">
-      ${secteurs.map(([nom, im, alt]) => `
-      <li>
-        ${img(im, alt, { sizes: "(max-width:759px) 50vw, 25vw" })}
-        <a href="/secteurs-dactivite/#${nom.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z]+/g, "-").replace(/^-|-$/g, "")}"><h3>${esc(nom)}</h3></a>
-      </li>`).join("")}
-    </ul>
-  </div>
-</section>
-
-<!-- G · Déroulement ------------------------------------------------------ -->
+<!-- Déroulement ----------------------------------------------------------- -->
 <section class="sec sec--dark" aria-labelledby="steps-t">
   <div class="wrap">
     <div class="shead rv">
@@ -203,18 +158,17 @@ const body = `
       </div>
     </div>
     <ol class="steps" data-stagger>
-      <li><h3>Votre demande</h3><p>Quelques photographies et l'adresse suffisent à cadrer le besoin.</p></li>
-      <li><h3>Étude du bâtiment</h3><p>Surfaces, hauteur, accès, environnement et contraintes d'exploitation.</p></li>
-      <li><h3>Choix de la méthode</h3><p>Drone, cordes, nacelle — ou une combinaison, selon les zones.</p></li>
+      <li><h3>Votre demande</h3><p>Par téléphone ou via le formulaire. Réponse sous 30 minutes, selon disponibilité.</p></li>
+      <li><h3>Étude du bâtiment</h3><p>Surfaces, hauteur, accès, environnement et contraintes du site.</p></li>
+      <li><h3>Devis gratuit</h3><p>Méthode retenue, périmètre traité et prix, sans engagement.</p></li>
       <li><h3>Intervention</h3><p>Planifiée selon votre activité, puis contrôlée avant remise.</p></li>
     </ol>
   </div>
 </section>
 
-<!-- H · Normandie -------------------------------------------------------- -->
 ${blocZones()}
 
-<!-- I · Visuels ---------------------------------------------------------- -->
+<!-- Visuels ---------------------------------------------------------------- -->
 <section class="sec" aria-labelledby="gal-t">
   <div class="wrap">
     <div class="shead rv">
@@ -236,21 +190,18 @@ ${blocZones()}
   </div>
 </section>
 
-<!-- J · FAQ -------------------------------------------------------------- -->
 ${faqBlock(faq, { title: "Questions fréquentes", intro: "" })}
 
-<!-- K · Conclusion ------------------------------------------------------- -->
+<!-- Conclusion -------------------------------------------------------------- -->
 <section class="close" aria-labelledby="close-t">
   <div class="close__bg">${img("facade-reflets-band", "", { sizes: "100vw", cls: "plx" })}</div>
   <div class="close__in rv">
     <p class="eyebrow eyebrow--center">Parlons-en</p>
     <h2 id="close-t">Un bâtiment à traiter en hauteur ?</h2>
-    <p>Présentez-nous votre projet. Nous étudierons la méthode adaptée.</p>
+    <p>Présentez-nous votre projet. Nous étudierons la méthode adaptée et vous répondrons sous 30 minutes, selon disponibilité.</p>
     <div class="btn-row">
       ${btn("Demander un devis", "/contact/", "", true)}
-      ${contact.phoneHref
-        ? `<a class="btn btn--on-dark btn--lg" href="tel:${contact.phoneHref}">Nous appeler</a>`
-        : `<a class="btn btn--on-dark btn--lg" href="/contact/#formulaire">Nous appeler <span class="ph" style="margin-left:.4rem">${esc(contact.phoneLabel)}</span></a>`}
+      <a class="btn btn--on-dark btn--lg" href="tel:${contact.phoneHref}">Nous appeler · ${esc(contact.phoneLabel)}</a>
     </div>
   </div>
 </section>
@@ -258,9 +209,9 @@ ${faqBlock(faq, { title: "Questions fréquentes", intro: "" })}
 
 export default {
   path: "/",
-  title: "Nettoyage de vitres et façades en hauteur | [NOM DE L'ENTREPRISE]",
-  description: "Nettoyage professionnel de vitres et de façades en hauteur : drone, travaux sur cordes et nacelle. La méthode est choisie selon le bâtiment. Normandie et France.",
-  ogTitle: "La hauteur change. Pas nos exigences.",
+  title: "CleanVitreService — Nettoyage de vitres et façades en Normandie",
+  description: "Nettoyage de vitres, façades et surfaces difficiles d'accès à Bolbec et dans toute la Normandie. Nacelle, travaux sur cordes et drone. Devis gratuit.",
+  ogTitle: "CleanVitreService — La hauteur change. Pas nos exigences.",
   ogImage: "hero-facade-verre-band",
   faq,
   body,
