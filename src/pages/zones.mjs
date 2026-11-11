@@ -8,7 +8,7 @@ const detail = {
     titre: "Seine-Maritime (76) — Rouen, Le Havre, Dieppe",
     texte: ["C'est le département le plus urbanisé de Normandie, et celui qui concentre le plus de bâtiments relevant de nos méthodes. L'agglomération rouennaise aligne immeubles de bureaux, sièges sociaux, bâtiments administratifs et copropriétés récentes ; Le Havre associe un parc tertiaire reconstruit, un patrimoine en béton très exposé et une activité portuaire et industrielle de premier plan.",
             "Deux facteurs y accélèrent l'encrassement des façades : la pollution atmosphérique urbaine et routière, et l'exposition au climat marin sur la frange littorale, du Havre à Dieppe, où les dépôts salins marquent rapidement les vitrages.",
-            "En centre-ville de Rouen comme dans le centre reconstruit du Havre, les voiries étroites et le stationnement contraint orientent souvent l'étude vers les travaux sur cordes. Les zones d'activités périphériques et les sites industriels de la vallée de la Seine se prêtent davantage à la nacelle ou au drone."] },
+            "En centre-ville de Rouen comme dans le centre reconstruit du Havre, les voiries étroites et le stationnement contraint orientent souvent l'étude vers les travaux sur cordes. Les zones d'activités périphériques et les sites industriels de la vallée de la Seine se prêtent davantage à la perche télescopique ou au drone."] },
   calvados: {
     im: "normandie-caen", alt: "Bâtiment ancien à tour horloge dans une ville normande",
     titre: "Calvados (14) — Caen, Lisieux, Bayeux",
@@ -19,7 +19,7 @@ const detail = {
     im: "secteur-logistique", alt: "Quais de chargement d'une plateforme d'activité",
     titre: "Eure (27) — Évreux, Vernon, Louviers, Val-de-Reuil",
     texte: ["L'Eure présente le tissu industriel et logistique le plus dense de Normandie rapporté à sa population, en particulier le long de l'axe Seine et dans les zones d'activités de Val-de-Reuil, Louviers, Vernon et Évreux. La proximité de l'Île-de-France y a attiré de nombreuses plateformes et sites de production.",
-            "Ces bâtiments — entrepôts, ateliers, locaux d'activité — présentent de grandes surfaces de bardage, des lanterneaux, des sheds et des châssis vitrés en hauteur. Leurs abords sont généralement dégagés, ce qui place souvent la nacelle et le drone en tête des méthodes envisageables.",
+            "Ces bâtiments — entrepôts, ateliers, locaux d'activité — présentent de grandes surfaces de bardage, des lanterneaux, des sheds et des châssis vitrés en hauteur. Leurs abords sont généralement dégagés, ce qui place souvent la perche télescopique et le drone en tête des méthodes envisageables.",
             "Nous intervenons également sur les bâtiments tertiaires et les équipements publics des agglomérations d'Évreux et de Vernon."] },
   manche: {
     im: "normandie-lehavre", alt: "Conteneurs colorés sur une zone portuaire",
@@ -32,7 +32,7 @@ const detail = {
     titre: "Orne (61) — Alençon, Flers, Argentan, L'Aigle",
     texte: ["L'Orne est le plus rural des cinq départements normands, structuré autour de pôles industriels et d'équipements publics plutôt que de grandes agglomérations. L'activité s'organise autour d'Alençon, de Flers, d'Argentan et de L'Aigle.",
             "Les bâtiments concernés y sont principalement des sites de production, des locaux d'activité, des bâtiments administratifs, des établissements scolaires et sportifs, ainsi que des copropriétés et des maisons individuelles comportant de grandes surfaces vitrées.",
-            "L'habitat moins dense et les abords généralement dégagés rendent souvent possibles la nacelle et le drone, là où un centre urbain contraint aurait imposé les cordes."] },
+            "L'habitat moins dense et les abords généralement dégagés rendent souvent possibles la perche télescopique et le drone, là où un centre urbain contraint aurait imposé les cordes."] },
 };
 
 const faq = [

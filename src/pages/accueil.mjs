@@ -1,12 +1,12 @@
 import { btn, tlink, img, esc, arS } from "../layout.mjs";
 import { icons, faqBlock, blocZones } from "../parts.mjs";
-import { contact, prestations, methodes, clienteles } from "../config.mjs";
+import { contact, prestations, methodes, clienteles, parrainage } from "../config.mjs";
 
 const faq = [
   { q: "Quelles surfaces nettoyez-vous ?",
     a: ["Vitres et baies, vérandas, verrières et Velux, vitrines commerciales, façades et bardages, volets roulants, panneaux publicitaires, panneaux solaires et photovoltaïques."] },
   { q: "Comment choisissez-vous la méthode d'accès ?",
-    a: ["Selon le bâtiment, les surfaces, les conditions d'accès et la faisabilité technique. Du matériel conventionnel à la perche télescopique, de la nacelle aux travaux sur cordes, jusqu'au drone quand la configuration s'y prête."] },
+    a: ["Selon le bâtiment, les surfaces, les conditions d'accès et la faisabilité technique. Du matériel conventionnel à la perche télescopique, jusqu'aux travaux sur cordes et au drone quand la configuration s'y prête."] },
   { q: "Le drone convient-il à tous les bâtiments ?",
     a: ["Non. L'environnement, la nature du support, l'espace disponible, la météo et la réglementation du survol conditionnent sa mise en œuvre. Quand ce n'est pas la bonne méthode, nous le disons et proposons une autre voie d'accès."] },
   { q: "Intervenez-vous loin de Bolbec ?",
@@ -76,7 +76,7 @@ const body = `
 <section class="pick" id="methodes" aria-labelledby="pick-t">
   ${methodes.map((m, i) => `<div class="pick__stage${i === 0 ? " is-on" : ""}" data-stage="${i}" aria-hidden="true">${img(m.im, "", { sizes: "100vw" })}</div>`).join("")}
   <div class="pick__in">
-    <p class="eyebrow rv">Cinq moyens d'accès</p>
+    <p class="eyebrow rv">Quatre moyens d'accès</p>
     <h2 id="pick-t" class="rv" style="max-width:17ch;margin-bottom:var(--s-7)">Chaque bâtiment a ses contraintes.</h2>
     <ul class="pick__list rv" data-pick>
       ${methodes.map((m, i) => {
@@ -166,6 +166,28 @@ const body = `
   </div>
 </section>
 
+<!-- Approche tarifaire ----------------------------------------------------- -->
+<section class="sec" aria-labelledby="tarif-t">
+  <div class="wrap">
+    <div class="tailor rv">
+      <div>
+        <p class="eyebrow">Notre approche</p>
+        <h2 id="tarif-t">Chaque chantier mérite une approche adaptée.</h2>
+        <p class="tailor__p">Chaque bâtiment présente ses propres contraintes. Nous étudions votre demande afin de vous proposer une intervention adaptée à vos surfaces, à leur accessibilité et à vos besoins.</p>
+        <p class="tailor__f">Surface, hauteur, accessibilité, état des supports, technique retenue, contraintes du site : ces éléments ne se devinent pas depuis une grille tarifaire. C'est pourquoi nous n'en publions pas.</p>
+        <div class="btn-row" style="margin-top:var(--s-6)">
+          ${btn("Demander mon devis gratuit", "/contact/", "", true)}
+        </div>
+      </div>
+      <ul class="tailor__l">
+        <li><i aria-hidden="true"></i><div>Devis gratuit et personnalisé<span>Sans engagement, établi après étude de votre demande.</span></div></li>
+        <li><i aria-hidden="true"></i><div>Étude de chaque projet<span>Surfaces, hauteur, accès et contraintes d'exploitation du site.</span></div></li>
+        <li><i aria-hidden="true"></i><div>Solution adaptée à vos contraintes<span>La méthode d'accès découle du bâtiment, jamais l'inverse.</span></div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
 ${blocZones()}
 
 <!-- Visuels ---------------------------------------------------------------- -->
@@ -182,11 +204,36 @@ ${blocZones()}
       <figure>${img("real-01", "Laveur de vitres descendant en rappel le long d'une façade vitrée", { sizes: "(max-width:899px) 50vw, 50vw" })}<figcaption>Travaux sur cordes</figcaption></figure>
       <figure>${img("vitre-nettoyage", "Intervenants nettoyant les vitrages d'un bâtiment moderne en verre", { sizes: "(max-width:899px) 50vw, 50vw" })}<figcaption>Vitrages en hauteur</figcaption></figure>
       <figure>${img("real-12", "Drone professionnel en vol à la lumière dorée du soir", { sizes: "(max-width:899px) 50vw, 34vw" })}<figcaption>Drone</figcaption></figure>
-      <figure>${img("real-10", "Nacelles élévatrices à bras déployées vers le ciel", { sizes: "(max-width:899px) 50vw, 17vw" })}<figcaption>Nacelle</figcaption></figure>
+      <figure>${img("verre-gouttes", "Surface vitrée couverte de gouttes d'eau après rinçage", { sizes: "(max-width:899px) 50vw, 17vw" })}<figcaption>Vitrerie</figcaption></figure>
       <figure>${img("facade-detail-3", "Gratte-ciel contemporain à façade de verre en gradins", { sizes: "(max-width:899px) 50vw, 34vw" })}<figcaption>Façades vitrées</figcaption></figure>
-      <figure>${img("real-06", "Laveur de vitres sur une plateforme le long d'un bâtiment à hautes colonnes", { sizes: "(max-width:899px) 50vw, 66vw" })}<figcaption>Accès par plateforme</figcaption></figure>
+      <figure>${img("cordes-equipe", "Laveurs de vitres au travail sur un immeuble de grande hauteur", { sizes: "(max-width:899px) 50vw, 66vw" })}<figcaption>Travail au contact</figcaption></figure>
     </div>
     <p class="note">Ces visuels illustrent les méthodes et les surfaces que nous traitons. Ils ne documentent pas de chantiers déjà réalisés par l'entreprise.</p>
+  </div>
+</section>
+
+<!-- Parrainage -------------------------------------------------------------- -->
+<section class="sec sec--dark" id="parrainage" aria-labelledby="par-t">
+  <div class="wrap">
+    <div class="refer rv">
+      <div class="refer__n">
+        <p class="refer__v" aria-hidden="true"><span class="refer__num">${parrainage.reduction}</span><span class="refer__pc">%</span></p>
+        <span class="refer__leg">de réduction pour la personne recommandée, sur sa première intervention</span>
+      </div>
+      <div class="refer__b">
+        <p class="eyebrow">Parrainage</p>
+        <h2 id="par-t">Le bouche-à-oreille récompensé.</h2>
+        <p class="lead">Vous connaissez quelqu'un qui a besoin d'un nettoyage professionnel ? Recommandez CleanVitreService et faites-lui profiter de ${parrainage.reduction} % de réduction sur sa première intervention.</p>
+        <ol class="refer__l">
+          <li><b>01</b><span>Déjà client, vous recevez un code de parrainage nominatif.</span></li>
+          <li><b>02</b><span>Vous le transmettez à la personne de votre choix.</span></li>
+          <li><b>03</b><span>Elle l'indique dans sa demande de devis et bénéficie de ${parrainage.reduction} % sur sa première intervention.</span></li>
+        </ol>
+        <div class="btn-row">
+          ${btn("Découvrir le parrainage", "/parrainage/", "", true)}
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -210,7 +257,7 @@ ${faqBlock(faq, { title: "Questions fréquentes", intro: "" })}
 export default {
   path: "/",
   title: "CleanVitreService — Nettoyage de vitres et façades en Normandie",
-  description: "Nettoyage de vitres, façades et surfaces difficiles d'accès à Bolbec et dans toute la Normandie. Nacelle, travaux sur cordes et drone. Devis gratuit.",
+  description: "Nettoyage de vitres, façades et surfaces difficiles d'accès à Bolbec et dans toute la Normandie. Perche télescopique, travaux sur cordes et drone. Devis gratuit.",
   ogTitle: "CleanVitreService — La hauteur change. Pas nos exigences.",
   ogImage: "hero-facade-verre-band",
   faq,

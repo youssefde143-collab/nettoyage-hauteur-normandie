@@ -1133,10 +1133,104 @@ body.is-locked{overflow:hidden}
   background:linear-gradient(135deg,rgba(13,33,55,.3),rgba(7,16,29,.14) 46%,rgba(21,47,76,.32));
 }
 .vt__glass,.vt__fx{position:absolute;inset:0;width:100%;height:100%}
-.vt__tool{position:absolute;top:0;left:0;will-change:transform,opacity;transform-origin:50% 50%}
+.vt__tool{position:absolute;top:0;left:0;will-change:transform,opacity}
 .vt__tool svg{display:block}
 
 .vt--out{opacity:0;transition:opacity 280ms var(--e-out)}
 .vt--cut{transition-duration:160ms}
 
 @media(prefers-reduced-motion:reduce){.vt{display:none!important}}
+
+/* ---------- Annonce de parrainage, dans l'en-tête ----------
+   Une seule ligne sous la barre de navigation, qui s'escamote dès que
+   l'en-tête passe en mode défilé : présente à l'arrivée, jamais encombrante
+   ensuite. Aucun pop-up, aucun clignotement.                              */
+body.a-promo{--nav-h:108px}
+.nav--promo{flex-direction:column;align-items:stretch;justify-content:stretch}
+.nav--promo .nav__in{flex:1 1 auto;min-height:0}
+.promo{
+  flex:none;height:34px;display:flex;align-items:center;justify-content:center;
+  gap:.85rem;overflow:hidden;white-space:nowrap;padding-inline:var(--gut);
+  border-top:1px solid rgba(255,255,255,.1);
+  background:linear-gradient(to right,rgba(22,104,220,.08),rgba(22,104,220,.26),rgba(22,104,220,.08));
+  color:rgba(255,255,255,.88);font-family:var(--f-display);
+  font-size:var(--t-micro);letter-spacing:.1em;text-transform:uppercase;font-weight:500;
+  transition:height var(--d-section) var(--e),opacity var(--d-panel) var(--e),
+             background var(--d-section) var(--e),border-color var(--d-section);
+}
+.promo:hover{background:linear-gradient(to right,rgba(22,104,220,.12),rgba(22,104,220,.4),rgba(22,104,220,.12));color:#fff}
+.promo__tag{font-weight:700;letter-spacing:.05em;color:var(--blue-light);flex:none}
+.promo__s{display:none}
+.promo__a{display:inline-flex;align-items:center;gap:.4rem;flex:none;color:#fff;font-weight:600}
+.promo__a svg{transition:transform var(--d-micro) var(--e-out)}
+.promo:hover .promo__a svg{transform:translateX(3px)}
+.nav.is-solid .promo{height:0;opacity:0;pointer-events:none;border-top-color:transparent}
+@media(max-width:860px){
+  .promo{gap:.55rem;letter-spacing:.07em}
+  .promo__t{display:none}
+  .promo__s{display:inline}
+  .promo__a{font-size:0;gap:0}
+}
+@media(max-width:420px){.promo__tag{display:none}}
+
+/* ---------- Parrainage : bloc d'accueil et page dédiée ----------
+   Le chiffre est traité en typographie, pas en pastille de réduction :
+   une remise annoncée comme une remise de supermarché abîmerait le reste. */
+.refer{display:grid;gap:var(--s-7)}
+@media(min-width:960px){
+  .refer{grid-template-columns:minmax(0,.8fr) minmax(0,1.5fr);gap:clamp(3rem,7vw,7rem);align-items:center}
+}
+.refer__n{position:relative;padding-left:clamp(1.2rem,2.4vw,2.2rem);border-left:1px solid var(--line-dark-2)}
+.refer__v{display:flex;align-items:flex-start;gap:.06em;font-family:var(--f-display);color:#fff;line-height:.78}
+.refer__num{font-size:clamp(5rem,15vw,12.5rem);font-weight:200;letter-spacing:-.065em}
+.refer__pc{font-size:clamp(1.7rem,4.4vw,3.2rem);font-weight:300;color:var(--blue-light);margin-top:.28em}
+.refer__leg{
+  display:block;margin-top:clamp(.9rem,2vw,1.6rem);max-width:27ch;
+  font-family:var(--f-display);font-size:var(--t-micro);font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--c-label);line-height:1.7;
+}
+.refer__b h2{max-width:16ch}
+.refer__b .lead{max-width:54ch;margin-top:var(--s-5)}
+.refer__l{list-style:none;margin:var(--s-7) 0 0;padding:0;display:grid;gap:0}
+.refer__l li{
+  display:grid;grid-template-columns:3.2rem 1fr;gap:clamp(.8rem,1.6vw,1.4rem);
+  padding:clamp(.95rem,1.8vw,1.3rem) 0;border-top:1px solid var(--c-rule);
+  font-size:var(--t-small);color:var(--c-prose);line-height:1.6;
+}
+.refer__l li:last-child{border-bottom:1px solid var(--c-rule)}
+.refer__l b{
+  font-family:var(--f-display);font-size:var(--t-micro);font-weight:600;
+  letter-spacing:.14em;color:var(--blue-light);padding-top:.15em;
+}
+.refer .btn-row{margin-top:var(--s-7)}
+
+/* ---------- Approche tarifaire : pas de grille de prix ---------- */
+.tailor{display:grid;gap:var(--s-7)}
+@media(min-width:900px){
+  .tailor{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(2.5rem,6vw,6rem);align-items:start}
+}
+.tailor h2{max-width:15ch}
+.tailor__p{max-width:52ch;margin-top:var(--s-5);font-size:var(--t-lead);color:var(--c-lead);line-height:1.6;font-weight:350}
+.tailor__l{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.tailor__l li{
+  padding:clamp(1rem,2vw,1.45rem) 0;border-top:1px solid var(--c-rule);
+  display:flex;align-items:baseline;gap:1rem;
+  font-family:var(--f-display);font-size:var(--t-h4);font-weight:500;letter-spacing:-.02em;
+}
+.tailor__l li:last-child{border-bottom:1px solid var(--c-rule)}
+.tailor__l i{
+  flex:none;width:5px;height:5px;border-radius:50%;background:var(--blue);
+  transform:translateY(-.3em);
+}
+/* Les liens glissés dans une aide de champ doivent se voir. */
+.field__hint a{color:var(--c-eyebrow);text-decoration:underline;text-underline-offset:2px}
+.tailor__l span{display:block;font-family:var(--f-body);font-size:var(--t-small);font-weight:400;color:var(--c-prose);letter-spacing:0;margin-top:.3rem}
+.tailor__f{margin-top:var(--s-6);font-size:var(--t-small);color:var(--c-prose);max-width:52ch}
+
+/* ---------- Code de parrainage dans le formulaire ---------- */
+.par__note{margin:.55rem 0 0;font-size:var(--t-small);line-height:1.55;display:none}
+.par__note.is-on{display:block}
+.par__note b{display:block;font-family:var(--f-display);font-weight:600;letter-spacing:-.01em;margin-bottom:.15rem}
+.par__note--ok{color:var(--blue-light)}
+.par__note--info{color:var(--c-prose)}
+input#parrainage{text-transform:uppercase;letter-spacing:.08em;font-family:var(--f-display)}

@@ -4,10 +4,10 @@ import { icons, faqBlock, finalCta, blocZones } from "../parts.mjs";
 const faq = [
   { q: "En quoi consistent les travaux sur cordes ?",
     a: ["Il s'agit d'une technique d'accès : le technicien se déplace le long d'une façade au moyen de cordes fixées à des points d'ancrage, généralement situés en toiture ou sur la structure du bâtiment. Il descend progressivement et nettoie la surface au contact, sur toute la largeur accessible depuis son axe de descente.",
-        "C'est historiquement la méthode de référence pour les façades que ni la nacelle ni l'échafaudage ne peuvent atteindre dans de bonnes conditions, et elle reste la plus souple face aux formes de bâtiments complexes."] },
-  { q: "Quels sont les avantages par rapport à une nacelle ?",
+        "C'est historiquement la méthode de référence pour les façades qu'aucun engin ni échafaudage ne peut atteindre dans de bonnes conditions, et elle reste la plus souple face aux formes de bâtiments complexes."] },
+  { q: "Quels sont les avantages par rapport à un échafaudage ?",
     a: ["L'absence d'emprise au sol est le premier. Un chantier sur cordes ne nécessite ni surface de stationnement pour un engin, ni sol porteur, ni cheminement d'accès : il suffit de pouvoir atteindre la toiture et de disposer d'une zone de sécurité réduite au pied du bâtiment.",
-        "Vient ensuite l'adaptabilité. Décrochés, redans, angles rentrants, surplombs, éléments architecturaux saillants : la corde suit la façade là où un bras de nacelle est limité par sa portée et ses angles de travail.",
+        "Vient ensuite l'adaptabilité. Décrochés, redans, angles rentrants, surplombs, éléments architecturaux saillants : la corde suit la façade là où une installation fixe est limitée par son emprise et ses angles de travail.",
         "Enfin, le travail au contact permet un traitement plus précis des salissures incrustées, des encadrements, des joints et des détails."] },
   { q: "Quelles qualifications vos intervenants possèdent-ils ?",
     a: ["Les interventions sur cordes sont réalisées par des personnels formés au travail en hauteur et à l'accès par cordes. Cette formation porte sur les techniques de progression, l'utilisation des équipements de protection individuelle, les procédures de sécurité et les situations d'urgence.",
@@ -50,7 +50,7 @@ const body = `
         <p class="eyebrow">La technique</p>
         <h2 id="c1" style="max-width:22ch">Suivre la façade, et non l'inverse.</h2>
         <div class="prose" style="margin-top:1.8rem;max-width:58ch">
-          <p class="lead">Une nacelle impose sa géométrie au chantier : il lui faut un sol porteur, un dégagement, une portée compatible. Une corde, elle, suit le bâtiment.</p>
+          <p class="lead">Un échafaudage impose sa géométrie au chantier : il lui faut un sol porteur, un dégagement, une emprise au sol. Une corde, elle, suit le bâtiment.</p>
           <p>Le technicien descend le long de la façade depuis des points d'ancrage et traite la surface au contact. Il atteint ainsi les décrochés, les redans, les angles rentrants, les surplombs et les éléments architecturaux saillants — autant de configurations où un bras articulé est limité.</p>
           <p>Cette méthode est également celle qui convient le mieux aux <strong>centres urbains denses</strong>, où le stationnement d'un engin de levage est difficile ou impossible, et aux bâtiments dont l'activité ne peut pas supporter l'installation d'un échafaudage.</p>
           <p>Elle offre enfin la meilleure qualité de finition sur les salissures incrustées, les encadrements, les joints et les parties basses de vitrage, parce que l'opérateur voit et touche la surface qu'il traite.</p>
@@ -67,7 +67,7 @@ const body = `
       <div class="shead__aside"><p class="lead" style="font-size:var(--t-body)">Lorsque l'étude conclut à cette méthode, c'est généralement pour l'une des raisons suivantes.</p></div>
     </div>
     <ul class="vals" data-stagger>
-      <li class="rv"><h3>Façades à géométrie complexe</h3><p>Décrochés, redans, loggias, surplombs, bandeaux et éléments saillants qui limitent la portée d'une nacelle.</p></li>
+      <li class="rv"><h3>Façades à géométrie complexe</h3><p>Décrochés, redans, loggias, surplombs, bandeaux et éléments saillants qui interdisent toute installation depuis le sol.</p></li>
       <li class="rv"><h3>Centres-villes contraints</h3><p>Voirie étroite, stationnement impossible, mobilier urbain, terrasses : aucun engin ne peut être positionné.</p></li>
       <li class="rv"><h3>Immeubles de grande hauteur</h3><p>Niveaux hors de portée des plateformes élévatrices, accessibles depuis la toiture.</p></li>
       <li class="rv"><h3>Salissures incrustées</h3><p>Dépôts anciens, traces de calcaire, pollution urbaine : un traitement au contact est nécessaire.</p></li>

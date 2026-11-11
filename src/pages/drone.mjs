@@ -16,7 +16,7 @@ const faq = [
         "L'avantage principal pour les occupants est l'absence d'installation lourde : pas d'échafaudage à monter, emprise au sol réduite, durée de présence limitée sur le site. Les fenêtres doivent en revanche rester fermées pendant les passes, ce qui est signalé en amont."] },
   { q: "Le drone remplace-t-il les autres méthodes ?",
     a: ["Non. C'est une méthode supplémentaire, pas une méthode de remplacement. Elle élargit le champ de ce que nous pouvons traiter et, dans les configurations qui s'y prêtent, simplifie l'organisation du chantier.",
-        "Un grand nombre de bâtiments continuent à relever des travaux sur cordes ou de la nacelle, soit parce que l'environnement ne permet pas le vol, soit parce que le travail au contact est nécessaire pour obtenir le résultat attendu."] },
+        "Un grand nombre de bâtiments continuent à relever des travaux sur cordes ou de la perche télescopique, soit parce que l'environnement ne permet pas le vol, soit parce que le travail au contact est nécessaire pour obtenir le résultat attendu."] },
   { q: "Peut-on nettoyer par drone un bâtiment en centre-ville ?",
     a: ["Cela dépend entièrement du contexte. Un bâtiment dense, entouré de voirie circulée, de terrasses ou d'autres immeubles proches, laisse peu de dégagement et peut relever d'un cadre réglementaire plus contraignant pour le survol.",
         "Nous examinons ces aspects au cas par cas. Lorsque le drone n'est pas déployable dans de bonnes conditions, les travaux sur cordes constituent généralement la réponse adaptée en milieu urbain dense."] },
@@ -46,7 +46,7 @@ const body = `
         <p class="eyebrow">Principe de fonctionnement</p>
         <h2 id="d1" style="max-width:20ch">L'appareil travaille sur la façade. Les équipes restent au sol.</h2>
         <div class="prose" style="margin-top:1.8rem;max-width:58ch">
-          <p class="lead">C'est tout le déplacement qu'opère cette méthode. Au lieu d'amener un opérateur jusqu'à la surface — par échafaudage, nacelle ou corde —, on envoie l'outil et l'on garde l'humain en zone sûre.</p>
+          <p class="lead">C'est tout le déplacement qu'opère cette méthode. Au lieu d'amener un opérateur jusqu'à la surface — par échafaudage ou par corde —, on envoie l'outil et l'on garde l'humain en zone sûre.</p>
           <p>Le drone est équipé d'un dispositif de nettoyage et alimenté en eau depuis le sol. L'opérateur le positionne le long de la façade et progresse par passes successives, en contrôlant le résultat à vue. La surface est traitée sans contact mécanique lourd et sans que le bâtiment ait à supporter de charge d'accès.</p>
           <p><strong>Cette méthode n'invente pas un nettoyage universel.</strong> Elle ajoute une possibilité d'accès là où l'accès conventionnel est long, coûteux ou techniquement délicat à mettre en œuvre.</p>
         </div>
@@ -115,7 +115,7 @@ const body = `
     </div>
     <div class="cards cards--2" style="margin-top:1.4rem">
       <div class="card rv" style="background:var(--paper)">${icons.shield}<h3>Sécurité et préparation</h3><p>Chaque intervention par drone fait l'objet d'une préparation : repérage du site, définition de la zone de travail au sol, identification des points sensibles, information des occupants lorsque c'est nécessaire.</p><p>Un périmètre est matérialisé au sol pendant les phases de vol. L'opérateur conserve le contrôle visuel de l'appareil tout au long de l'intervention.</p></div>
-      <div class="card rv" style="--i:1;background:var(--paper)">${icons.gear}<h3>Et si le drone n'est pas la solution ?</h3><p>Nous le disons, et nous proposons autre chose. C'est l'intérêt de disposer de cinq moyens d'accès : l'étude peut conclure au nettoyage conventionnel, à la perche, à la nacelle, aux travaux sur cordes, ou à une combinaison selon les zones.</p><div style="margin-top:.4rem;display:flex;gap:1.4rem;flex-wrap:wrap">${tlink("Travaux sur cordes", "/travaux-sur-cordes/")}${tlink("Nettoyage avec nacelle", "/nettoyage-avec-nacelle/")}</div></div>
+      <div class="card rv" style="--i:1;background:var(--paper)">${icons.gear}<h3>Et si le drone n'est pas la solution ?</h3><p>Nous le disons, et nous proposons autre chose. C'est l'intérêt de disposer de quatre moyens d'accès : l'étude peut conclure au nettoyage conventionnel, à la perche télescopique, aux travaux sur cordes, ou à une combinaison selon les zones.</p><div style="margin-top:.4rem;display:flex;gap:1.4rem;flex-wrap:wrap">${tlink("Travaux sur cordes", "/travaux-sur-cordes/")}${tlink("Nos méthodes", "/services/")}</div></div>
     </div>
   </div>
 </section>

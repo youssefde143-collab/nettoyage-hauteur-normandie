@@ -1,6 +1,6 @@
 import { btn, tlink, img, esc, ar } from "../layout.mjs";
 import { icons, faqBlock } from "../parts.mjs";
-import { contact, formEndpoint, zones } from "../config.mjs";
+import { contact, formEndpoint, zones, parrainage } from "../config.mjs";
 
 const faq = [
   { q: "Le devis est-il payant ?",
@@ -9,6 +9,8 @@ const faq = [
     a: ["Nous visons une réponse sous 30 minutes, selon disponibilité. Si votre demande appelle une visite sur site, nous vous le disons dès ce premier échange."] },
   { q: "Quels éléments faut-il réunir ?",
     a: ["L'adresse du chantier, la hauteur ou le nombre de niveaux, le type de surfaces et une estimation des quantités. Deux ou trois photographies prises depuis des angles différents valent mieux qu'une longue description."] },
+  { q: "J'ai un code de parrainage, où le saisir ?",
+    a: ["À la première étape du formulaire, au champ « Vous avez un code parrainage ? ». Le code est vérifié, puis la réduction de 20 % apparaît sur le devis qui vous est remis pour votre première intervention."] },
   { q: "Intervenez-vous en urgence ?",
     a: ["Des astreintes sont possibles sur demande. Précisez-le dans le formulaire ou appelez directement : c'est le moyen le plus rapide."] },
 ];
@@ -61,7 +63,12 @@ const steps = [
       <div class="form__grid form__grid--2">
         ${field("email", "Adresse e-mail", text("email", "email", "vous@exemple.fr", "email", true, "email"), { req: true })}
         ${field("typeClient", "Vous êtes", select("typeClient", "type_client", ["Particulier", "Commerçant ou professionnel", "Entreprise, industrie ou immobilier", "Collectivité ou établissement public"], true), { req: true })}
-      </div>`,
+      </div>
+      ${field("parrainage", "Vous avez un code parrainage ?",
+        `<input id="parrainage" name="parrainage" type="text" inputmode="latin" autocapitalize="characters" spellcheck="false"
+                maxlength="20" aria-describedby="parrainage-hint parrainage-note parrainage-err" placeholder="${esc(parrainage.exemple)}">
+         <p class="par__note" id="parrainage-note" aria-live="polite"></p>`,
+        { hint: `Un proche vous a recommandé CleanVitreService ? Son code vous ouvre droit à ${parrainage.reduction}&nbsp;% de réduction sur votre première intervention. <a href="/parrainage/">En savoir plus</a>.` })}`,
   },
   {
     t: "Prestation", s: "Ce qu'il y a à nettoyer",
@@ -95,7 +102,7 @@ const steps = [
       <div class="field">
         <label id="methode-lg">Méthode envisagée</label>
         <p class="field__hint">Si vous hésitez, choisissez « Conseil souhaité » : c'est notre travail de trancher.</p>
-        ${radios("methode", ["Nettoyage conventionnel", "Nacelle élévatrice", "Travaux sur cordes", "Drone", "Conseil souhaité"])}
+        ${radios("methode", ["Nettoyage conventionnel", "Perche télescopique", "Travaux sur cordes", "Drone", "Conseil souhaité"])}
         <p class="field__err" id="methode-err" aria-live="polite"></p>
       </div>`,
   },
@@ -162,7 +169,9 @@ const body = `
 
         <form class="form form--steps" id="form-devis" style="margin-top:var(--s-7)" novalidate
               ${formEndpoint ? `action="${formEndpoint}" data-endpoint="${formEndpoint}"` : 'data-endpoint=""'}
-              data-mailto="${contact.emailHref}" data-tel="${contact.phoneLabel}" method="post" enctype="multipart/form-data">
+              data-mailto="${contact.emailHref}" data-tel="${contact.phoneLabel}" method="post" enctype="multipart/form-data"
+              data-par-endpoint="${parrainage.endpoint || ""}" data-par-format="${esc(parrainage.format)}"
+              data-par-exemple="${esc(parrainage.exemple)}" data-par-reduction="${parrainage.reduction}">
 
           <p id="form-status" class="form__status" aria-live="polite"></p>
 

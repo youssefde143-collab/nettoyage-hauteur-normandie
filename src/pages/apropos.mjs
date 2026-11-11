@@ -32,7 +32,7 @@ const body = `
         <div class="prose" style="margin-top:1.8rem;max-width:58ch">
           <p class="lead">Nettoyer une vitre est un geste simple. Atteindre cette vitre lorsqu'elle se trouve au vingtième niveau d'un mur-rideau, au-dessus d'une verrière ou en surplomb d'une rue circulée est un problème technique à part entière.</p>
           <p>C'est ce problème que nous traitons. Notre activité consiste à déterminer comment accéder à une surface en hauteur — proprement, en sécurité, sans immobiliser le bâtiment et sans endommager le support — puis à réaliser l'intervention.</p>
-          <p>Pour cela, nous disposons de <strong>cinq moyens d'accès complémentaires</strong> : le nettoyage par drone, les travaux sur cordes et le nettoyage avec nacelle élévatrice. Aucune n'est supérieure aux autres. Chacune répond à une famille de configurations, et c'est le bâtiment qui tranche.</p>
+          <p>Pour cela, nous disposons de <strong>quatre moyens d'accès complémentaires</strong> : le matériel conventionnel de laveur de vitres, la perche télescopique, les travaux sur cordes et le nettoyage par drone. Aucun n'est supérieur aux autres. Chacun répond à une famille de configurations, et c'est le bâtiment qui tranche.</p>
           <p>Cette polyvalence est notre choix de départ. Un prestataire qui ne maîtrise qu'un seul moyen d'accès doit nécessairement convaincre que ce moyen convient à votre bâtiment. Nous n'avons pas ce biais.</p>
         </div>
         <div class="btn-row" style="margin-top:2.2rem">${btn("Nos prestations", "/services/")}${btn("Demander un devis", "/contact/", "btn--ghost")}</div>
@@ -72,8 +72,7 @@ const body = `
         <ul>
           <li>Drones professionnels de nettoyage, pilotés depuis le sol</li>
           <li>Personnels formés au travail en hauteur et à l'accès par cordes</li>
-          <li>Nacelles élévatrices — plateformes élévatrices mobiles de personnel</li>
-          <li>Matériel de nettoyage professionnel adapté aux supports traités</li>
+                    <li>Matériel de nettoyage professionnel adapté aux supports traités</li>
         </ul>
       </div>
       <div class="card rv" style="--i:1">
@@ -126,7 +125,7 @@ ${finalCta({ titre: "Parlons de votre bâtiment, pas de nous.", texte: "La meill
 export default {
   path: "/a-propos/",
   title: "À propos de notre entreprise | CleanVitreService",
-  description: "Prestataire technique du nettoyage de vitres et de façades en hauteur : drone, travaux sur cordes et nacelle. Nos moyens, notre méthode et nos principes.",
+  description: "Prestataire technique du nettoyage de vitres et de façades en hauteur : drone, travaux sur cordes et perche télescopique. Nos moyens, notre méthode et nos principes.",
   ogImage: "apropos-1-band",
   faq,
   body,

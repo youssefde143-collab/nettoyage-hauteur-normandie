@@ -1,6 +1,5 @@
 facade-reflets-band|photo-1776941251062-5cceb9ec9e2c|1600,1100,760
 drone-detail-band|photo-1514598800938-f7125ea1aa1c|1600,1100,760
-nacelle-hero-band|photo-1765435149256-56f3ea3db68f|1600,1100,760
 facade-detail-1-band|photo-1523477593243-78bbf626fd3b|1600,1100,760
 vitre-grattoir-band|photo-1775654063422-54e0a71578ad|1600,1100,760
 normandie-aerien-band|photo-1791187062357-05079b314227|1600,1100,760

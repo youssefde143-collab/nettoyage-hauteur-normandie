@@ -1,4 +1,4 @@
-import { brand, contact, site, nav, navMobile, methodesPages, prestations, legalEntity } from "./config.mjs";
+import { brand, contact, site, nav, navMobile, methodesPages, prestations, legalEntity, parrainage } from "./config.mjs";
 import { squeegee } from "./squeegee.mjs";
 
 export const esc = (s) => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
@@ -75,6 +75,18 @@ const navLinks = (cur) => nav.map(l =>
 const mobLinks = (cur) => navMobile.map((l, i) =>
   `<a href="${l.href}" class="${l.sub ? "mob__sub" : ""}" style="--i:${i}"${l.href === cur ? ' aria-current="page"' : ""}>${esc(l.label)}</a>`).join("");
 
+/* Annonce commerciale, logée dans l'en-tête fixe sous la barre de
+   navigation. Volontairement ténue : une ligne, en petites capitales, qui
+   s'escamote dès que l'en-tête passe en mode défilé. Aucun pop-up,
+   aucun clignotement. */
+const promoBar = () => `
+<a class="promo" href="/parrainage/">
+  <span class="promo__tag">&minus;${parrainage.reduction}&nbsp;%</span>
+  <span class="promo__t">Parrainage &mdash; votre filleul bénéficie de ${parrainage.reduction}&nbsp;% sur sa première intervention.</span>
+  <span class="promo__s">Parrainage &middot; ${parrainage.reduction}&nbsp;% pour votre filleul</span>
+  <span class="promo__a">Le parrainage${arS()}</span>
+</a>`;
+
 const footerCols = () => {
   const c = contact;
   const line = (label, href) => href ? `<a href="${href}">${esc(label)}</a>` : `<span class="ph">${esc(label)}</span>`;
@@ -92,6 +104,7 @@ const footerCols = () => {
       <li><a href="/a-propos/">À propos</a></li>
       <li><a href="/realisations/">Nos réalisations</a></li>
       <li><a href="/zones-intervention/">Zones d'intervention</a></li>
+      <li><a href="/parrainage/">Parrainage</a></li>
       <li><a href="/contact/">Demander un devis</a></li>
     </ul>
   </div>
@@ -101,7 +114,6 @@ const footerCols = () => {
       <li>${line(c.phoneLabel, c.phoneHref ? `tel:${c.phoneHref}` : null)}</li>
       <li>${line(c.emailLabel, c.emailHref ? `mailto:${c.emailHref}` : null)}</li>
       <li><span class="ph">${c.addressLines.map(esc).join("<br>")}</span></li>
-      <li><span class="ph">${esc(c.hoursLabel)}</span></li>
       ${c.social.length ? `<li>${c.social.map(s => `<a href="${s.href}">${esc(s.label)}</a>`).join(" · ")}</li>` : ""}
     </ul>
   </div>`;
@@ -121,7 +133,7 @@ function jsonLd(page) {
     "@id": site.origin + "/#organisation",
     name: brand.name,
     url: site.origin + "/",
-    description: "Nettoyage de vitres, de façades et de surfaces difficiles d'accès. Matériel conventionnel, perches télescopiques, nacelle, travaux sur cordes et drone. Bolbec, Normandie.",
+    description: "Nettoyage de vitres, de façades et de surfaces difficiles d'accès. Matériel conventionnel, perches télescopiques, travaux sur cordes et drone. Bolbec, Normandie.",
     founder: { "@type": "Person", name: legalEntity.dirigeant },
     address: {
       "@type": "PostalAddress",
@@ -144,7 +156,7 @@ function jsonLd(page) {
     ],
     knowsAbout: [
       "Nettoyage de vitres", "Nettoyage de façades", "Nettoyage de vérandas et verrières",
-      "Nettoyage de panneaux solaires", "Travaux sur cordes", "Nacelle élévatrice",
+      "Nettoyage de panneaux solaires", "Travaux sur cordes", "Perche télescopique",
       "Nettoyage par drone",
     ],
   };
@@ -237,7 +249,7 @@ document.documentElement.className+=" vt-on"}catch(e){}})()</script>` : ""}
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <script type="application/ld+json">${jsonLd(page)}</script>
 </head>
-<body${page.bodyClass ? ` class="${page.bodyClass}"` : ""}>
+<body class="a-promo${page.bodyClass ? " " + page.bodyClass : ""}">
 <a class="skip" href="#principal">Aller au contenu principal</a>
 ${page.intro ? `
 <div class="vt" id="intro-vitre" aria-hidden="true">
@@ -247,7 +259,7 @@ ${page.intro ? `
   <div class="vt__tool">${squeegee()}</div>
 </div>` : ""}
 
-<header class="nav${darkHeader ? "" : " is-solid"}" id="entete" data-dark="${darkHeader}">
+<header class="nav nav--promo${darkHeader ? "" : " is-solid"}" id="entete" data-dark="${darkHeader}">
   <div class="nav__in">
     ${logo()}
     <nav class="nav__links" aria-label="Navigation principale">${navLinks(cur)}</nav>
@@ -256,6 +268,7 @@ ${page.intro ? `
       <span></span><span></span><span></span>
     </button>
   </div>
+  ${promoBar()}
 </header>
 
 <div class="mob" id="menu-mobile" hidden>
@@ -277,7 +290,7 @@ ${page.body}
   <div class="foot__top">
     <div class="foot__brand">
       <div class="foot__logo">${wordmark("div")}</div>
-      <p>Nettoyage de vitres et de façades en hauteur par drone, travaux sur cordes et nacelle. Une méthode choisie en fonction de chaque bâtiment, en Normandie et dans toute la France.</p>
+      <p>Nettoyage de vitres et de façades en hauteur par drone, travaux sur cordes et perche télescopique. Une méthode choisie en fonction de chaque bâtiment, en Normandie et dans toute la France.</p>
       <p style="font-size:var(--t-micro);letter-spacing:.12em;text-transform:uppercase;color:#7F91A8;font-weight:600">Calvados · Eure · Manche · Orne · Seine-Maritime</p>
     </div>
     ${footerCols()}

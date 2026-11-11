@@ -1,518 +1,452 @@
 {
- "apropos-1-band": {
-  "w": 1600,
-  "h": 900,
-  "widths": [
-   760,
-   1100,
-   1600
-  ]
- },
- "contact-visuel-band": {
-  "w": 1600,
-  "h": 900,
-  "widths": [
-   760,
-   1100,
-   1600
-  ]
- },
- "cordes-detail": {
-  "w": 1200,
-  "h": 1798,
-  "widths": [
-   700,
-   1200
-  ]
- },
- "cordes-duo": {
-  "w": 1400,
-  "h": 1867,
-  "widths": [
-   800,
-   1400
-  ]
- },
- "cordes-duo-band": {
-  "w": 1600,
-  "h": 900,
-  "widths": [
-   760,
-   1100,
-   1600
-  ]
- },
- "cordes-equipe": {
-  "w": 1200,
-  "h": 800,
-  "widths": [
-   700,
-   1200
-  ]
- },
- "cordes-equipe-band": {
-  "w": 1600,
-  "h": 900,
-  "widths": [
-   760,
-   1100,
-   1600
-  ]
- },
- "cordes-ville": {
-  "w": 1200,
-  "h": 1800,
-  "widths": [
-   700,
-   1200
-  ]
- },
- "drone-controller": {
-  "w": 1000,
-  "h": 667,
-  "widths": [
-   600,
-   1000
-  ]
- },
- "drone-detail": {
-  "w": 1200,
-  "h": 675,
-  "widths": [
-   700,
-   1200
-  ]
- },
- "drone-detail-band": {
-  "w": 1600,
-  "h": 900,
-  "widths": [
-   760,
-   1100,
-   1600
-  ]
- },
- "drone-pilote": {
-  "w": 1400,
-  "h": 2100,
-  "widths": [
-   800,
-   1400
-  ]
- },
- "equipe-casques": {
-  "w": 1200,
-  "h": 800,
-  "widths": [
-   700,
-   1200
-  ]
- },
- "equipe-chantier": {
-  "w": 1400,
-  "h": 933,
-  "widths": [
-   800,
-   1400
-  ]
- },
- "facade-bas": {
-  "w": 1200,
-  "h": 675,
-  "widths": [
-   700,
-   1200
-  ]
- },
- "facade-detail-1-band": {
-  "w": 1600,
-  "h": 900,
-  "widths": [
-   760,
-   1100,
-   1600
-  ]
- },
- "facade-detail-3": {
-  "w": 1400,
-  "h": 1120,
-  "widths": [
-   800,
-   1400
-  ]
- },
- "facade-detail-4": {
-  "w": 1400,
-  "h": 1336,
-  "widths": [
-   800,
-   1400
-  ]
- },
- "facade-reflets": {
-  "w": 2000,
-  "h": 1500,
-  "widths": [
-   800,
-   1200,
-   2000
-  ]
- },
- "facade-reflets-band": {
-  "w": 1600,
-  "h": 900,
-  "widths": [
-   760,
-   1100,
-   1600
-  ]
- },
- "hero-facade-verre": {
-  "w": 2000,
-  "h": 3048,
-  "widths": [
-   800,
-   1200,
-   2000
-  ]
- },
- "hero-facade-verre-band": {
-  "w": 1600,
-  "h": 900,
-  "widths": [
-   760,
-   1100,
-   1600
-  ]
- },
- "methode-cordes": {
-  "w": 1200,
-  "h": 1601,
-  "widths": [
-   700,
-   900,
-   1200
-  ]
- },
- "methode-drone": {
-  "w": 1200,
-  "h": 1597,
-  "widths": [
-   700,
-   900,
-   1200
-  ]
- },
- "methode-nacelle": {
-  "w": 1200,
-  "h": 1800,
-  "widths": [
-   700,
-   900,
-   1200
-  ]
- },
- "nacelle-ciel": {
-  "w": 1200,
-  "h": 1800,
-  "widths": [
-   700,
-   1200
-  ]
- },
- "nacelle-ciseaux": {
-  "w": 1200,
-  "h": 1800,
-  "widths": [
-   700,
-   1200
-  ]
- },
- "nacelle-hero-band": {
-  "w": 1600,
-  "h": 900,
-  "widths": [
-   760,
-   1100,
-   1600
-  ]
- },
- "nacelle-operateur": {
-  "w": 1400,
-  "h": 933,
-  "widths": [
-   800,
-   1400
-  ]
- },
- "normandie-aerien-band": {
-  "w": 1600,
-  "h": 900,
-  "widths": [
-   760,
-   1100,
-   1600
-  ]
- },
- "normandie-caen": {
-  "w": 1200,
-  "h": 800,
-  "widths": [
-   700,
-   1200
-  ]
- },
- "normandie-caen-band": {
-  "w": 1600,
-  "h": 900,
-  "widths": [
-   760,
-   1100,
-   1600
-  ]
- },
- "normandie-lehavre": {
-  "w": 1200,
-  "h": 1365,
-  "widths": [
-   700,
-   1200
-  ]
- },
- "normandie-rouen": {
-  "w": 1200,
-  "h": 1800,
-  "widths": [
-   700,
-   1200
-  ]
- },
- "real-01": {
-  "w": 1200,
-  "h": 1809,
-  "widths": [
-   700,
-   1200
-  ]
- },
- "real-02": {
-  "w": 1200,
-  "h": 1800,
-  "widths": [
-   700,
-   1200
-  ]
- },
- "real-03": {
-  "w": 1200,
-  "h": 1800,
-  "widths": [
-   700,
-   1200
-  ]
- },
- "real-04": {
-  "w": 1200,
-  "h": 1500,
-  "widths": [
-   700,
-   1200
-  ]
- },
- "real-05": {
-  "w": 1200,
-  "h": 900,
-  "widths": [
-   700,
-   1200
-  ]
- },
- "real-06": {
-  "w": 1200,
-  "h": 2133,
-  "widths": [
-   700,
-   1200
-  ]
- },
- "real-07": {
-  "w": 1200,
-  "h": 675,
-  "widths": [
-   700,
-   1200
-  ]
- },
- "real-08": {
-  "w": 1200,
-  "h": 1529,
-  "widths": [
-   700,
-   1200
-  ]
- },
- "real-09": {
-  "w": 1200,
-  "h": 675,
-  "widths": [
-   700,
-   1200
-  ]
- },
- "real-10": {
-  "w": 1200,
-  "h": 1406,
-  "widths": [
-   700,
-   1200
-  ]
- },
- "real-11": {
-  "w": 1200,
-  "h": 1800,
-  "widths": [
-   700,
-   1200
-  ]
- },
- "real-12": {
-  "w": 1200,
-  "h": 791,
-  "widths": [
-   700,
-   1200
-  ]
- },
- "real-12-band": {
-  "w": 1600,
-  "h": 900,
-  "widths": [
-   760,
-   1100,
-   1600
-  ]
- },
- "real-13": {
-  "w": 1200,
-  "h": 1600,
-  "widths": [
-   700,
-   1200
-  ]
- },
- "real-14-band": {
-  "w": 1600,
-  "h": 900,
-  "widths": [
-   760,
-   1100,
-   1600
-  ]
- },
- "real-15": {
-  "w": 1200,
-  "h": 1644,
-  "widths": [
-   700,
-   1200
-  ]
- },
- "secteur-bureaux": {
-  "w": 1000,
-  "h": 1333,
-  "widths": [
-   600,
-   1000
-  ]
- },
- "secteur-collectivites": {
-  "w": 1000,
-  "h": 750,
-  "widths": [
-   600,
-   1000
-  ]
- },
- "secteur-commerce": {
-  "w": 1000,
-  "h": 664,
-  "widths": [
-   600,
-   1000
-  ]
- },
- "secteur-copropriete": {
-  "w": 1000,
-  "h": 667,
-  "widths": [
-   600,
-   1000
-  ]
- },
- "secteur-hotellerie": {
-  "w": 1000,
-  "h": 563,
-  "widths": [
-   600,
-   1000
-  ]
- },
- "secteur-industrie": {
-  "w": 1000,
-  "h": 667,
-  "widths": [
-   600,
-   1000
-  ]
- },
- "secteur-logistique": {
-  "w": 1000,
-  "h": 667,
-  "widths": [
-   600,
-   1000
-  ]
- },
- "secteur-particuliers": {
-  "w": 1000,
-  "h": 667,
-  "widths": [
-   600,
-   1000
-  ]
- },
- "verre-gouttes": {
-  "w": 1400,
-  "h": 931,
-  "widths": [
-   800,
-   1400
-  ]
- },
- "verre-gouttes-band": {
-  "w": 1600,
-  "h": 900,
-  "widths": [
-   760,
-   1100,
-   1600
-  ]
- },
- "vitre-grattoir-band": {
-  "w": 1600,
-  "h": 900,
-  "widths": [
-   760,
-   1100,
-   1600
-  ]
- },
- "vitre-nettoyage": {
-  "w": 1400,
-  "h": 1451,
-  "widths": [
-   800,
-   1400
-  ]
- }
+  "apropos-1-band": {
+    "w": 1600,
+    "h": 900,
+    "widths": [
+      760,
+      1100,
+      1600
+    ]
+  },
+  "contact-visuel-band": {
+    "w": 1600,
+    "h": 900,
+    "widths": [
+      760,
+      1100,
+      1600
+    ]
+  },
+  "cordes-detail": {
+    "w": 1200,
+    "h": 1798,
+    "widths": [
+      700,
+      1200
+    ]
+  },
+  "cordes-duo": {
+    "w": 1400,
+    "h": 1867,
+    "widths": [
+      800,
+      1400
+    ]
+  },
+  "cordes-duo-band": {
+    "w": 1600,
+    "h": 900,
+    "widths": [
+      760,
+      1100,
+      1600
+    ]
+  },
+  "cordes-equipe": {
+    "w": 1200,
+    "h": 800,
+    "widths": [
+      700,
+      1200
+    ]
+  },
+  "cordes-equipe-band": {
+    "w": 1600,
+    "h": 900,
+    "widths": [
+      760,
+      1100,
+      1600
+    ]
+  },
+  "cordes-ville": {
+    "w": 1200,
+    "h": 1800,
+    "widths": [
+      700,
+      1200
+    ]
+  },
+  "drone-controller": {
+    "w": 1000,
+    "h": 667,
+    "widths": [
+      600,
+      1000
+    ]
+  },
+  "drone-detail": {
+    "w": 1200,
+    "h": 675,
+    "widths": [
+      700,
+      1200
+    ]
+  },
+  "drone-detail-band": {
+    "w": 1600,
+    "h": 900,
+    "widths": [
+      760,
+      1100,
+      1600
+    ]
+  },
+  "drone-pilote": {
+    "w": 1400,
+    "h": 2100,
+    "widths": [
+      800,
+      1400
+    ]
+  },
+  "equipe-casques": {
+    "w": 1200,
+    "h": 800,
+    "widths": [
+      700,
+      1200
+    ]
+  },
+  "equipe-chantier": {
+    "w": 1400,
+    "h": 933,
+    "widths": [
+      800,
+      1400
+    ]
+  },
+  "facade-bas": {
+    "w": 1200,
+    "h": 675,
+    "widths": [
+      700,
+      1200
+    ]
+  },
+  "facade-detail-1-band": {
+    "w": 1600,
+    "h": 900,
+    "widths": [
+      760,
+      1100,
+      1600
+    ]
+  },
+  "facade-detail-3": {
+    "w": 1400,
+    "h": 1120,
+    "widths": [
+      800,
+      1400
+    ]
+  },
+  "facade-detail-4": {
+    "w": 1400,
+    "h": 1336,
+    "widths": [
+      800,
+      1400
+    ]
+  },
+  "facade-reflets": {
+    "w": 2000,
+    "h": 1500,
+    "widths": [
+      800,
+      1200,
+      2000
+    ]
+  },
+  "facade-reflets-band": {
+    "w": 1600,
+    "h": 900,
+    "widths": [
+      760,
+      1100,
+      1600
+    ]
+  },
+  "hero-facade-verre": {
+    "w": 2000,
+    "h": 3048,
+    "widths": [
+      800,
+      1200,
+      2000
+    ]
+  },
+  "hero-facade-verre-band": {
+    "w": 1600,
+    "h": 900,
+    "widths": [
+      760,
+      1100,
+      1600
+    ]
+  },
+  "methode-cordes": {
+    "w": 1200,
+    "h": 1601,
+    "widths": [
+      700,
+      900,
+      1200
+    ]
+  },
+  "methode-drone": {
+    "w": 1200,
+    "h": 1597,
+    "widths": [
+      700,
+      900,
+      1200
+    ]
+  },
+  "normandie-aerien-band": {
+    "w": 1600,
+    "h": 900,
+    "widths": [
+      760,
+      1100,
+      1600
+    ]
+  },
+  "normandie-caen": {
+    "w": 1200,
+    "h": 800,
+    "widths": [
+      700,
+      1200
+    ]
+  },
+  "normandie-caen-band": {
+    "w": 1600,
+    "h": 900,
+    "widths": [
+      760,
+      1100,
+      1600
+    ]
+  },
+  "normandie-lehavre": {
+    "w": 1200,
+    "h": 1365,
+    "widths": [
+      700,
+      1200
+    ]
+  },
+  "normandie-rouen": {
+    "w": 1200,
+    "h": 1800,
+    "widths": [
+      700,
+      1200
+    ]
+  },
+  "real-01": {
+    "w": 1200,
+    "h": 1809,
+    "widths": [
+      700,
+      1200
+    ]
+  },
+  "real-02": {
+    "w": 1200,
+    "h": 1800,
+    "widths": [
+      700,
+      1200
+    ]
+  },
+  "real-03": {
+    "w": 1200,
+    "h": 1800,
+    "widths": [
+      700,
+      1200
+    ]
+  },
+  "real-04": {
+    "w": 1200,
+    "h": 1500,
+    "widths": [
+      700,
+      1200
+    ]
+  },
+  "real-05": {
+    "w": 1200,
+    "h": 900,
+    "widths": [
+      700,
+      1200
+    ]
+  },
+  "real-07": {
+    "w": 1200,
+    "h": 675,
+    "widths": [
+      700,
+      1200
+    ]
+  },
+  "real-08": {
+    "w": 1200,
+    "h": 1529,
+    "widths": [
+      700,
+      1200
+    ]
+  },
+  "real-11": {
+    "w": 1200,
+    "h": 1800,
+    "widths": [
+      700,
+      1200
+    ]
+  },
+  "real-12": {
+    "w": 1200,
+    "h": 791,
+    "widths": [
+      700,
+      1200
+    ]
+  },
+  "real-12-band": {
+    "w": 1600,
+    "h": 900,
+    "widths": [
+      760,
+      1100,
+      1600
+    ]
+  },
+  "real-13": {
+    "w": 1200,
+    "h": 1600,
+    "widths": [
+      700,
+      1200
+    ]
+  },
+  "real-14-band": {
+    "w": 1600,
+    "h": 900,
+    "widths": [
+      760,
+      1100,
+      1600
+    ]
+  },
+  "real-15": {
+    "w": 1200,
+    "h": 1644,
+    "widths": [
+      700,
+      1200
+    ]
+  },
+  "secteur-bureaux": {
+    "w": 1000,
+    "h": 1333,
+    "widths": [
+      600,
+      1000
+    ]
+  },
+  "secteur-collectivites": {
+    "w": 1000,
+    "h": 750,
+    "widths": [
+      600,
+      1000
+    ]
+  },
+  "secteur-commerce": {
+    "w": 1000,
+    "h": 664,
+    "widths": [
+      600,
+      1000
+    ]
+  },
+  "secteur-copropriete": {
+    "w": 1000,
+    "h": 667,
+    "widths": [
+      600,
+      1000
+    ]
+  },
+  "secteur-hotellerie": {
+    "w": 1000,
+    "h": 563,
+    "widths": [
+      600,
+      1000
+    ]
+  },
+  "secteur-industrie": {
+    "w": 1000,
+    "h": 667,
+    "widths": [
+      600,
+      1000
+    ]
+  },
+  "secteur-logistique": {
+    "w": 1000,
+    "h": 667,
+    "widths": [
+      600,
+      1000
+    ]
+  },
+  "secteur-particuliers": {
+    "w": 1000,
+    "h": 667,
+    "widths": [
+      600,
+      1000
+    ]
+  },
+  "verre-gouttes": {
+    "w": 1400,
+    "h": 931,
+    "widths": [
+      800,
+      1400
+    ]
+  },
+  "verre-gouttes-band": {
+    "w": 1600,
+    "h": 900,
+    "widths": [
+      760,
+      1100,
+      1600
+    ]
+  },
+  "vitre-grattoir-band": {
+    "w": 1600,
+    "h": 900,
+    "widths": [
+      760,
+      1100,
+      1600
+    ]
+  },
+  "vitre-nettoyage": {
+    "w": 1400,
+    "h": 1451,
+    "widths": [
+      800,
+      1400
+    ]
+  }
 }

@@ -22,8 +22,9 @@ const TYPES = {
    complète en local, exactement comme le fera le service retenu en
    production (voir INTEGRATION.md).
    ------------------------------------------------------------------ */
-const OBLIGATOIRES = ["nom", "email", "telephone", "type_client", "prestation",
-                      "localisation", "type_batiment", "description", "consentement"];
+/* Mêmes noms de champs que le formulaire en six étapes de /contact/. */
+const OBLIGATOIRES = ["nom", "email", "telephone", "type_client", "prestations",
+                      "adresse", "description", "consentement"];
 
 async function recevoirDemande(req, res) {
   const chunks = [];
@@ -72,7 +73,9 @@ async function recevoirDemande(req, res) {
   await writeFile(`demandes/${ref}.json`,
     JSON.stringify({ reference: ref, recue_le: horodatage, pieces_jointes: fichiers, ...champs }, null, 2));
 
-  console.log(`→ demande reçue ${ref} — ${champs.nom} (${champs.localisation}), ${fichiers} pièce(s) jointe(s)`);
+  console.log(`→ demande reçue ${ref} — ${champs.nom} (${champs.adresse})`
+    + (champs.parrainage ? `, parrainage ${champs.parrainage}` : "")
+    + `, ${fichiers} pièce(s) jointe(s)`);
   res.writeHead(200, { "Content-Type": "application/json" });
   res.end(JSON.stringify({ ok: true, reference: ref }));
 }

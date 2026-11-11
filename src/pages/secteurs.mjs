@@ -3,7 +3,7 @@ import { faqBlock, finalCta } from "../parts.mjs";
 import { clienteles, contact } from "../config.mjs";
 
 const detail = {
-  particuliers: ["Une véranda, une verrière, un pignon vitré ou des Velux ne se nettoient pas depuis une échelle. Nous intervenons avec le matériel adapté, de la perche télescopique à la nacelle selon la hauteur.",
+  particuliers: ["Une véranda, une verrière, un pignon vitré ou des Velux ne se nettoient pas depuis une échelle. Nous intervenons avec le matériel adapté, de la perche télescopique aux travaux sur cordes selon la hauteur.",
     "Pour une simple vitre de plain-pied, notre intervention n'a pas d'intérêt économique et nous le dirons."],
   commercants: ["La vitrine est la première chose que voit le client. Elle se salit vite et cela se remarque immédiatement.",
     "Nous planifions ces interventions en dehors des heures d'affluence — tôt le matin, en soirée ou les jours de fermeture — pour ne gêner ni votre activité ni vos clients."],
