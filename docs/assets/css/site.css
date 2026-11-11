@@ -80,7 +80,7 @@
 
 /* Conteneurs sombres : un seul endroit pour basculer les jetons de texte. */
 .sec--dark,.sec--navy,.hero,.phero,.show,.fcta,.foot,.ticker,.mob,.cookies,
-.meth__it,.gal figcaption,.promis,.pick,.close,.trio__b,.quad a,.mosaic figcaption{
+.meth__it,.gal figcaption,.promis,.close,.trio__b,.quad a,.mosaic figcaption{
   --c-eyebrow:var(--blue-light);
   --c-lead:#A9BDD2;
   --c-prose:#9FB4CA;
@@ -201,26 +201,6 @@ ul,ol{margin:0;padding:0;list-style:none}
   opacity:1;transition:opacity var(--d-section) var(--e);
 }
 .nav__in{width:100%;max-width:var(--max);margin-inline:auto;padding-inline:var(--gut);display:flex;align-items:center;gap:clamp(1rem,2.4vw,2.4rem)}
-/* ---------- Mot-signe typographique ---------- */
-.wm{display:flex;align-items:center;gap:.7rem;flex:none;color:#fff;transition:color var(--d-micro) var(--e)}
-.wm__mark{width:34px;height:34px;flex:none}
-.wm__txt{display:flex;flex-direction:column;line-height:1}
-.wm__name{
-  font-family:var(--f-display);font-size:1.06rem;letter-spacing:-.025em;white-space:nowrap;
-  display:flex;align-items:baseline;
-}
-.wm__a{font-weight:300}
-.wm__b{font-weight:700}
-.wm__c{font-weight:500;font-size:.62em;letter-spacing:.17em;text-transform:uppercase;margin-left:.3em;opacity:.78}
-.wm__base{
-  font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;opacity:.6;
-  margin-top:4px;font-weight:500;white-space:nowrap;
-}
-@media(max-width:420px){
-  .wm__name{font-size:.98rem}
-  .wm__base{display:none}
-}
-
 .nav__links{display:flex;align-items:center;gap:clamp(.5rem,1.5vw,1.55rem);margin-left:auto}
 .nav__links a{
   font-size:.845rem;font-weight:500;color:rgba(255,255,255,.84);letter-spacing:-.004em;
@@ -869,38 +849,20 @@ body.is-locked{overflow:hidden}
 @keyframes cue{0%{transform:translateX(-100%)}60%,100%{transform:translateX(100%)}}
 
 /* ---------- Section B : sélecteur de méthodes ---------- */
-.pick{position:relative;background:var(--ink);color:#fff;overflow:hidden;isolation:isolate}
-.pick__in{max-width:var(--max);margin-inline:auto;padding:var(--s-10) var(--gut)}
-.pick__stage{
   position:absolute;inset:0;z-index:-1;opacity:0;transition:opacity var(--d-section) var(--e);
 }
-.pick__stage img{width:100%;height:100%;object-fit:cover;opacity:.3}
-.pick__stage::after{content:"";position:absolute;inset:0;background:linear-gradient(to right,var(--ink) 8%,rgba(5,11,20,.6) 62%,rgba(5,11,20,.85))}
-.pick__stage.is-on{opacity:1}
-.pick__list{display:grid;border-top:1px solid var(--line-dark)}
-.pick__it{border-bottom:1px solid var(--line-dark)}
-.pick__it a{
   display:grid;grid-template-columns:auto 1fr auto;gap:clamp(.9rem,3vw,2.6rem);align-items:center;
   padding:clamp(1.4rem,3vw,2.3rem) 0;transition:padding var(--d-section) var(--e-out);
 }
-@media(min-width:900px){.pick__it a{grid-template-columns:auto 1fr auto auto}}
-.pick__it a:hover,.pick__it a:focus-visible{padding-left:clamp(.6rem,2vw,1.6rem)}
-.pick__n{
   font-family:var(--f-display);font-size:var(--t-micro);font-weight:600;letter-spacing:.2em;
   color:var(--blue-light);font-variant-numeric:tabular-nums;
 }
-.pick__t{
   font-family:var(--f-display);font-size:clamp(1.6rem,1rem + 3vw,3.6rem);font-weight:500;
   letter-spacing:-.04em;line-height:1.05;transition:color var(--d-micro) var(--e);
 }
-.pick__it a:hover .pick__t{color:var(--blue-light)}
-.pick__m{font-size:var(--t-small);color:#A9BDD2;max-width:26ch;text-align:right;display:none}
-@media(min-width:900px){.pick__m{display:block}}
-.pick__go{
   width:clamp(38px,4vw,52px);height:clamp(38px,4vw,52px);border:1px solid var(--line-dark-2);border-radius:50%;
   display:grid;place-items:center;flex:none;transition:background var(--d-micro),border-color var(--d-micro),transform var(--d-micro) var(--e-out);
 }
-.pick__it a:hover .pick__go{background:var(--blue);border-color:var(--blue);transform:translateX(4px)}
 
 /* ---------- Section C : composition asymétrique des méthodes ---------- */
 .trio{display:grid;gap:clamp(.7rem,1.6vw,1.2rem)}
@@ -1026,13 +988,9 @@ body.is-locked{overflow:hidden}
 .promis span{font-size:var(--t-micro);letter-spacing:.14em;text-transform:uppercase;color:var(--c-label);font-weight:600;font-family:var(--f-display)}
 
 /* ---------- Sélecteur : entrées sans page dédiée ---------- */
-.pick__static{
   display:grid;grid-template-columns:auto 1fr auto;gap:clamp(.9rem,3vw,2.6rem);align-items:center;
   padding:clamp(1.4rem,3vw,2.3rem) 0;
 }
-@media(min-width:900px){.pick__static{grid-template-columns:auto 1fr auto auto}}
-.pick__go--off{border:1px dashed var(--line-dark);opacity:.4}
-.pick__static .pick__t{color:#D4E2F0}
 
 /* ---------- Clientèles : quatre vignettes ---------- */
 .quad{display:grid;gap:clamp(.6rem,1.3vw,1rem)}
@@ -1234,3 +1192,231 @@ body.a-promo{--nav-h:108px}
 .par__note--ok{color:var(--blue-light)}
 .par__note--info{color:var(--c-prose)}
 input#parrainage{text-transform:uppercase;letter-spacing:.08em;font-family:var(--f-display)}
+
+/* ---------- Logo officiel ----------
+   Deux fichiers pour un seul dessin : l'original sur fond clair, sa
+   déclinaison inversée sur fond sombre. Les deux sont dans le balisage ;
+   la bascule au défilement doit être instantanée, pas attendre un
+   téléchargement. Jamais d'étirement : la hauteur commande, la largeur
+   suit le rapport d'origine (1100 × 184).                                */
+.sr{
+  position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip-path:inset(50%);white-space:nowrap;border:0;
+}
+.wm{display:flex;align-items:center;flex:none;position:relative;line-height:0}
+.wm__i{display:block;height:34px;width:auto;max-width:none}
+.wm--auto .wm__i--clair{display:none}
+.nav.is-solid .wm--auto .wm__i--sombre{display:none}
+.nav.is-solid .wm--auto .wm__i--clair{display:block}
+.wm--auto .wm__i{transition:opacity var(--d-panel) var(--e)}
+.foot__logo .wm__i{height:40px}
+.mob .wm__i{height:32px}
+@media(max-width:420px){.wm__i{height:26px}}
+
+/* ---------- Fiche de chantier ----------
+   La structure existe, le contenu non : plutôt qu'une grille de cartes
+   vides, un seul bloc éditorial qui montre exactement ce que portera
+   chaque fiche le jour où les photographies seront fournies.            */
+.proj{display:grid;gap:var(--s-7)}
+@media(min-width:960px){
+  .proj{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(2.4rem,5vw,5rem);align-items:center}
+}
+.proj__im{
+  position:relative;aspect-ratio:4/3;border-radius:var(--r);overflow:hidden;
+  background:
+    repeating-linear-gradient(135deg,rgba(22,104,220,.05) 0 2px,transparent 2px 11px),
+    linear-gradient(150deg,var(--paper-2),var(--paper));
+  border:1px dashed var(--line-light);
+  display:grid;place-items:center;text-align:center;
+}
+.proj__ph{display:block;max-width:26ch;padding:var(--s-5);color:var(--text-soft);font-size:var(--t-small);line-height:1.6}
+.proj__ph b{
+  display:block;font-family:var(--f-display);font-size:var(--t-micro);font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--blue-deep);margin-bottom:.5rem;
+}
+.proj__b h3{font-size:var(--t-h3);letter-spacing:-.03em;margin:var(--s-3) 0 0;max-width:18ch}
+.proj__d{margin:var(--s-6) 0 0;display:grid;gap:0}
+.proj__d > div{
+  display:grid;grid-template-columns:minmax(0,13rem) 1fr;gap:1rem;align-items:baseline;
+  padding:clamp(.8rem,1.6vw,1.1rem) 0;border-top:1px solid var(--c-rule);
+}
+.proj__d > div:last-child{border-bottom:1px solid var(--c-rule)}
+.proj__d dt{
+  font-family:var(--f-display);font-size:var(--t-micro);font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--c-label);
+}
+.proj__d dd{margin:0;font-size:var(--t-small);color:var(--c-prose)}
+.proj__d dd.ph{font-style:italic;opacity:.85}
+.proj__n{margin-top:var(--s-5);font-size:var(--t-small);color:var(--c-prose);max-width:50ch}
+
+/* ---------- Comparateur avant / après ----------
+   Le curseur est un <input type="range"> étendu sur toute l'image :
+   il se manipule à la souris, au doigt et au clavier sans code
+   supplémentaire, et reste annoncé correctement aux lecteurs d'écran. */
+.ba{margin:0}
+.ba__st{
+  --p:50%;
+  position:relative;aspect-ratio:16/9;border-radius:var(--r);overflow:hidden;
+  background:var(--navy);isolation:isolate;
+}
+@media(max-width:620px){.ba__st{aspect-ratio:4/3}}
+/* Chaque libellé reste dans sa moitié : centrés tous les deux, celui
+   d'« Avant » disparaîtrait sous le volet « Après » dès que le curseur
+   passe au tiers gauche. */
+.ba__l{position:absolute;inset:0;display:grid;align-content:center;gap:.5rem;padding-inline:clamp(1.2rem,4vw,3.2rem)}
+.ba__l--av{justify-items:start;text-align:left}
+.ba__l--ap{justify-items:end;text-align:right}
+.ba__l span{
+  font-family:var(--f-display);font-size:clamp(1.4rem,3.4vw,2.4rem);font-weight:300;
+  letter-spacing:-.03em;color:#fff;
+}
+.ba__l em{
+  font-style:normal;font-size:var(--t-micro);letter-spacing:.16em;text-transform:uppercase;
+  font-weight:600;color:var(--blue-light);
+}
+.ba__l--av{
+  background:
+    radial-gradient(60% 70% at 30% 35%,rgba(255,255,255,.07),transparent 70%),
+    repeating-linear-gradient(118deg,rgba(255,255,255,.045) 0 1px,transparent 1px 16px),
+    linear-gradient(160deg,#0C1B2C,#060D17);
+}
+.ba__l--ap{
+  clip-path:inset(0 0 0 var(--p));
+  background:
+    radial-gradient(70% 80% at 72% 28%,rgba(111,188,255,.26),transparent 68%),
+    repeating-linear-gradient(118deg,rgba(255,255,255,.08) 0 1px,transparent 1px 34px),
+    linear-gradient(160deg,#17426E,#0B2238);
+}
+.ba__h{position:absolute;top:0;bottom:0;left:var(--p);width:2px;background:#fff;transform:translateX(-1px);pointer-events:none;z-index:2}
+.ba__h i{
+  position:absolute;top:50%;left:50%;width:46px;height:46px;transform:translate(-50%,-50%);
+  border-radius:50%;background:rgba(5,11,20,.6);border:1px solid rgba(255,255,255,.55);
+  backdrop-filter:blur(6px);display:grid;place-items:center;
+}
+.ba__h i::before,.ba__h i::after{
+  content:"";position:absolute;width:0;height:0;border-block:5px solid transparent;
+}
+.ba__h i::before{border-right:6px solid #fff;left:11px}
+.ba__h i::after{border-left:6px solid #fff;right:11px}
+.ba__r{
+  position:absolute;inset:0;z-index:3;width:100%;height:100%;margin:0;
+  appearance:none;background:none;cursor:ew-resize;
+}
+.ba__r::-webkit-slider-thumb{appearance:none;width:52px;height:100%;background:none;cursor:ew-resize}
+.ba__r::-moz-range-thumb{width:52px;height:100%;background:none;border:0;cursor:ew-resize}
+.ba__r:focus-visible{outline:2px solid var(--blue-light);outline-offset:3px}
+.ba figcaption{margin-top:var(--s-5);font-size:var(--t-small);color:var(--c-prose);max-width:70ch}
+
+/* ---------- Moyens d'accès : trois rangées éditoriales ----------
+   Alternance gauche / droite plutôt qu'une grille de cartes : chaque
+   méthode a droit à une grande image et à une respiration propre.     */
+.meth3{display:grid;gap:var(--s-10);margin-top:var(--s-9)}
+.meth3__it{display:grid;gap:var(--s-6)}
+@media(min-width:900px){
+  .meth3__it{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:clamp(2.4rem,5vw,5.5rem);align-items:center}
+  .meth3__it:nth-child(even) .meth3__im{order:2}
+}
+.meth3__im{margin:0;position:relative;overflow:hidden;border-radius:var(--r);aspect-ratio:16/11}
+.meth3__im img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.02);transition:transform var(--d-cine) var(--e-out)}
+.meth3__it:hover .meth3__im img{transform:scale(1.055)}
+.meth3__n{
+  font-family:var(--f-display);font-size:var(--t-micro);font-weight:600;
+  letter-spacing:.2em;color:var(--blue-light);margin:0 0 var(--s-3);
+}
+.meth3__b h3{font-size:var(--t-h3);letter-spacing:-.034em;margin:0;max-width:16ch}
+.meth3__p{margin:var(--s-4) 0 0;color:var(--c-lead);font-size:var(--t-lead);line-height:1.55;font-weight:350;max-width:44ch}
+.meth3__lbl{
+  margin:var(--s-6) 0 var(--s-3);font-family:var(--f-display);font-size:var(--t-micro);
+  font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--c-label);
+}
+.meth3__apps{list-style:none;margin:0 0 var(--s-5);padding:0;display:flex;flex-wrap:wrap;gap:.45rem}
+.meth3__apps li{
+  font-size:var(--t-small);color:var(--c-prose);line-height:1;
+  padding:.5rem .8rem;border:1px solid var(--c-rule);border-radius:100px;
+}
+
+/* ---------- Portrait du dirigeant ----------
+   Le cadre réservé est dessiné, pas laissé vide : il indique précisément
+   ce qui viendra s'y loger, et ne prétend rien en attendant.            */
+.port{display:grid;gap:var(--s-7)}
+@media(min-width:900px){
+  .port{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(2.4rem,5.5vw,5.5rem);align-items:center}
+}
+.port__im{
+  margin:0;position:relative;aspect-ratio:4/5;border-radius:var(--r);overflow:hidden;
+  display:grid;place-items:center;text-align:center;
+  border:1px dashed var(--line-light);
+  background:
+    repeating-linear-gradient(135deg,rgba(22,104,220,.05) 0 2px,transparent 2px 11px),
+    linear-gradient(150deg,var(--paper-2),var(--paper));
+}
+.port__ph{display:block;max-width:24ch;padding:var(--s-5);color:var(--text-soft);font-size:var(--t-small);line-height:1.6}
+.port__ph b{
+  display:block;font-family:var(--f-display);font-size:var(--t-micro);font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--blue-deep);margin-bottom:.5rem;
+}
+.port__b h2{max-width:16ch}
+.port__b .lead{margin-top:var(--s-5);max-width:52ch}
+.port__p{margin-top:var(--s-4);color:var(--c-prose);max-width:54ch}
+.port__d{margin:var(--s-6) 0 0;display:grid;gap:0}
+.port__d > div{
+  display:grid;grid-template-columns:minmax(0,11rem) 1fr;gap:1rem;align-items:baseline;
+  padding:clamp(.75rem,1.5vw,1rem) 0;border-top:1px solid var(--c-rule);
+}
+.port__d > div:last-child{border-bottom:1px solid var(--c-rule)}
+.port__d dt{
+  font-family:var(--f-display);font-size:var(--t-micro);font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--c-label);
+}
+.port__d dd{margin:0;font-size:var(--t-small);color:var(--text)}
+
+/* ---------- Récapitulatif avant envoi ---------- */
+.recap{
+  margin:var(--s-6) 0 0;padding:clamp(1.2rem,2.4vw,1.8rem);
+  border:1px solid var(--c-rule);border-radius:var(--r);
+  background:rgba(255,255,255,.03);
+}
+.recap__t{
+  margin:0 0 var(--s-4);font-family:var(--f-display);font-size:var(--t-micro);
+  font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--c-eyebrow);
+}
+.recap__d{margin:0;display:grid;gap:0}
+.recap__d > div{
+  display:grid;grid-template-columns:minmax(0,13rem) 1fr;gap:1rem;align-items:baseline;
+  padding:.6rem 0;border-top:1px solid var(--c-rule);
+}
+.recap__d > div:first-child{border-top:0;padding-top:0}
+@media(max-width:620px){.recap__d > div{grid-template-columns:1fr;gap:.15rem}}
+.recap__d dt{font-size:var(--t-micro);letter-spacing:.1em;text-transform:uppercase;font-weight:600;color:var(--c-label)}
+.recap__d dd{margin:0;font-size:var(--t-small);color:var(--c-ph)}
+.recap__n{margin:var(--s-4) 0 0;font-size:var(--t-micro);color:var(--c-prose)}
+
+/* ---------- Pied de page : territoires et parrainage ---------- */
+.foot__zones{
+  font-size:var(--t-micro);letter-spacing:.12em;text-transform:uppercase;
+  color:#7F91A8;font-weight:600;
+}
+.foot__par{
+  display:flex;align-items:center;gap:.9rem;margin-top:var(--s-5);
+  padding:.85rem 1rem;border:1px solid var(--line-dark);border-radius:var(--r);
+  max-width:34rem;color:var(--c-prose);font-size:var(--t-small);line-height:1.5;
+  transition:border-color var(--d-panel) var(--e),background var(--d-panel) var(--e);
+}
+.foot__par:hover{border-color:var(--line-dark-2);background:rgba(22,104,220,.08);color:#fff}
+.foot__par b{
+  flex:none;font-family:var(--f-display);font-size:var(--t-small);font-weight:700;
+  letter-spacing:.02em;color:var(--blue-light);
+}
+.meth3__im img.is-pos{object-position:var(--pos,50% 50%)}
+.meth3__im--vide{
+  display:grid;place-items:center;text-align:center;
+  border:1px dashed var(--line-dark-2);
+  background:
+    repeating-linear-gradient(135deg,rgba(111,188,255,.05) 0 2px,transparent 2px 11px),
+    linear-gradient(150deg,var(--navy-2),var(--navy));
+}
+.meth3__ph{display:block;max-width:26ch;padding:var(--s-5);color:var(--c-prose);font-size:var(--t-small);line-height:1.6}
+.meth3__ph b{
+  display:block;font-family:var(--f-display);font-size:var(--t-micro);font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--blue-light);margin-bottom:.5rem;
+}
