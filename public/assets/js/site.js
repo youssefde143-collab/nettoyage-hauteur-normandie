@@ -115,25 +115,6 @@
     hero.addEventListener("pointerleave", () => { tx = ty = 0; if (!raf) raf = requestAnimationFrame(apply); });
   }
 
-  /* ---------- Sélecteur de méthodes : l'image de fond suit l'élément visé ----------
-     Au survol et au focus clavier sur bureau ; au toucher, la liste reste
-     une simple liste de liens, sans dépendre du survol. */
-  const pick = $("[data-pick]");
-  if (pick) {
-    const stages = $$(".pick__stage");
-    let current = 0;
-    const activate = (i) => {
-      if (i === current) return;
-      current = i;
-      stages.forEach((s, k) => s.classList.toggle("is-on", k === i));
-    };
-    $$("[data-pick-i]", pick).forEach(a => {
-      const i = Number(a.dataset.pickI);
-      a.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") activate(i); });
-      a.addEventListener("focus", () => activate(i));
-    });
-  }
-
   /* ---------- Parallaxe discrète (transform uniquement) ---------- */
   const plx = $$(".plx");
   if (plx.length && !reduced) {
@@ -248,6 +229,17 @@
     });
   }
 
+  /* ---------- Comparateur avant / après ----------
+     Le curseur natif fait tout le travail d'interaction : souris, doigt et
+     clavier. Le script se contente de reporter sa valeur sur la découpe. */
+  $$("[data-ba]").forEach(ba => {
+    const st = $(".ba__st", ba), r = $(".ba__r", ba);
+    if (!st || !r) return;
+    const pose = () => st.style.setProperty("--p", r.value + "%");
+    r.addEventListener("input", pose);
+    pose();
+  });
+
   /* ---------- Bandeau cookies ---------- */
   const ck = $("#cookies");
   if (ck) {
@@ -313,14 +305,23 @@
       return !e;
     };
 
-    // L'étape 2 n'a pas de champ requis au sens HTML : au moins une case suffit.
+    /* Deux groupes sont obligatoires sans que HTML puisse l'exprimer :
+       le profil (boutons radio) et les surfaces (cases à cocher). */
+    const GROUPES = {
+      type_client: "Veuillez indiquer votre profil.",
+      prestations: msg.group,
+    };
     const checkGroup = (step) => {
-      const boxes = $$('input[name="prestations"]', step);
-      if (!boxes.length) return true;
-      const ok = boxes.some(b => b.checked);
-      const slot = $("#prestations-err");
-      if (slot) slot.textContent = ok ? "" : msg.group;
-      step.querySelector(".chips")?.classList.toggle("has-err", !ok);
+      let ok = true;
+      for (const [nom, texte] of Object.entries(GROUPES)) {
+        const champs = $$(`input[name="${nom}"]`, step);
+        if (!champs.length) continue;
+        const bon = champs.some(c => c.checked);
+        const slot = document.getElementById(nom + "-err");
+        if (slot) slot.textContent = bon ? "" : texte;
+        champs[0].closest(".chips")?.classList.toggle("has-err", !bon);
+        if (!bon) ok = false;
+      }
       return ok;
     };
 
@@ -332,12 +333,12 @@
     const validateStep = (i) => {
       const step = steps[i];
       const fields = $$("input, select, textarea", step)
-        .filter(f => f.type !== "hidden" && f.type !== "radio" && f.name !== "prestations" && f.name !== "parrainage");
+        .filter(f => f.type !== "hidden" && f.type !== "radio" && !(f.name in GROUPES) && f.name !== "parrainage");
       const bad = fields.filter(f => !checkField(f));
       const groupOk = checkGroup(step);
       const parOk = parSync();
       if (bad.length) bad[0].focus();
-      else if (!groupOk) $('input[name="prestations"]', step)?.focus();
+      else if (!groupOk) $('input[type="radio"]:invalid, input[name="prestations"], input[name="type_client"]', step)?.focus();
       else if (!parOk) $("#parrainage", step)?.focus();
       return !bad.length && groupOk && parOk;
     };
@@ -353,6 +354,7 @@
       bPrev.hidden = i === 0;
       bNext.hidden = i === steps.length - 1;
       bSend.hidden = i !== steps.length - 1;
+      if (i === steps.length - 1) remplirRecap();
       const top = form.getBoundingClientRect().top + scrollY - 110;
       if (scrollY > top) window.scrollTo({ top, behavior: reduced ? "auto" : "smooth" });
       steps[i].querySelector("input, select, textarea")?.focus({ preventScroll: true });
@@ -378,7 +380,7 @@
       if (f.name === "parrainage") return;          // vérification dédiée, plus bas
       f.addEventListener("blur", () => { if (f.type !== "checkbox" && f.type !== "radio") checkField(f); });
       f.addEventListener("change", () => {
-        if (f.name === "prestations") checkGroup(f.closest(".step"));
+        if (f.name in GROUPES) checkGroup(f.closest(".step"));
         else if (f.type !== "radio") checkField(f);
       });
     });
@@ -480,36 +482,53 @@
       status.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
     };
 
-    /* Récapitulatif lisible, réutilisé pour le corps de l'e-mail. */
-    const resume = () => {
+    /* Une seule description de la demande, lue de deux façons : affichée
+       au visiteur avant l'envoi, et reprise telle quelle dans le message
+       reçu par l'entreprise. Pas deux listes à tenir à jour. */
+    const CHAMPS = [
+      ["Profil", "type_client"],
+      ["Surfaces concernées", "prestations"],
+      ["Adresse du chantier", "adresse"], ["Département", "departement"],
+      ["Surface / quantité", "quantite"], ["Hauteur", "hauteur"], ["Niveaux", "niveaux"],
+      ["Accessibilité", "acces"], ["Contraintes du site", "obstacles"], ["État des surfaces", "etat"],
+      ["Eau / électricité", "eau_electricite"], ["Stationnement", "stationnement"],
+      ["Méthode envisagée", "methode"],
+      ["Date souhaitée", "date"], ["Urgence", "urgence"], ["Type d'intervention", "frequence"],
+      ["Nom", "nom"], ["Société", "societe"], ["Téléphone", "telephone"], ["E-mail", "email"],
+      ["Code de parrainage", "parrainage"],
+      ["Informations complémentaires", "description"],
+    ];
+    const lignes = () => {
       const d = new FormData(form);
-      const L = [];
-      const put = (label, key) => {
-        const vals = d.getAll(key).filter(v => typeof v === "string" && v.trim());
-        if (vals.length) L.push(`${label} : ${vals.join(", ")}`);
-      };
-      L.push("DEMANDE DE DEVIS", "");
-      put("Nom", "nom"); put("Téléphone", "telephone"); put("E-mail", "email"); put("Profil", "type_client");
-      const code = (d.get("parrainage") || "").trim();
-      if (code) {
-        L.push(`Code de parrainage : ${code}`);
-        L.push(`  → à vérifier avant d'appliquer la réduction de ${form.dataset.parReduction || "20"} % sur la première intervention.`);
-      }
-      L.push("");
-      put("Surfaces", "prestations");
-      L.push("");
-      put("Adresse du chantier", "adresse"); put("Département", "departement");
-      put("Quantité / surface", "quantite"); put("Hauteur", "hauteur"); put("Niveaux", "niveaux");
-      put("Accessibilité", "acces"); put("Obstacles", "obstacles"); put("État des surfaces", "etat");
-      L.push("");
-      put("Méthode envisagée", "methode");
-      put("Date souhaitée", "date"); put("Urgence", "urgence"); put("Type", "frequence");
-      L.push("");
-      put("Description", "description");
-      put("Eau / électricité", "eau_electricite"); put("Stationnement", "stationnement");
+      const L = CHAMPS.map(([label, cle]) => {
+        const v = d.getAll(cle).filter(x => typeof x === "string" && x.trim());
+        return v.length ? [label, v.join(", ")] : null;
+      }).filter(Boolean);
       const nf = file && file.files.length;
-      if (nf) L.push("", `${nf} fichier(s) à joindre manuellement à cet e-mail.`);
+      if (nf) L.push(["Pièces jointes", `${nf} fichier${nf > 1 ? "s" : ""}`]);
+      return L;
+    };
+
+    const resume = () => {
+      const L = ["DEMANDE DE DEVIS", ""];
+      for (const [label, v] of lignes()) {
+        L.push(`${label} : ${v}`);
+        if (label === "Code de parrainage")
+          L.push(`  → à vérifier avant d'appliquer la réduction de ${form.dataset.parReduction || "20"} % sur la première intervention.`);
+      }
+      if (file && file.files.length)
+        L.push("", "Pensez à joindre vos fichiers à cet e-mail : ils ne peuvent pas y être attachés automatiquement.");
       return L.join("\n");
+    };
+
+    /* Le récapitulatif se remplit à l'entrée de la dernière étape. */
+    const recap = $("#form-recap"), recapD = $("#form-recap-d");
+    const remplirRecap = () => {
+      if (!recap || !recapD) return;
+      const L = lignes().filter(([lab]) => !["Nom","Société","Téléphone","E-mail","Code de parrainage","Informations complémentaires"].includes(lab));
+      recapD.innerHTML = L.map(([lab, v]) =>
+        `<div><dt>${lab}</dt><dd>${v.replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]))}</dd></div>`).join("");
+      recap.hidden = L.length === 0;
     };
 
     form.addEventListener("submit", async (e) => {

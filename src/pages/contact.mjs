@@ -51,63 +51,63 @@ const radios = (name, options, req = false) => `
   </label>`).join("")}
 </div>`;
 
-/* ---------- Les six étapes ---------- */
+/* ---------- Les six étapes ----------
+   L'ordre suit le raisonnement du visiteur : qui il est, ce qu'il y a à
+   nettoyer, où, comment y accéder, quand — et seulement à la fin, comment
+   le joindre. Demander ses coordonnées d'emblée fait fuir ; les demander
+   une fois le projet décrit paraît naturel.                              */
 const steps = [
   {
-    t: "Vous", s: "Pour vous recontacter",
+    t: "Profil", s: "Qui êtes-vous ?",
     html: `
-      <div class="form__grid form__grid--2">
-        ${field("nom", "Nom et prénom, ou raison sociale", text("nom", "nom", "Noah Lefebvre, ou Durand SAS", "text", true, "name"), { req: true })}
-        ${field("telephone", "Téléphone", text("telephone", "telephone", "06 00 00 00 00", "tel", true, "tel"), { req: true })}
-      </div>
-      <div class="form__grid form__grid--2">
-        ${field("email", "Adresse e-mail", text("email", "email", "vous@exemple.fr", "email", true, "email"), { req: true })}
-        ${field("typeClient", "Vous êtes", select("typeClient", "type_client", ["Particulier", "Commerçant ou professionnel", "Entreprise, industrie ou immobilier", "Collectivité ou établissement public"], true), { req: true })}
-      </div>
-      ${field("parrainage", "Vous avez un code parrainage ?",
-        `<input id="parrainage" name="parrainage" type="text" inputmode="latin" autocapitalize="characters" spellcheck="false"
-                maxlength="20" aria-describedby="parrainage-hint parrainage-note parrainage-err" placeholder="${esc(parrainage.exemple)}">
-         <p class="par__note" id="parrainage-note" aria-live="polite"></p>`,
-        { hint: `Un proche vous a recommandé CleanVitreService ? Son code vous ouvre droit à ${parrainage.reduction}&nbsp;% de réduction sur votre première intervention. <a href="/parrainage/">En savoir plus</a>.` })}`,
+      <div class="field">
+        <label id="type_client-lg">Vous êtes <span class="req" aria-hidden="true">*</span></label>
+        ${radios("type_client", ["Particulier", "Professionnel ou commerçant", "Entreprise, industrie ou immobilier", "Collectivité ou établissement public"])}
+        <p class="field__err" id="type_client-err" aria-live="polite"></p>
+      </div>`,
   },
   {
-    t: "Prestation", s: "Ce qu'il y a à nettoyer",
+    t: "Besoin", s: "Ce qu'il y a à nettoyer",
     html: `
       <div class="field">
         <label id="prestations-lg">Surfaces concernées <span class="req" aria-hidden="true">*</span></label>
         <p class="field__hint">Plusieurs choix possibles.</p>
-        ${checks("prestations", ["Vitres et baies vitrées", "Vérandas et verrières", "Façades et bardages", "Panneaux solaires", "Vitrines commerciales", "Volets roulants", "Panneaux publicitaires", "Autre"])}
+        ${checks("prestations", ["Vitres et baies vitrées", "Vérandas et verrières", "Façades et bardages", "Panneaux photovoltaïques", "Vitrines commerciales", "Volets roulants", "Panneaux publicitaires", "Autre"])}
         <p class="field__err" id="prestations-err" aria-live="polite"></p>
       </div>`,
   },
   {
-    t: "Le site", s: "Où et dans quel état",
+    t: "Chantier", s: "Où et dans quelles conditions",
     html: `
       ${field("adresse", "Adresse complète du chantier", text("adresse", "adresse", "Rue, code postal, commune", "text", true, "street-address"), { req: true })}
       <div class="form__grid form__grid--2">
         ${field("departement", "Département", select("departement", "departement", [...zones.map(z => `${z.nom} (${z.code})`), "Autre département en France"]))}
-        ${field("quantite", "Nombre de vitres ou surface approximative", text("quantite", "quantite", "Ex. 25 fenêtres, ou 180 m²"))}
+        ${field("quantite", "Surface approximative ou nombre de vitres", text("quantite", "quantite", "Ex. 180 m², ou 25 fenêtres"))}
       </div>
       <div class="form__grid form__grid--2">
         ${field("hauteur", "Hauteur du bâtiment", text("hauteur", "hauteur", "Ex. environ 12 m"))}
         ${field("niveaux", "Nombre de niveaux", text("niveaux", "niveaux", "Ex. 4"))}
       </div>
       ${field("acces", "Accessibilité du site", select("acces", "acces", ["Abords dégagés, accès facile", "Accès partiellement contraint", "Accès difficile", "Je ne sais pas"]))}
-      ${field("obstacles", "Obstacles éventuels", text("obstacles", "obstacles", "Verrière, auvent, végétation, ligne électrique…"))}
-      ${field("etat", "État général des surfaces", select("etat", "etat", ["Entretien courant", "Salissures marquées", "Encrassement ancien ou incrusté", "Après travaux", "Je ne sais pas"]))}`,
+      ${field("obstacles", "Contraintes du site", text("obstacles", "obstacles", "Verrière, auvent, végétation, ligne électrique, voirie…"))}
+      ${field("etat", "État général des surfaces", select("etat", "etat", ["Entretien courant", "Salissures marquées", "Encrassement ancien ou incrusté", "Après travaux", "Je ne sais pas"]))}
+      <div class="form__grid form__grid--2">
+        ${field("eauElec", "Eau et électricité sur place", select("eauElec", "eau_electricite", ["Oui, les deux", "Eau uniquement", "Électricité uniquement", "Ni l'un ni l'autre", "Je ne sais pas"]))}
+        ${field("stationnement", "Stationnement et restrictions", text("stationnement", "stationnement", "Parking privé, voirie, horaires imposés…"))}
+      </div>`,
   },
   {
-    t: "Accès", s: "Comment atteindre la surface",
+    t: "Méthode", s: "Comment atteindre la surface",
     html: `
       <div class="field">
-        <label id="methode-lg">Méthode envisagée</label>
-        <p class="field__hint">Si vous hésitez, choisissez « Conseil souhaité » : c'est notre travail de trancher.</p>
-        ${radios("methode", ["Nettoyage conventionnel", "Perche télescopique", "Travaux sur cordes", "Drone", "Conseil souhaité"])}
+        <label id="methode-lg">Méthode d'intervention envisagée</label>
+        <p class="field__hint">Si vous hésitez, choisissez « Je ne sais pas, conseillez-moi » : trancher est notre travail.</p>
+        ${radios("methode", ["Perche télescopique", "Travaux sur cordes", "Drone", "Je ne sais pas, conseillez-moi"])}
         <p class="field__err" id="methode-err" aria-live="polite"></p>
       </div>`,
   },
   {
-    t: "Planning", s: "Quand et à quelle fréquence",
+    t: "Disponibilité", s: "Quand et à quelle fréquence",
     html: `
       <div class="form__grid form__grid--2">
         ${field("date", "Date d'intervention souhaitée", `<input id="date" name="date" type="date" aria-describedby="date-err">`)}
@@ -119,22 +119,38 @@ const steps = [
       </div>`,
   },
   {
-    t: "Précisions", s: "Tout ce qui nous fera gagner du temps",
+    t: "Coordonnées", s: "Pour vous répondre",
     html: `
-      ${field("description", "Description du projet", `<textarea id="description" name="description" required maxlength="1200" aria-describedby="description-err" placeholder="Décrivez le bâtiment, les surfaces et ce que vous attendez de l'intervention."></textarea>`, { req: true })}
+      <div class="form__grid form__grid--2">
+        ${field("nom", "Nom et prénom", text("nom", "nom", "Noah Lefebvre", "text", true, "name"), { req: true })}
+        ${field("societe", "Société, le cas échéant", text("societe", "societe", "Durand SAS", "text", false, "organization"))}
+      </div>
+      <div class="form__grid form__grid--2">
+        ${field("telephone", "Téléphone", text("telephone", "telephone", "06 00 00 00 00", "tel", true, "tel"), { req: true })}
+        ${field("email", "Adresse e-mail", text("email", "email", "vous@exemple.fr", "email", true, "email"), { req: true })}
+      </div>
+      ${field("parrainage", "Vous avez un code parrainage ?",
+        `<input id="parrainage" name="parrainage" type="text" inputmode="latin" autocapitalize="characters" spellcheck="false"
+                maxlength="20" aria-describedby="parrainage-hint parrainage-note parrainage-err" placeholder="${esc(parrainage.exemple)}">
+         <p class="par__note" id="parrainage-note" aria-live="polite"></p>`,
+        { hint: `Un proche vous a recommandé CleanVitreService ? Son code vous ouvre droit à ${parrainage.reduction}&nbsp;% de réduction sur votre première intervention. <a href="/parrainage/">En savoir plus</a>.` })}
+      ${field("description", "Informations complémentaires", `<textarea id="description" name="description" maxlength="1200" aria-describedby="description-err" placeholder="Décrivez le bâtiment et ce que vous attendez de l'intervention. Quelques lignes suffisent."></textarea>`)}
       <div class="field">
         <label for="photos">Photographies ou documents</label>
         <label class="file" for="photos">
           <input id="photos" name="photos[]" type="file" accept="image/*,video/*,.pdf" multiple aria-describedby="photos-hint photos-err">
           <span><b>Déposer vos fichiers ici</b>Photos, vidéos, plans ou cahier des charges</span>
         </label>
-        <p class="field__hint" id="photos-hint">Jusqu'à 5 fichiers, 8 Mo maximum chacun.</p>
+        <p class="field__hint" id="photos-hint">Jusqu'à 5 fichiers, 8 Mo maximum chacun. Deux ou trois photographies prises d'angles différents valent mieux qu'une longue description.</p>
         <p class="field__err" id="photos-err" aria-live="polite"></p>
       </div>
-      <div class="form__grid form__grid--2">
-        ${field("eauElec", "Eau et électricité disponibles sur place", select("eauElec", "eau_electricite", ["Oui, les deux", "Eau uniquement", "Électricité uniquement", "Ni l'un ni l'autre", "Je ne sais pas"]))}
-        ${field("stationnement", "Stationnement et restrictions d'accès", text("stationnement", "stationnement", "Parking privé, voirie, horaires imposés…"))}
+
+      <div class="recap" id="form-recap" hidden>
+        <p class="recap__t">Récapitulatif de votre demande</p>
+        <dl class="recap__d" id="form-recap-d"></dl>
+        <p class="recap__n">Vérifiez ces informations avant l'envoi. Pour en corriger une, revenez à l'étape concernée.</p>
       </div>
+
       <div>
         <label class="check" for="consentement">
           <input id="consentement" name="consentement" type="checkbox" required aria-describedby="consentement-err">

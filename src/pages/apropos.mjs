@@ -1,6 +1,6 @@
-import { btn, tlink, img, esc } from "../layout.mjs";
+import { btn, tlink, img, esc, ar } from "../layout.mjs";
 import { icons, faqBlock, finalCta, processus } from "../parts.mjs";
-import { brand } from "../config.mjs";
+import { brand, contact } from "../config.mjs";
 
 const faq = [
   { q: "Qui est derrière CleanVitreService ?",
@@ -23,7 +23,33 @@ const body = `
   </div>
 </section>
 
-<section class="sec" aria-labelledby="a1">
+<!-- Le dirigeant ----------------------------------------------------------- -->
+<section class="sec" aria-labelledby="noah-t">
+  <div class="wrap">
+    <div class="port rv">
+      <figure class="port__im">
+        <span class="port__ph"><b>Emplacement réservé</b>Portrait ou photographie de Noah Lefebvre en intervention. Aucune image d'illustration ne prendra cette place.</span>
+      </figure>
+      <div class="port__b">
+        <p class="eyebrow">L'artisan</p>
+        <h2 id="noah-t">Une exigence à chaque intervention.</h2>
+        <p class="lead">Chez CleanVitreService, chaque intervention est abordée avec la même exigence : choisir la méthode adaptée, travailler avec précision et assurer un résultat à la hauteur des attentes de nos clients.</p>
+        <p class="port__p">L'entreprise est dirigée par <strong>Noah&nbsp;Lefebvre</strong>, qui conduit les études et les interventions. Vous parlez à la personne qui viendra sur le chantier : c'est elle qui examine votre bâtiment, retient la méthode d'accès et répond de son travail.</p>
+        <dl class="port__d">
+          <div><dt>Dirigeant</dt><dd>Noah Lefebvre</dd></div>
+          <div><dt>Siège</dt><dd>4 ruelle de l'Hôtel de Ville, 76210 Bolbec</dd></div>
+          <div><dt>Forme juridique</dt><dd>Entreprise individuelle (micro-entreprise)</dd></div>
+          <div><dt>SIRET</dt><dd>101 837 474 00010</dd></div>
+        </dl>
+        <div class="btn-row" style="margin-top:var(--s-6)">
+          <a class="btn" href="tel:${contact.phoneHref}">Parler à Noah · ${esc(contact.phoneLabel)}${ar()}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec--paper" aria-labelledby="a1">
   <div class="wrap">
     <div class="edit edit--7-5">
       <div class="rv">

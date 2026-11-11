@@ -15,9 +15,20 @@ export const brand = {
   short: "CVS",
   tagline: "Nettoyage de vitres, façades et surfaces difficiles d'accès",
   baseline: "Vitres · Façades · Accès difficiles",
-  // Aucun logo graphique n'existe à ce jour : le site compose un mot-signe
-  // typographique. Renseigner `logoSrc` le remplacera partout.
-  logoSrc: null,
+  /* Logo officiel, détourné de la capture fournie par l'entreprise
+     (scripts/logo-extraction.py). Deux déclinaisons : l'originale pour les
+     fonds clairs, et une version inversée pour les fonds sombres, où le
+     bleu marine des lettres serait illisible. Le pictogramme, qui porte sa
+     propre plaque marine, est identique dans les deux. */
+  logo: {
+    clair:  "/assets/img/logo-cvs-560.png",        // lettres marine — fonds clairs
+    clair2: "/assets/img/logo-cvs-1100.png",
+    sombre: "/assets/img/logo-cvs-clair-560.png",  // lettres blanches — fonds sombres
+    sombre2:"/assets/img/logo-cvs-clair-1100.png",
+    icone:  "/assets/img/logo-cvs-icone-192.png",
+    icone2: "/assets/img/logo-cvs-icone-512.png",
+    w: 1100, h: 184,
+  },
 };
 
 export const contact = {
@@ -136,19 +147,35 @@ export const methodes = [
   { n: "01", slug: null, nom: "Nettoyage conventionnel", court: "Matériel professionnel au sol",
     phrase: "Matériel professionnel de laveur de vitres pour les surfaces accessibles depuis le sol.",
     im: "vitre-nettoyage", alt: "Nettoyage de vitrages au matériel professionnel", ico: "gear" },
-  { n: "02", slug: null, nom: "Perches télescopiques", court: "Jusqu'aux étages bas",
+  { n: "02", slug: null, lien: "/services/#acc-t", vedette: true,
+    nom: "Perche télescopique", court: "Jusqu'aux étages hauts depuis le sol",
     phrase: "Eau purifiée et perches pour atteindre les niveaux hauts sans installation lourde.",
-    im: "verre-gouttes", alt: "Surface vitrée après passage de l'eau", ico: "layers" },
-  { n: "03", slug: "travaux-sur-cordes", nom: "Travaux sur cordes", court: "Accès technique au contact",
+    apps: ["Vitrages des premiers niveaux", "Vérandas et verrières", "Vitrines commerciales", "Bâtiments bas aux abords dégagés"],
+    /* Aucune photographie disponible ne montre une perche télescopique.
+       Plutôt qu'une image de travaux sur cordes qui tromperait sur la
+       méthode, l'emplacement reste réservé jusqu'à ce que l'entreprise
+       fournisse une photographie d'intervention. */
+    im: null, attente: "Intervention à la perche télescopique",
+    alt: "", ico: "layers" },
+  { n: "03", slug: "travaux-sur-cordes", lien: "/travaux-sur-cordes/", vedette: true,
+    nom: "Travaux sur cordes", court: "Accès technique au contact",
     phrase: "La corde suit la façade là où aucun engin ne passe : décrochés, surplombs, centres urbains.",
-    im: "methode-cordes", alt: "Techniciens cordistes suspendus le long d'un immeuble", ico: "cordes" },
-  { n: "04", slug: "nettoyage-par-drone", nom: "Nettoyage par drone", court: "Sans contact, depuis le sol",
+    apps: ["Immeubles de grande hauteur", "Façades à géométrie complexe", "Décrochés et surplombs", "Cœurs de ville contraints"],
+    im: "methode-cordes", pos: "78% 45%", alt: "Techniciens cordistes suspendus le long d'un immeuble", ico: "cordes" },
+  { n: "04", slug: "nettoyage-par-drone", lien: "/nettoyage-par-drone/", vedette: true,
+    nom: "Nettoyage par drone", court: "Sans contact, depuis le sol",
     phrase: "Pour certaines façades difficiles d'accès, l'appareil travaille et les équipes restent au sol.",
+    apps: ["Grandes surfaces de façade", "Bardages industriels", "Surfaces hors de portée depuis le sol", "Sites où l'équipe doit rester au sol"],
     im: "methode-drone", alt: "Drone professionnel en vol utilisé pour le nettoyage de surfaces vitrées", ico: "drone" },
 ];
 
 /* Les deux méthodes disposant d'une page dédiée. */
 export const methodesPages = methodes.filter(m => m.slug);
+
+/* Les trois moyens d'accès mis en avant sur la page d'accueil. Le
+   nettoyage conventionnel reste présenté dans la page Services : c'est
+   le socle du métier, pas une méthode d'accès en hauteur. */
+export const methodesVedettes = methodes.filter(m => m.vedette);
 
 /* ---------- Clientèles ---------- */
 export const clienteles = [

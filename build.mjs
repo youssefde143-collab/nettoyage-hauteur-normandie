@@ -58,14 +58,11 @@ Allow: /
 Sitemap: ${site.origin}/sitemap.xml
 `);
 
-/* ---- favicon (monogramme vectoriel) ---- */
-await writeFile("dist/favicon.svg",
-`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="4" fill="#050B14"/>
-  <path d="M8 23V9l16 14V9" stroke="#fff" stroke-width="1.9" stroke-linecap="square" fill="none"/>
-  <circle cx="24" cy="23" r="2.6" fill="#1A74F0"/>
-</svg>
-`);
+/* ---- favicon ----
+   Le pictogramme officiel sert d'icône : plus de monogramme inventé.
+   Il est déjà publié dans assets/img ; on en place une copie à la racine
+   pour les clients qui réclament /favicon.ico ou /favicon.png. */
+await cp("public/assets/img/logo-cvs-icone-192.png", "dist/favicon.png");
 
 console.log(`✓ ${pages.length} pages générées`);
 console.log(`  ${pages.map(p => p.path).join("  ")}`);

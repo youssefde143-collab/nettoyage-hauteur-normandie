@@ -148,6 +148,23 @@ restent cliquables pendant toute l'animation. Le bandeau cookies attend la fin.
 **Pour la désactiver** : retirer `intro: true` de `src/pages/accueil.mjs`.
 **Pour l'ajouter ailleurs** : poser `intro: true` sur la page voulue.
 
+## Logo
+
+Le logo officiel vit dans `brand.logo` (`src/config.mjs`) et se décline en
+deux fichiers : l'original pour les fonds clairs, sa version inversée pour les
+fonds sombres. Les deux sont présents dans le balisage ; le CSS montre celui
+qui convient à l'état de l'en-tête, pour que la bascule au défilement soit
+instantanée. `scripts/logo-extraction.py` régénère tous les fichiers depuis la
+capture d'origine conservée dans `scripts/source-logo/`.
+
+## Emplacements réservés
+
+Quatre zones sont dessinées et volontairement vides : la photographie
+d'intervention à la perche, les fiches de chantier, les paires avant/après et
+le portrait du dirigeant. Elles portent toutes la même mention
+« Emplacement réservé » et ne seront jamais comblées par une image
+d'illustration. Voir [INTEGRATION.md](INTEGRATION.md) § 5.
+
 ## Parrainage
 
 L'offre tient dans un seul objet, `parrainage` dans `src/config.mjs` :

@@ -46,6 +46,62 @@ const body = `
   </div>
 </section>
 
+<!-- Fiche de chantier : structure prête, contenu à venir ------------------ -->
+<section class="sec" aria-labelledby="fiche-t">
+  <div class="wrap">
+    <div class="shead rv">
+      <div>
+        <p class="eyebrow">Nos chantiers</p>
+        <h2 id="fiche-t">Chaque intervention aura sa fiche.</h2>
+      </div>
+      <div class="shead__aside">
+        <p class="lead">La mise en page est prête. Elle attend les photographies et l'accord des maîtres d'ouvrage, pas une rédaction flatteuse.</p>
+      </div>
+    </div>
+    <article class="proj rv">
+      <div class="proj__im">
+        <span class="proj__ph"><b>Emplacement réservé</b>Photographie du chantier, prise sur l'intervention. Aucune image d'illustration ne prendra cette place.</span>
+      </div>
+      <div class="proj__b">
+        <p class="eyebrow">Modèle de fiche</p>
+        <h3>Ce que chacune présentera.</h3>
+        <dl class="proj__d">
+          <div><dt>Type de bâtiment</dt><dd class="ph">immeuble, local commercial, maison, équipement public…</dd></div>
+          <div><dt>Prestation réalisée</dt><dd class="ph">vitrerie, façade, panneaux solaires…</dd></div>
+          <div><dt>Méthode d'accès</dt><dd class="ph">perche télescopique, travaux sur cordes, drone</dd></div>
+          <div><dt>Commune</dt><dd class="ph">commune d'intervention</dd></div>
+          <div><dt>Description</dt><dd class="ph">quelques lignes : la contrainte rencontrée, la réponse apportée</dd></div>
+        </dl>
+        <p class="proj__n">Rien ne sera publié qui n'ait été fait. Tant qu'une fiche n'est pas renseignée, elle n'apparaît pas : vous ne verrez jamais ici de chantier inventé ni de photographie d'agence présentée comme la nôtre.</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- Comparateur avant / après --------------------------------------------- -->
+<section class="sec sec--navy" aria-labelledby="ba-t">
+  <div class="wrap">
+    <div class="shead rv">
+      <div>
+        <p class="eyebrow">Avant / après</p>
+        <h2 id="ba-t">Le résultat se regarde, il ne se raconte pas.</h2>
+      </div>
+      <div class="shead__aside">
+        <p class="lead">Faites glisser le curseur. Le comparateur fonctionne à la souris, au doigt et au clavier.</p>
+      </div>
+    </div>
+    <figure class="ba rv" data-ba>
+      <div class="ba__st">
+        <div class="ba__l ba__l--av"><span>Avant</span><em>photographie à fournir</em></div>
+        <div class="ba__l ba__l--ap"><span>Après</span><em>photographie à fournir</em></div>
+        <div class="ba__h" aria-hidden="true"><i></i></div>
+        <input class="ba__r" type="range" min="0" max="100" value="50" step="0.5" aria-label="Comparer l'avant et l'après">
+      </div>
+      <figcaption>Le comparateur est en place et opérationnel. Les deux volets restent volontairement neutres : il s'activera avec de véritables paires de photographies, prises au même cadrage avant et après intervention. Monter un « avant/après » à partir de deux images sans rapport serait une mise en scène, pas une preuve.</figcaption>
+    </figure>
+  </div>
+</section>
+
 <section class="sec sec--dark" aria-labelledby="gal-t">
   <div class="wrap">
     <div class="shead rv">

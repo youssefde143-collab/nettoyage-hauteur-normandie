@@ -33,7 +33,7 @@ for (const f of htmlFiles) {
   for (const [, href] of s.matchAll(/href="(\/[^"]*)"/g)) {
     const u = strip(href);
     if (!u) continue;
-    if (u.startsWith("/assets/") || /^\/(favicon\.svg|robots\.txt|sitemap\.xml)$/.test(u)) {
+    if (u.startsWith("/assets/") || /^\/(favicon\.(svg|png)|robots\.txt|sitemap\.xml)$/.test(u)) {
       usedAssets.add(u);
       if (!existsSync(root + u)) problems.liens.push(`${page} -> ${u}`);
     } else if (!pages.has(u)) problems.liens.push(`${page} -> ${u}`);

@@ -24,7 +24,7 @@ const TYPES = {
    ------------------------------------------------------------------ */
 /* Mêmes noms de champs que le formulaire en six étapes de /contact/. */
 const OBLIGATOIRES = ["nom", "email", "telephone", "type_client", "prestations",
-                      "adresse", "description", "consentement"];
+                      "adresse", "consentement"];
 
 async function recevoirDemande(req, res) {
   const chunks = [];

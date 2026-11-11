@@ -1,6 +1,6 @@
 import { btn, tlink, img, esc, arS } from "../layout.mjs";
 import { icons, faqBlock, blocZones } from "../parts.mjs";
-import { contact, prestations, methodes, clienteles, parrainage } from "../config.mjs";
+import { contact, prestations, methodesVedettes, clienteles, parrainage } from "../config.mjs";
 
 const faq = [
   { q: "Quelles surfaces nettoyez-vous ?",
@@ -72,25 +72,39 @@ const body = `
   </div>
 </section>
 
-<!-- Méthodes d'accès ------------------------------------------------------ -->
-<section class="pick" id="methodes" aria-labelledby="pick-t">
-  ${methodes.map((m, i) => `<div class="pick__stage${i === 0 ? " is-on" : ""}" data-stage="${i}" aria-hidden="true">${img(m.im, "", { sizes: "100vw" })}</div>`).join("")}
-  <div class="pick__in">
-    <p class="eyebrow rv">Quatre moyens d'accès</p>
-    <h2 id="pick-t" class="rv" style="max-width:17ch;margin-bottom:var(--s-7)">Chaque bâtiment a ses contraintes.</h2>
-    <ul class="pick__list rv" data-pick>
-      ${methodes.map((m, i) => {
-        const inner = `
-          <span class="pick__n">${m.n}</span>
-          <span><span class="pick__t">${esc(m.nom)}</span></span>
-          <span class="pick__m">${esc(m.court)}</span>
-          ${m.slug ? `<span class="pick__go">${arS()}</span>` : `<span class="pick__go pick__go--off" aria-hidden="true"></span>`}`;
-        return `<li class="pick__it">${m.slug
-          ? `<a href="/${m.slug}/" data-pick-i="${i}">${inner}</a>`
-          : `<div class="pick__static" data-pick-i="${i}" tabindex="0">${inner}</div>`}</li>`;
-      }).join("")}
-    </ul>
-    <p class="note rv" style="max-width:62ch">Le drone ne convient pas à tous les bâtiments. La méthode dépend du support, de l'environnement, de l'accès et de la faisabilité technique.</p>
+<!-- Moyens d'accès : trois traitements éditoriaux ------------------------- -->
+<section class="sec sec--dark" id="methodes" aria-labelledby="meth-t">
+  <div class="wrap">
+    <div class="shead rv">
+      <div>
+        <p class="eyebrow">Moyens d'accès</p>
+        <h2 id="meth-t">Chaque bâtiment a ses contraintes.</h2>
+      </div>
+      <div class="shead__aside">
+        <p class="lead">Trois façons d'atteindre une surface en hauteur, au-delà du matériel conventionnel de laveur de vitres. C'est le bâtiment qui tranche, jamais l'équipement dont nous disposons.</p>
+      </div>
+    </div>
+
+    <div class="meth3">
+      ${methodesVedettes.map((m, i) => `
+      <article class="meth3__it rv" style="--i:${i}${m.pos ? `;--pos:${m.pos}` : ""}">
+        <figure class="meth3__im${m.im ? " reveal-img" : " meth3__im--vide"}">
+          ${m.im
+            ? img(m.im, m.alt, { sizes: "(max-width:899px) 100vw, 52vw", cls: m.pos ? "is-pos" : "" })
+            : `<span class="meth3__ph"><b>Photographie à fournir</b>${esc(m.attente)}</span>`}
+        </figure>
+        <div class="meth3__b">
+          <p class="meth3__n">${m.n}</p>
+          <h3>${esc(m.nom)}</h3>
+          <p class="meth3__p">${esc(m.phrase)}</p>
+          <p class="meth3__lbl">Applications typiques</p>
+          <ul class="meth3__apps">${m.apps.map(a => `<li>${esc(a)}</li>`).join("")}</ul>
+          ${tlink(m.slug ? "Voir la méthode en détail" : "Voir nos moyens d'accès", m.lien)}
+        </div>
+      </article>`).join("")}
+    </div>
+
+    <p class="note rv" style="max-width:64ch">Le drone ne convient pas à tous les bâtiments. L'environnement, la nature du support, l'espace disponible, la météo et la réglementation du survol conditionnent sa mise en œuvre. Quand ce n'est pas la bonne méthode, nous le disons.</p>
   </div>
 </section>
 
