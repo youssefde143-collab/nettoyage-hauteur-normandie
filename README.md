@@ -103,9 +103,16 @@ est un défaut plus grave qu'une animation manquée.
 ## Intro « nettoyage de vitre » (accueil)
 
 À la première visite d'une session, la page d'accueil s'ouvre derrière une
-vitre humide qu'une raclette de vitrier nettoie en quatre passes horizontales,
-de droite à gauche, du haut vers le bas. Environ 2,4 s sur ordinateur, 1,8 s
-sur téléphone.
+vitre humide qu'une raclette de vitrier nettoie en va-et-vient : une passe
+vers la droite, un virage descendant au bord, une passe vers la gauche, et
+ainsi de suite jusqu'en bas. Quatre bandes sur un écran courant, cinq au-delà
+de 1 000 px de haut, trois sur petit écran. Environ 2,4 s sur ordinateur,
+1,8 s sur téléphone.
+
+Le corps de la raclette traîne derrière la lame : au virage, l'outil
+s'aplatit (`scaleX` qui passe par zéro) et se redéploie de l'autre côté,
+comme un poignet qui la retourne. La vitesse s'annule au sommet de chaque
+virage, à la manière d'un pendule — jamais par un arrêt net.
 
 Ce n'est ni une vidéo ni un fondu : la page réelle est chargée et rendue dès
 le départ, et c'est elle que l'on découvre derrière la lame.
@@ -140,6 +147,19 @@ restent cliquables pendant toute l'animation. Le bandeau cookies attend la fin.
 
 **Pour la désactiver** : retirer `intro: true` de `src/pages/accueil.mjs`.
 **Pour l'ajouter ailleurs** : poser `intro: true` sur la page voulue.
+
+## Parrainage
+
+L'offre tient dans un seul objet, `parrainage` dans `src/config.mjs` :
+**20 % pour la personne recommandée, sur sa première intervention ; aucun
+avantage pour le parrain.** Le modifier met à jour le bandeau d'en-tête, la
+section d'accueil, la page `/parrainage/`, le pied de page et le champ du
+formulaire de devis.
+
+Le site **ne peut pas** déclarer un code valide tant que
+`parrainage.endpoint` vaut `null` : il n'en contrôle alors que la forme et
+annonce une vérification par l'entreprise à réception. Voir
+[INTEGRATION.md](INTEGRATION.md) pour le service à raccorder.
 
 ## Accessibilité
 

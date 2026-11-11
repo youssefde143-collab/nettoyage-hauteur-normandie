@@ -59,6 +59,27 @@ export const legalEntity = {
    jamais affiché. Voir INTEGRATION.md. */
 export const formEndpoint = null;
 
+/* ---------- Parrainage ----------
+   Offre arrêtée par l'entreprise. Ne pas la modifier sans son accord :
+     — le filleul obtient 20 % sur sa PREMIÈRE intervention ;
+     — le parrain ne reçoit aucun avantage supplémentaire.
+   Un seul endroit à changer, et tout le site suit : bandeau, section
+   d'accueil, page dédiée, champ du formulaire.
+
+   `endpoint` est le service de vérification des codes. Tant qu'il vaut
+   `null`, AUCUN code ne peut être déclaré valide par le site : la saisie
+   n'est contrôlée que sur sa forme, et le visiteur est informé que la
+   vérification sera faite par l'entreprise à réception de sa demande.
+   Voir INTEGRATION.md pour le dos technique à raccorder. */
+export const parrainage = {
+  reduction: 20,
+  endpoint: null,
+  // Forme des codes émis. Le contrôle de saisie, l'exemple affiché et le
+  // texte d'aide découlent tous de ces deux valeurs.
+  format: "^CVS-[A-Z0-9]{6}$",
+  exemple: "CVS-7KD2QX",
+};
+
 export const site = {
   // Domaine actuel. À remplacer le jour où un nom de domaine propre est acquis.
   origin: "https://youssefde143-collab.github.io/nettoyage-hauteur-normandie",
@@ -109,7 +130,7 @@ export const prestations = [
 ];
 
 /* ---------- Méthodes d'accès : comment nous y accédons ----------
-   Cinq méthodes. Les trois dernières disposent d'une page dédiée ;
+   Quatre méthodes. Les deux dernières disposent d'une page dédiée ;
    les deux premières relèvent de l'intervention courante. */
 export const methodes = [
   { n: "01", slug: null, nom: "Nettoyage conventionnel", court: "Matériel professionnel au sol",
@@ -118,18 +139,15 @@ export const methodes = [
   { n: "02", slug: null, nom: "Perches télescopiques", court: "Jusqu'aux étages bas",
     phrase: "Eau purifiée et perches pour atteindre les niveaux hauts sans installation lourde.",
     im: "verre-gouttes", alt: "Surface vitrée après passage de l'eau", ico: "layers" },
-  { n: "03", slug: "nettoyage-avec-nacelle", nom: "Nacelle élévatrice", court: "Plateforme depuis le sol",
-    phrase: "Quand le sol est porteur et les abords dégagés, la plateforme est la voie la plus directe.",
-    im: "methode-nacelle", alt: "Plateformes élévatrices mobiles de personnel déployées en hauteur", ico: "nacelle" },
-  { n: "04", slug: "travaux-sur-cordes", nom: "Travaux sur cordes", court: "Accès technique au contact",
+  { n: "03", slug: "travaux-sur-cordes", nom: "Travaux sur cordes", court: "Accès technique au contact",
     phrase: "La corde suit la façade là où aucun engin ne passe : décrochés, surplombs, centres urbains.",
     im: "methode-cordes", alt: "Techniciens cordistes suspendus le long d'un immeuble", ico: "cordes" },
-  { n: "05", slug: "nettoyage-par-drone", nom: "Nettoyage par drone", court: "Sans contact, depuis le sol",
+  { n: "04", slug: "nettoyage-par-drone", nom: "Nettoyage par drone", court: "Sans contact, depuis le sol",
     phrase: "Pour certaines façades difficiles d'accès, l'appareil travaille et les équipes restent au sol.",
     im: "methode-drone", alt: "Drone professionnel en vol utilisé pour le nettoyage de surfaces vitrées", ico: "drone" },
 ];
 
-/* Les trois méthodes disposant d'une page dédiée. */
+/* Les deux méthodes disposant d'une page dédiée. */
 export const methodesPages = methodes.filter(m => m.slug);
 
 /* ---------- Clientèles ---------- */
@@ -166,10 +184,10 @@ export const navMobile = [
   { href: "/services/", label: "Nos méthodes" },
   { href: "/nettoyage-par-drone/", label: "Nettoyage par drone", sub: true },
   { href: "/travaux-sur-cordes/", label: "Travaux sur cordes", sub: true },
-  { href: "/nettoyage-avec-nacelle/", label: "Nettoyage avec nacelle", sub: true },
   { href: "/secteurs-dactivite/", label: "Secteurs d'activité" },
   { href: "/realisations/", label: "Réalisations" },
   { href: "/zones-intervention/", label: "Zones d'intervention" },
   { href: "/a-propos/", label: "À propos" },
+  { href: "/parrainage/", label: "Parrainage" },
   { href: "/contact/", label: "Contact" },
 ];

@@ -4,7 +4,7 @@ import { prestations, methodes, contact } from "../config.mjs";
 
 const faq = [
   { q: "Pouvez-vous combiner plusieurs méthodes sur un même chantier ?",
-    a: ["Oui, c'est fréquent. Une façade peut être traitée à la perche sur ses niveaux bas, en nacelle sur sa partie centrale et sur cordes dans les décrochés. La répartition figure dans le devis, surface par surface."] },
+    a: ["Oui, c'est fréquent. Une façade peut être traitée à la perche sur ses niveaux bas et sur cordes dans les décrochés et les parties hautes. La répartition figure dans le devis, surface par surface."] },
   { q: "Proposez-vous un entretien régulier ?",
     a: ["Oui. Vitrines, bureaux et bâtiments exposés demandent plusieurs passages par an. La fréquence se définit selon l'exposition du bâtiment et votre niveau d'exigence ; un planning annuel permet d'anticiper."] },
   { q: "Intervenez-vous sur les surfaces non vitrées ?",
@@ -20,7 +20,7 @@ const body = `
     <nav class="crumbs" aria-label="Fil d'Ariane"><a href="/">Accueil</a><span>/</span>Nos prestations</nav>
     <p class="eyebrow">Prestations</p>
     <h1>Ce que nous nettoyons, et comment nous y accédons.</h1>
-    <p class="phero__sub">Vitrerie, extérieur du bâtiment et nettoyage spécialisé — avec cinq moyens d'accès, du matériel conventionnel au drone.</p>
+    <p class="phero__sub">Vitrerie, extérieur du bâtiment et nettoyage spécialisé — avec quatre moyens d'accès, du matériel conventionnel au drone.</p>
     <div class="btn-row" style="margin-top:var(--s-7)">
       ${btn("Demander un devis gratuit", "/contact/", "", true)}
       <a class="btn btn--on-dark btn--lg" href="tel:${contact.phoneHref}">${esc(contact.phoneLabel)}</a>
@@ -54,7 +54,7 @@ const body = `
     <div class="shead rv">
       <div>
         <p class="eyebrow">Moyens d'accès</p>
-        <h2 id="acc-t">Cinq façons d'atteindre la surface.</h2>
+        <h2 id="acc-t">Quatre façons d'atteindre la surface.</h2>
       </div>
       <div class="shead__aside">
         <p class="lead">La méthode dépend du bâtiment, des surfaces, des conditions d'accès et de la faisabilité technique — jamais de l'équipement dont nous disposons.</p>
@@ -73,6 +73,28 @@ const body = `
 </section>
 
 ${processus()}
+
+<!-- Approche tarifaire ----------------------------------------------------- -->
+<section class="sec" aria-labelledby="tarif-t">
+  <div class="wrap">
+    <div class="tailor rv">
+      <div>
+        <p class="eyebrow">Devis</p>
+        <h2 id="tarif-t">Chaque chantier mérite une approche adaptée.</h2>
+        <p class="tailor__p">Chaque bâtiment présente ses propres contraintes. Nous étudions votre demande afin de vous proposer une intervention adaptée à vos surfaces, à leur accessibilité et à vos besoins.</p>
+        <div class="btn-row" style="margin-top:var(--s-6)">
+          ${btn("Demander mon devis gratuit", "/contact/", "", true)}
+        </div>
+      </div>
+      <ul class="tailor__l">
+        <li><i aria-hidden="true"></i><div>Devis gratuit et personnalisé<span>Sans engagement, établi après étude de votre demande.</span></div></li>
+        <li><i aria-hidden="true"></i><div>Étude de chaque projet<span>Surfaces, hauteur, accès et contraintes d'exploitation du site.</span></div></li>
+        <li><i aria-hidden="true"></i><div>Solution adaptée à vos contraintes<span>La méthode d'accès découle du bâtiment, jamais l'inverse.</span></div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
 ${blocZones()}
 ${faqBlock(faq, { title: "Questions sur nos prestations" })}
 ${finalCta({ titre: "Décrivez-nous votre bâtiment.", texte: "Devis gratuit, réponse sous 30 minutes selon disponibilité.", cta: "Demander un devis", image: "facade-detail-1-band" })}
@@ -81,9 +103,9 @@ ${finalCta({ titre: "Décrivez-nous votre bâtiment.", texte: "Devis gratuit, r�
 export default {
   path: "/services/",
   title: "Vitrerie, façades, nettoyage spécialisé | CleanVitreService",
-  description: "Nettoyage de vitres, vérandas, verrières, vitrines, façades, bardages, volets et panneaux solaires. Cinq moyens d'accès, du matériel conventionnel au drone.",
+  description: "Nettoyage de vitres, vérandas, verrières, vitrines, façades, bardages, volets et panneaux solaires. Quatre moyens d'accès, du matériel conventionnel au drone.",
   ogImage: "facade-reflets-band",
   faq,
   body,
-  service: { name: "Nettoyage de vitres, façades et surfaces difficiles d'accès", type: "Nettoyage de bâtiments", description: "Nettoyage de vitrages, vérandas, verrières, vitrines, façades, bardages, volets roulants, panneaux publicitaires et panneaux solaires, par matériel conventionnel, perche télescopique, nacelle, travaux sur cordes ou drone." },
+  service: { name: "Nettoyage de vitres, façades et surfaces difficiles d'accès", type: "Nettoyage de bâtiments", description: "Nettoyage de vitrages, vérandas, verrières, vitrines, façades, bardages, volets roulants, panneaux publicitaires et panneaux solaires, par matériel conventionnel, perche télescopique, travaux sur cordes ou drone." },
 };

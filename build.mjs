@@ -5,8 +5,8 @@ import { layout } from "./src/layout.mjs";
 import { site, nav, zones, methodes } from "./src/config.mjs";
 
 const PAGES = [
-  "accueil", "services", "drone", "cordes", "nacelle",
-  "secteurs", "realisations", "zones", "apropos", "contact",
+  "accueil", "services", "drone", "cordes",
+  "secteurs", "realisations", "zones", "apropos", "parrainage", "contact",
   "mentions-legales", "confidentialite", "cookies", "plan-du-site",
 ];
 

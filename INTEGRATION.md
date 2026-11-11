@@ -38,6 +38,8 @@ mentions légales et les données structurées `LocalBusiness`.
 | **Logo** | `brand.logoSrc` | Un mot-signe typographique est composé en attendant. Renseigner le chemin d'une image le remplace partout. |
 | **Photographies de chantiers** | `scripts/images.txt` | La galerie est explicitement présentée comme illustrative. |
 | **Nom de domaine** | `site.origin` | Actuellement l'adresse GitHub Pages. |
+| **Service de vérification des codes de parrainage** | `parrainage.endpoint` | Voir la section 4 ci-dessous. Sans lui, aucun code ne peut être déclaré valide par le site. |
+| **Règles de l'offre de parrainage** | — | Durée de validité d'un code, cumul éventuel avec une autre offre, nombre de filleuls par parrain. Non publiées faute d'arbitrage. |
 
 ---
 
@@ -92,7 +94,80 @@ Champs transmis : `nom`, `telephone`, `email`, `type_client`,
 
 ---
 
-## 4. Publication
+## 4. Parrainage — ce qui fonctionne, ce qui reste à raccorder
+
+L'offre est définie en un seul endroit, `parrainage` dans `src/config.mjs` :
+20 % pour la personne recommandée, sur sa première intervention ; aucun
+avantage pour le parrain. Modifier ce bloc met à jour le bandeau, la section
+d'accueil, la page `/parrainage/` et le champ du formulaire.
+
+### Ce qui fonctionne déjà, sans rien raccorder
+
+- Le bandeau, la section d'accueil, la page dédiée et le lien de pied de page.
+- Le champ « Vous avez un code parrainage ? » à la première étape du devis.
+- La normalisation de la saisie (majuscules, espaces retirés).
+- Le contrôle de **forme** du code, sur `parrainage.format`.
+- La transmission du code avec la demande — par e-mail pré-rempli
+  aujourd'hui, dans le corps du message, assortie de la consigne
+  « à vérifier avant d'appliquer la réduction ».
+
+### Ce qui ne fonctionne pas encore, et pourquoi
+
+**Le site ne peut pas dire qu'un code est valide.** Il n'a aucun moyen de le
+savoir : il ne dispose ni de la liste des codes émis, ni de leur état. Tant
+que `parrainage.endpoint` vaut `null`, le formulaire se contente donc
+d'afficher « Code enregistré — il sera vérifié par CleanVitreService à
+réception de votre demande ». Aucun code n'est accepté d'office, aucune
+réduction n'est annoncée comme acquise, et un code mal formé est refusé.
+
+Une vérification faite entièrement dans le navigateur serait de toute façon
+sans valeur : la liste des codes serait lisible par n'importe quel visiteur,
+qui pourrait en inventer un.
+
+### Le service à mettre en place
+
+Un point d'accès HTTP qui, interrogé avec un code, répond si celui-ci ouvre
+droit à la réduction.
+
+```
+GET  <endpoint><CODE>          →  { "valide": true }   ou  { "valide": false }
+```
+
+Renseigner ensuite son adresse dans `src/config.mjs` :
+
+```js
+export const parrainage = {
+  reduction: 20,
+  endpoint: "https://api.exemple.fr/parrainage/verifier?code=",
+  format: "^CVS-[A-Z0-9]{6}$",
+  exemple: "CVS-7KD2QX",
+};
+```
+
+Le formulaire bascule alors seul sur la vérification réelle : code accepté →
+confirmation explicite de la réduction ; code refusé → message d'erreur et
+étape bloquée ; service injoignable → le code part quand même avec la
+demande, sans qu'aucune validité ne soit affirmée.
+
+Ce service doit tenir, côté entreprise :
+
+| Besoin | Détail |
+|---|---|
+| Création des codes | Un code nominatif par client parrain. |
+| Association | Chaque code rattaché à son parrain. |
+| Activation / désactivation | Pouvoir couper un code sans le supprimer. |
+| Validation | Réponse `valide: true/false` à l'interrogation ci-dessus. |
+| Identification dans la demande | Le code figure déjà dans le message reçu. |
+| Usage unique ou limité | Marquer un code comme consommé selon la règle retenue. |
+
+Une feuille de calcul partagée suffit à tenir la liste ; c'est l'exposition
+en HTTP qui demande un hébergement (une fonction sans serveur, par exemple).
+Tant que ce service n'existe pas, la vérification se fait à la main, à
+réception de la demande : le code y figure, nommément.
+
+---
+
+## 5. Publication
 
 Le site est statique. Après modification :
 

@@ -66,20 +66,41 @@
   const MID   = L * 170 / 300;                   // milieu de lame
   svg.style.width = SVG_W + "px";
   svg.style.height = SVG_H + "px";
+  /* Le miroir et la position se font autour de l'arête de la lame : c'est
+     elle, et non le centre de l'outil, qui doit rester sur la trajectoire. */
+  tool.style.transformOrigin = `${EDGE}px ${MID}px`;
 
-  /* ---------- Chronologie ---------- */
+  /* ---------- Chronologie ----------
+     Un va-et-vient continu : passe vers la droite, virage descendant au
+     bord, passe vers la gauche, virage, et ainsi de suite jusqu'en bas.
+     Les passes et les virages s'enchaînent sans rupture — la vitesse
+     s'annule au sommet de chaque virage, comme un pendule, jamais par
+     un arrêt net. */
   const petit = W < 600;
-  const SWEEP = petit ? 320 : 430, RET = petit ? 100 : 120, EXIT = 220;
+  const SWEEP = petit ? 320 : 430, TURN = petit ? 120 : 150, EXIT = 200;
   const seg = [];
   for (let i = 0; i < N; i++) {
-    seg.push({ k: "s", i, d: SWEEP });
-    if (i < N - 1) seg.push({ k: "r", i, d: RET });
+    seg.push({ k: "s", i });
+    if (i < N - 1) seg.push({ k: "t", i });
   }
-  seg.push({ k: "x", i: N - 1, d: EXIT });
-  const TOTAL = seg.reduce((a, s) => a + s.d, 0);
+  seg.push({ k: "x", i: N - 1 });
+  for (const g of seg) g.d = g.k === "s" ? SWEEP : g.k === "t" ? TURN : EXIT;
+  const TOTAL = seg.reduce((a, g) => a + g.d, 0);
 
   const smooth = (t) => t * t * (3 - 2 * t);
   const lerp = (a, b, t) => a + (b - a) * t;
+
+  /* Sens de la passe : +1 vers la droite, -1 vers la gauche.
+     La première part de la gauche, comme on commence une vitre. */
+  const dirOf = (i) => (i % 2 === 0 ? 1 : -1);
+  const xStart = (i) => (dirOf(i) > 0 ? -L * .5 : W + L * .5);
+  const xEnd   = (i) => (dirOf(i) > 0 ? W + L * .5 : -L * .5);
+  const yMid   = (i) => (i + .5) * SH;
+  /* Le corps de la raclette traîne derrière la lame : il passe donc d'un
+     côté à l'autre selon le sens. Le miroir se fait par scaleX autour de
+     l'arête — au virage, l'outil s'aplatit puis se redéploie de l'autre
+     côté, comme un poignet qui retourne la raclette. */
+  const sxOf = (i) => (dirOf(i) > 0 ? -1 : 1);
 
   /* ---------- Canevas ---------- */
   /* Budget de pixels plutôt que densité fixe : sur un grand écran Retina,
@@ -197,7 +218,7 @@
     for (let j = 0; j < n; j++) {
       row.push({
         dy: (j + rnd(.15, .85)) / n * SH,
-        dx: -rnd(1.5, 16),
+        dx: rnd(1.5, 16),                      // distance devant la lame
         r: Math.pow(Math.random(), 1.5) * 6 + 1.6,
       });
     }
@@ -206,17 +227,17 @@
 
   /* --- Gouttes qui s'échappent --- */
   const parts = [];
-  const spawn = (x, yTop) => {
+  const spawn = (x, yTop, d) => {
     if (parts.length > 30) return;
     parts.push({
-      x: x - rnd(0, 6), y: yTop + rnd(0, SH),
-      vx: -rnd(.3, 1.3), vy: rnd(.15, 1),
+      x: x + d * rnd(0, 6), y: yTop + rnd(0, SH),
+      vx: d * rnd(.3, 1.3), vy: rnd(.15, 1),
       r: rnd(1.1, 3.1), a: 1, da: rnd(.018, .042),
     });
   };
 
   /* ---------- Boucle ---------- */
-  let t0 = null, si = 0, sStart = 0, prevX = X_R, raf = 0;
+  let t0 = null, si = 0, sStart = 0, prevX = xStart(0), raf = 0;
 
   function frame(now) {
     if (over) return;
@@ -226,45 +247,53 @@
     /* Avance dans la chronologie */
     while (si < seg.length - 1 && el >= sStart + seg[si].d) {
       /* La passe qui se termine doit être nettoyée jusqu'au bout. */
-      if (seg[si].k === "s") { erase(seg[si].i, X_L, prevX); prevX = X_L; }
+      if (seg[si].k === "s") erase(seg[si].i, xEnd(seg[si].i), prevX);
       sStart += seg[si].d; si++;
-      if (seg[si].k === "s") prevX = X_R;
+      if (seg[si].k === "s") prevX = xStart(seg[si].i);
     }
-    const s = seg[si];
-    const t = Math.min(1, (el - sStart) / s.d);
-    const i = s.i;
+    const g0 = seg[si];
+    const t = Math.min(1, (el - sStart) / g0.d);
+    const i = g0.i, d = dirOf(i);
 
-    let x, y, lifted = false, op = 1;
-    if (s.k === "s") {
-      x = lerp(X_R, X_L, smooth(t));
-      y = (i + .5) * SH;
+    let x, y, sx = sxOf(i), op = 1;
+    if (g0.k === "s") {
+      x = lerp(xStart(i), xEnd(i), smooth(t));
+      y = yMid(i);
       erase(i, x, prevX);
       prevX = x;
-    } else if (s.k === "r") {
-      x = lerp(X_L, X_R, smooth(t));
-      y = lerp((i + .5) * SH, (i + 1.5) * SH, smooth(t));
-      lifted = true;
+    } else if (g0.k === "t") {
+      /* Virage : léger débord vers l'extérieur, descente d'une bande, et
+         retournement de l'outil. Vitesse nulle aux deux extrémités : la
+         jonction avec les passes ne laisse aucun à-coup. */
+      x = xEnd(i) + d * L * .13 * (1 - Math.cos(6.2832 * t)) / 2;
+      y = lerp(yMid(i), yMid(i + 1), smooth(t));
+      sx = sxOf(i) * Math.cos(Math.PI * t);
     } else {
-      x = X_L - L * .22 * t;
-      y = (i + .5) * SH;
+      x = xEnd(i) + d * L * .25 * t;
+      y = yMid(i);
       op = 1 - t;
     }
 
     /* Flou d'arrière-plan : on ne garde que la zone non nettoyée.
-       Deux rectangles réunis en un seul polygone — la bande en cours
-       jusqu'à la lame, puis tout ce qui reste en dessous. */
-    const bx = Math.max(0, Math.min(W, s.k === "s" ? x : (s.k === "r" ? W : 0)));
-    const top = s.k === "s" ? i * SH : (i + 1) * SH;
-    const bot = s.k === "s" ? (i + 1) * SH : (i + 1) * SH;
-    if (top >= H - .5) blur.style.opacity = "0";
-    else blur.style.clipPath =
-      `polygon(0px ${top}px, ${bx}px ${top}px, ${bx}px ${bot}px, ${W}px ${bot}px, ${W}px ${H}px, 0px ${H}px)`;
+       Pendant une passe, la bande en cours est entamée depuis le bord de
+       départ ; les bandes du dessous restent entières. Les deux
+       rectangles sont réunis en un seul polygone. */
+    const bot = (i + 1) * SH;
+    if (g0.k === "s") {
+      const top = i * SH, bx = Math.max(0, Math.min(W, x));
+      blur.style.clipPath = d > 0
+        ? `polygon(${bx}px ${top}px, ${W}px ${top}px, ${W}px ${H}px, 0px ${H}px, 0px ${bot}px, ${bx}px ${bot}px)`
+        : `polygon(0px ${top}px, ${bx}px ${top}px, ${bx}px ${bot}px, ${W}px ${bot}px, ${W}px ${H}px, 0px ${H}px)`;
+    } else if (bot >= H - .5) {
+      blur.style.opacity = "0";
+    } else {
+      blur.style.clipPath = `polygon(0px ${bot}px, ${W}px ${bot}px, ${W}px ${H}px, 0px ${H}px)`;
+    }
 
-    fx(s.k === "s", i, x, t);
+    fx(g0.k === "s", i, x, t, d);
 
-    tool.style.transform = `translate3d(${x - EDGE}px, ${y - MID}px, 0)` +
-      (lifted ? " rotate(-3.5deg) scale(.965)" : "");
-    tool.style.opacity = lifted ? ".6" : String(op);
+    tool.style.transform = `translate3d(${x - EDGE}px, ${y - MID}px, 0) scaleX(${sx.toFixed(4)})`;
+    tool.style.opacity = String(op);
 
     if (el >= TOTAL) { over_(false); return; }
     raf = requestAnimationFrame(frame);
@@ -274,17 +303,18 @@
      dégradé de 16 px devant pour que le film s'amincisse au lieu de se
      couper net. Le rectangle plein de l'image suivante achève le travail. */
   function erase(i, x, px) {
-    if (px <= x) return;
-    const top = i * SH - .6, h = SH + 1.2;
+    const a = Math.min(x, px), b = Math.max(x, px);
+    if (b - a < .01) return;
+    const d = dirOf(i), top = i * SH - .6, h = SH + 1.2;
     g.save();
     g.globalCompositeOperation = "destination-out";
     g.fillStyle = "#000";
-    g.fillRect(x, top, px - x, h);
-    const lg = g.createLinearGradient(x - 16, 0, x, 0);
+    g.fillRect(a, top, b - a, h);
+    const lg = g.createLinearGradient(x + d * 16, 0, x, 0);
     lg.addColorStop(0, "rgba(0,0,0,0)");
     lg.addColorStop(1, "rgba(0,0,0,.6)");
     g.fillStyle = lg;
-    g.fillRect(x - 16, top, 16, h);
+    g.fillRect(Math.min(x, x + d * 16), top, 16, h);
     g.restore();
   }
 
@@ -292,7 +322,7 @@
      gouttes qui s'échappent. Tout est redessiné à chaque image dans une
      bande limitée — jamais le canevas entier. */
   let lastI = -1;
-  function fx(active, i, x, t) {
+  function fx(active, i, x, t, d) {
     const top = i * SH;
     /* Au changement de bande, on repart d'un canevas vierge : sinon une
        bille ou une éclaboussure de la passe précédente resterait affichée
@@ -302,27 +332,27 @@
     if (!active) return;
 
     /* Film résiduel juste derrière la lame */
-    const trail = f.createLinearGradient(x, 0, x + 46, 0);
+    const trail = f.createLinearGradient(x, 0, x - d * 46, 0);
     trail.addColorStop(0, "rgba(238,249,255,.34)");
     trail.addColorStop(.3, "rgba(212,237,255,.14)");
     trail.addColorStop(1, "rgba(212,237,255,0)");
     f.fillStyle = trail;
-    f.fillRect(x, top, 46, SH);
+    f.fillRect(Math.min(x, x - d * 46), top, 46, SH);
     f.fillStyle = "rgba(255,255,255,.4)";
-    f.fillRect(x, top, 1.6, SH);
+    f.fillRect(d > 0 ? x - 1.6 : x, top, 1.6, SH);
 
     /* Halo d'eau accumulée devant la lame */
-    const ahead = f.createLinearGradient(x - 30, 0, x, 0);
+    const ahead = f.createLinearGradient(x + d * 30, 0, x, 0);
     ahead.addColorStop(0, "rgba(186,220,248,0)");
     ahead.addColorStop(.6, "rgba(198,228,250,.16)");
     ahead.addColorStop(1, "rgba(214,238,255,.42)");
     f.fillStyle = ahead;
-    f.fillRect(Math.max(-30, x - 30), top, Math.min(30, x + 30), SH);
+    f.fillRect(Math.min(x, x + d * 30), top, 30, SH);
 
-    /* Billes du bourrelet */
+    /* Billes du bourrelet, poussées devant la lame */
     for (const b of beads[i]) {
-      const bxp = x + b.dx, byp = top + b.dy;
-      if (bxp < -8) continue;
+      const bxp = x + d * b.dx, byp = top + b.dy;
+      if (bxp < -8 || bxp > W + 8) continue;
       const rg = f.createRadialGradient(bxp - b.r * .3, byp - b.r * .35, b.r * .1, bxp, byp, b.r);
       rg.addColorStop(0, "rgba(255,255,255,.8)");
       rg.addColorStop(.5, "rgba(211,234,252,.5)");
@@ -332,11 +362,11 @@
     }
 
     /* Éclaboussures */
-    if (t > .04 && t < .97 && Math.random() < .8) spawn(x, top);
+    if (t > .04 && t < .97 && Math.random() < .8) spawn(x, top, d);
     for (let k = parts.length - 1; k >= 0; k--) {
       const p = parts[k];
       p.x += p.vx; p.y += p.vy; p.vy += .05; p.a -= p.da;
-      if (p.a <= 0 || p.y > top + SH + 120 || p.x < -10) { parts.splice(k, 1); continue; }
+      if (p.a <= 0 || p.y > top + SH + 120 || p.x < -10 || p.x > W + 10) { parts.splice(k, 1); continue; }
       f.fillStyle = `rgba(226,242,255,${(p.a * .72).toFixed(3)})`;
       f.beginPath(); f.arc(p.x, p.y, p.r, 0, 6.2832); f.fill();
     }

@@ -4,17 +4,17 @@ import { zones, methodesPages } from "../config.mjs";
 const groups = [
   ["Pages principales", [
     ["/", "Accueil", "Présentation générale, méthodes d'intervention et territoires"],
-    ["/services/", "Nos services", "Prestations détaillées et cinq moyens d'accès"],
+    ["/services/", "Nos services", "Prestations détaillées et quatre moyens d'accès"],
     ["/secteurs-dactivite/", "Secteurs d'activité", "Industrie, bureaux, hôtellerie, copropriétés, collectivités, particuliers"],
     ["/realisations/", "Nos réalisations", "Galerie illustrant nos capacités d'intervention"],
     ["/zones-intervention/", "Zones d'intervention", "Les cinq départements normands et la France entière"],
     ["/a-propos/", "À propos", "Notre métier, nos moyens et notre méthode de travail"],
+    ["/parrainage/", "Parrainage", "Le bouche-à-oreille récompensé : 20 % pour la personne recommandée"],
     ["/contact/", "Contact et devis", "Formulaire détaillé de demande de devis"],
   ]],
   ["Méthodes d'accès", methodesPages.map(m => [`/${m.slug}/`, m.nom, {
     "nettoyage-par-drone": "Principe, applications, avantages et conditions de faisabilité",
     "travaux-sur-cordes": "Technique d'accès, applications, sécurité et qualifications",
-    "nettoyage-avec-nacelle": "Configurations adaptées, avantages et limites de la méthode",
   }[m.slug]])],
   ["Départements couverts", zones.map(z => [`/zones-intervention/#dep-info-${z.slug}`, `${z.nom} (${z.code})`, z.villes.slice(0, 4).join(" · ")])],
   ["Informations légales", [
