@@ -324,14 +324,22 @@
       return ok;
     };
 
+    /* Le code de parrainage a sa propre vérification : elle est installée
+       plus bas, une fois le champ connu. Tant qu'elle ne l'est pas, elle
+       laisse passer — un champ facultatif ne doit jamais bloquer. */
+    let parSync = () => true;
+
     const validateStep = (i) => {
       const step = steps[i];
-      const fields = $$("input, select, textarea", step).filter(f => f.type !== "hidden" && f.type !== "radio" && f.name !== "prestations");
+      const fields = $$("input, select, textarea", step)
+        .filter(f => f.type !== "hidden" && f.type !== "radio" && f.name !== "prestations" && f.name !== "parrainage");
       const bad = fields.filter(f => !checkField(f));
       const groupOk = checkGroup(step);
+      const parOk = parSync();
       if (bad.length) bad[0].focus();
       else if (!groupOk) $('input[name="prestations"]', step)?.focus();
-      return !bad.length && groupOk;
+      else if (!parOk) $("#parrainage", step)?.focus();
+      return !bad.length && groupOk && parOk;
     };
 
     const show = (i) => {
@@ -367,6 +375,7 @@
     });
 
     $$("input, select, textarea", form).forEach(f => {
+      if (f.name === "parrainage") return;          // vérification dédiée, plus bas
       f.addEventListener("blur", () => { if (f.type !== "checkbox" && f.type !== "radio") checkField(f); });
       f.addEventListener("change", () => {
         if (f.name === "prestations") checkGroup(f.closest(".step"));
@@ -387,6 +396,83 @@
       ["dragleave", "drop"].forEach(t => box.addEventListener(t, () => box.classList.remove("is-over")));
     }
 
+    /* ---------- Code de parrainage ----------
+       Point d'honnêteté : tant qu'aucun service de vérification n'est
+       raccordé (`parrainage.endpoint` dans src/config.mjs), le site est
+       incapable de déclarer un code valide. Il n'en contrôle alors que la
+       forme et annonce clairement une vérification par l'entreprise à
+       réception. Aucun code n'est accepté d'office, aucune réduction n'est
+       présentée comme acquise. Voir INTEGRATION.md. */
+    const par = $("#parrainage", form);
+    if (par) {
+      const note = $("#parrainage-note", form);
+      const epPar = form.dataset.parEndpoint || "";
+      const fmt = new RegExp(form.dataset.parFormat || "^.+$");
+      const ex = form.dataset.parExemple || "";
+      const red = form.dataset.parReduction || "20";
+      const msgForme = `Ce code ne correspond pas au format attendu (exemple : ${ex}).`;
+      const msgRefus = "Ce code de parrainage n'est pas valide ou n'est plus actif. Vérifiez la saisie, ou laissez le champ vide.";
+      let etat = "vide";                 // vide | forme | valide | refuse
+
+      const dire = (kind, titre, texte) => {
+        note.className = "par__note is-on par__note--" + kind;
+        note.innerHTML = `<b>${titre}</b>${texte}`;
+      };
+      const taire = () => { note.className = "par__note"; note.textContent = ""; };
+      const net = () => {
+        const v = par.value.trim().toUpperCase().replace(/\s+/g, "");
+        if (par.value !== v) par.value = v;
+        return v;
+      };
+
+      parSync = () => {
+        const v = net();
+        if (!v) { etat = "vide"; taire(); setErr(par, "parrainage-err", ""); return true; }
+        if (!fmt.test(v)) { etat = "forme"; taire(); setErr(par, "parrainage-err", msgForme); return false; }
+        if (etat === "refuse") { setErr(par, "parrainage-err", msgRefus); return false; }
+        setErr(par, "parrainage-err", "");
+        return true;
+      };
+
+      const verifier = async () => {
+        if (!parSync()) return;
+        const v = net();
+        if (!v) return;
+        if (!epPar) {
+          etat = "annonce";
+          dire("info", "Code enregistré",
+            `Il sera vérifié par CleanVitreService à réception de votre demande. La réduction de ${red} % s'applique sur votre première intervention une fois le code validé.`);
+          return;
+        }
+        dire("info", "Vérification du code…", "Un instant.");
+        try {
+          const r = await fetch(epPar + encodeURIComponent(v), { headers: { Accept: "application/json" } });
+          const d = await r.json();
+          if (r.ok && d && d.valide === true) {
+            etat = "valide";
+            dire("ok", "Code de parrainage validé",
+              `Vous bénéficiez de ${red} % de réduction sur votre première intervention. La remise figurera sur le devis qui vous sera remis.`);
+          } else {
+            etat = "refuse"; taire();
+            setErr(par, "parrainage-err", msgRefus);
+          }
+        } catch (_) {
+          /* Une panne du service de vérification ne doit pas faire perdre
+             sa demande au visiteur : le code part avec, et l'entreprise
+             tranche. On ne prétend ni qu'il est valide, ni qu'il ne l'est pas. */
+          etat = "annonce";
+          dire("info", "Vérification impossible pour l'instant",
+            "Votre code est transmis avec la demande : CleanVitreService le vérifiera à réception.");
+        }
+      };
+
+      par.addEventListener("blur", verifier);
+      par.addEventListener("input", () => {
+        if (etat === "refuse" || etat === "forme") etat = "vide";
+        taire(); setErr(par, "parrainage-err", "");
+      });
+    }
+
     const report = (kind, title, text) => {
       status.className = `form__status is-on form__status--${kind}`;
       status.innerHTML = `<b>${title}</b>${text}`;
@@ -404,6 +490,11 @@
       };
       L.push("DEMANDE DE DEVIS", "");
       put("Nom", "nom"); put("Téléphone", "telephone"); put("E-mail", "email"); put("Profil", "type_client");
+      const code = (d.get("parrainage") || "").trim();
+      if (code) {
+        L.push(`Code de parrainage : ${code}`);
+        L.push(`  → à vérifier avant d'appliquer la réduction de ${form.dataset.parReduction || "20"} % sur la première intervention.`);
+      }
       L.push("");
       put("Surfaces", "prestations");
       L.push("");
