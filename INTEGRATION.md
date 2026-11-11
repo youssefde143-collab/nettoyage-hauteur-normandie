@@ -36,7 +36,7 @@ mentions légales et les données structurées `LocalBusiness`.
 | **Médiateur de la consommation** | `legalEntity.mediateur` | Obligatoire pour une activité auprès de particuliers (art. L. 612-1 du code de la consommation). Adhésion à souscrire. |
 | **Autorisations drone et qualifications hauteur** | non publié | Intitulés exacts non vérifiés. La page « À propos » et les mentions légales indiquent qu'ils sont communiqués sur demande. |
 | **Logo** | `brand.logoSrc` | Un mot-signe typographique est composé en attendant. Renseigner le chemin d'une image le remplace partout. |
-| **Photographies de chantiers** | `scripts/images.txt` | La galerie est explicitement présentée comme illustrative. |
+| **Photographies de chantiers** | voir § 5 | Emplacements réservés en place, jamais remplis par une image d'illustration. |
 | **Nom de domaine** | `site.origin` | Actuellement l'adresse GitHub Pages. |
 | **Service de vérification des codes de parrainage** | `parrainage.endpoint` | Voir la section 4 ci-dessous. Sans lui, aucun code ne peut être déclaré valide par le site. |
 | **Règles de l'offre de parrainage** | — | Durée de validité d'un code, cumul éventuel avec une autre offre, nombre de filleuls par parrain. Non publiées faute d'arbitrage. |
@@ -167,7 +167,59 @@ réception de la demande : le code y figure, nommément.
 
 ---
 
-## 5. Publication
+## 5. Photographies attendues
+
+Quatre emplacements sont **dessinés, visibles et vides**. Ils ne contiennent
+aucune image d'illustration : une photographie d'agence présentée comme un
+chantier de l'entreprise serait un mensonge, et le site n'en fait pas.
+
+| Emplacement | Page | Ce qu'il faut |
+|---|---|---|
+| **Perche télescopique** | accueil, section « Moyens d'accès » | Une intervention réelle à la perche. Aucune photo disponible ne montre cette méthode : toutes les images d'opérateurs du projet sont des travaux sur cordes. Format paysage, 1600 px de large minimum. |
+| **Fiche de chantier** | `/realisations/` | Une photographie par chantier, prise sur l'intervention, avec l'accord du maître d'ouvrage. Format 4/3, 1600 px minimum. |
+| **Avant / après** | `/realisations/` | Des **paires** prises au même cadrage, avant puis après. Sans cadrage identique, le comparateur n'a aucune valeur de preuve. Format 16/9. |
+| **Portrait du dirigeant** | `/a-propos/` | Noah Lefebvre, en portrait ou en intervention. Format 4/5, 1200 px minimum. |
+
+Une fois les fichiers déposés dans le projet, leur intégration consiste à
+renseigner le nom de l'image dans `src/config.mjs` (méthodes) ou dans la page
+concernée, et à lancer `scripts/measure-images.sh`. Les emplacements réservés
+disparaissent d'eux-mêmes.
+
+**Ce qui est en place et n'attend rien** : le comparateur avant/après est
+opérationnel (souris, tactile, clavier), la mise en page des fiches est
+terminée, le portrait a son cadre. Seules les images manquent.
+
+---
+
+## 6. Logo
+
+Le logo officiel a été détouré de la capture fournie
+(`scripts/source-logo/logo-capture.png`, 1184 × 258) par
+`scripts/logo-extraction.py`. Le fond blanc est retiré par remplissage depuis
+les bords, ce qui préserve les blancs **intérieurs** du pictogramme — les deux
+coups de raclette. Aucune couleur n'est modifiée.
+
+| Fichier | Usage |
+|---|---|
+| `logo-cvs-560.png` / `-1100.png` | Fonds clairs : en-tête défilé |
+| `logo-cvs-clair-560.png` / `-1100.png` | Fonds sombres : en-tête sur le héros, pied de page, menu mobile |
+| `logo-cvs-icone-192.png` / `-512.png` | Favicon, icône d'application, pictogramme seul |
+
+La déclinaison « claire » ne change que la **teinte des lettres** :
+« CLEANVITRE » passe en blanc, « SERVICE » prend le cyan du pictogramme —
+une couleur du logo lui-même, pas une couleur inventée. Le pictogramme est
+rigoureusement identique dans les deux fichiers. Sans cette déclinaison, le
+bleu marine des lettres serait illisible sur le héros et le pied de page.
+
+La capture fournie suffisait largement : le logo y occupe 1101 × 184 px, soit
+plus de cinq fois la taille d'affichage dans l'en-tête. **Un fichier vectoriel
+(SVG ou AI) resterait préférable** pour l'impression et les très grands
+formats ; si vous en disposez, il remplacera ces PNG sans autre changement
+que les chemins dans `brand.logo`.
+
+---
+
+## 7. Publication
 
 Le site est statique. Après modification :
 

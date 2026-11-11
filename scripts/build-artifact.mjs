@@ -12,7 +12,7 @@ const pageFile = (p) => (p === "/" ? "index.html" : p.replace(/^\/|\/$/g, "") + 
 await rm(OUT, { recursive: true, force: true });
 await mkdir(OUT, { recursive: true });
 await cp(join(SRC, "assets"), join(OUT, "assets"), { recursive: true });
-await cp(join(SRC, "favicon.svg"), join(OUT, "favicon.svg")).catch(() => {});
+await cp(join(SRC, "favicon.png"), join(OUT, "favicon.png")).catch(() => {});
 // Pas de sitemap sur la maquette, et un robots.txt qui ferme la porte.
 await writeFile(join(OUT, "robots.txt"), "User-agent: *\nDisallow: /\n");
 // Désactive le traitement Jekyll sur GitHub Pages (sert les fichiers tels quels).
@@ -37,7 +37,7 @@ for (const p of pages) {
   html = html.replace(/(href|src)="(\/[^"]*)"/g, (m, attr, url) => {
     rewrites++;
     if (url.startsWith("/assets/")) return `${attr}="${url.slice(1)}"`;
-    if (url === "/favicon.svg" || url === "/robots.txt" || url === "/sitemap.xml") return `${attr}="${url.slice(1)}"`;
+    if (url === "/favicon.png" || url === "/robots.txt" || url === "/sitemap.xml") return `${attr}="${url.slice(1)}"`;
     const [path, hash = ""] = url.split("#");
     const withHash = (f) => `${attr}="${f}${hash ? "#" + hash : ""}"`;
     if (path === "/" || path === "") return withHash("index.html");

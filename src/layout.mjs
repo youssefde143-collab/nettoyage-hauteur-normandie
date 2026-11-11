@@ -3,29 +3,36 @@ import { squeegee } from "./squeegee.mjs";
 
 export const esc = (s) => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 
-/* Mot-signe typographique.
-   Aucun logo graphique n'existe : la marque repose sur la composition du
-   nom lui-même — « Clean » en graisse légère, « Vitre » en graisse forte,
-   « Service » en capitales espacées. Renseigner `brand.logoSrc` dans
-   src/config.mjs remplace l'ensemble par l'image fournie. */
-export const mark = (cls = "wm__mark") => brand.logoSrc
-  ? `<img src="${brand.logoSrc}" alt="" class="${cls}" width="34" height="34">`
-  : `<svg class="${cls}" viewBox="0 0 34 34" aria-hidden="true" fill="none">
-      <rect x="1" y="1" width="32" height="32" rx="3" stroke="currentColor" stroke-opacity=".3"/>
-      <path d="M10.5 12.5h13M10.5 17h13M10.5 21.5h13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-      <path d="M23 9.5 11 24.5" stroke="#3E8BF5" stroke-width="1.6" stroke-linecap="round"/>
-    </svg>`;
+/* Logo officiel.
+   Deux fichiers, un seul dessin : l'original pour les fonds clairs, et sa
+   déclinaison inversée pour les fonds sombres — seules les lettres changent
+   de teinte, le pictogramme est identique. Les deux sont présents dans le
+   balisage et le CSS montre celui qui convient à l'état de l'en-tête ; une
+   bascule au défilement ne doit pas attendre un téléchargement.
 
-/* Le mot-signe complet : marque + nom composé + ligne de métier. */
-export const wordmark = (tag = "a", href = "/") => {
-  const [a, b, c] = brand.wordmark;
+   Le nom accessible vient d'un texte réel masqué visuellement, pas d'un
+   `aria-label` : un lecteur d'écran et un moteur de recherche lisent alors
+   la même chose.                                                           */
+const L = brand.logo;
+
+export const mark = (cls = "wm__mark") =>
+  `<img src="${L.icone}" srcset="${L.icone} 192w, ${L.icone2} 512w" sizes="34px"
+        width="192" height="192" alt="" class="${cls}" decoding="async">`;
+
+/* `ton` : "auto" suit l'état de l'en-tête, "sombre" force la version claire
+   (pieds de page, menu mobile), "clair" force l'originale. */
+export const wordmark = (tag = "a", href = "/", ton = "auto") => {
+  const im = (variante, src, src2, cls) =>
+    `<img class="wm__i wm__i--${cls}" src="${src}" srcset="${src} 560w, ${src2} 1100w"
+          sizes="(max-width:420px) 156px, 203px" width="${L.w}" height="${L.h}"
+          alt="" decoding="async"${ton === "auto" ? "" : ' loading="lazy"'}>`;
+  const imgs = ton === "clair"  ? im(0, L.clair, L.clair2, "clair")
+             : ton === "sombre" ? im(0, L.sombre, L.sombre2, "sombre")
+             : im(0, L.sombre, L.sombre2, "sombre") + im(0, L.clair, L.clair2, "clair");
   return `
-  <${tag} class="wm" ${tag === "a" ? `href="${href}"` : ""}>
-    ${mark()}
-    <span class="wm__txt">
-      <span class="wm__name"><span class="wm__a">${esc(a)}</span><span class="wm__b">${esc(b)}</span><span class="wm__c">${esc(c)}</span></span>
-      <span class="wm__base">${esc(brand.baseline)}</span>
-    </span>
+  <${tag} class="wm wm--${ton}" ${tag === "a" ? `href="${href}"` : ""}>
+    ${imgs}
+    <span class="sr">${esc(brand.name)}${tag === "a" ? " — accueil" : ""}</span>
   </${tag}>`;
 };
 
@@ -246,7 +253,8 @@ if(innerWidth<280||innerHeight<320)return;
 sessionStorage.setItem("cvs-vitre","1");
 document.documentElement.className+=" vt-on"}catch(e){}})()</script>` : ""}
 <link rel="stylesheet" href="/assets/css/site.css?v=${CSS_V}">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="${brand.logo.icone}" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="${brand.logo.icone2}">
 <script type="application/ld+json">${jsonLd(page)}</script>
 </head>
 <body class="a-promo${page.bodyClass ? " " + page.bodyClass : ""}">
@@ -289,9 +297,13 @@ ${page.body}
 <footer class="foot">
   <div class="foot__top">
     <div class="foot__brand">
-      <div class="foot__logo">${wordmark("div")}</div>
+      <div class="foot__logo">${wordmark("div", "/", "sombre")}</div>
       <p>Nettoyage de vitres et de façades en hauteur par drone, travaux sur cordes et perche télescopique. Une méthode choisie en fonction de chaque bâtiment, en Normandie et dans toute la France.</p>
-      <p style="font-size:var(--t-micro);letter-spacing:.12em;text-transform:uppercase;color:#7F91A8;font-weight:600">Calvados · Eure · Manche · Orne · Seine-Maritime</p>
+      <p class="foot__zones">Calvados · Eure · Manche · Orne · Seine-Maritime</p>
+      <a class="foot__par" href="/parrainage/">
+        <b>&minus;${parrainage.reduction}&nbsp;%</b>
+        <span>Parrainage : votre filleul bénéficie de ${parrainage.reduction}&nbsp;% sur sa première intervention.</span>
+      </a>
     </div>
     ${footerCols()}
   </div>
